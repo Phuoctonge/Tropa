@@ -16,6 +16,8 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 
 [features]
 default = ["custom-protocol"]
+portable = []
+tropa-probe = []
 custom-protocol = ["tauri/custom-protocol"]
 verge-dev = ["clash-verge-logging/color", "clash_verge_service_ipc/development-channel"]
 dev-sidecar = ["verge-dev"]
@@ -27,6 +29,16 @@ perf-harness = ["dep:tauri-plugin-wdio-webdriver"]
 
 [package.metadata.bundle]
 identifier = "io.github.clash-verge-rev.clash-verge-rev"
+
+[[bin]]
+name = "tropa-warp-probe"
+path = "src/bin/tropa-warp-probe.rs"
+required-features = ["tropa-probe"]
+
+[[bin]]
+name = "tropa-routing-fixture"
+path = "src/bin/tropa-routing-fixture.rs"
+required-features = ["tropa-probe"]
 
 [build-dependencies]
 tauri-build = { version = "2.7.1", features = [] }
@@ -88,6 +100,8 @@ base64 = "0.23.1"
 minisign-verify = "0.3.0"
 sha2 = "0.11"
 getrandom = "0.4.3"
+x25519-dalek = "=2.0.1"
+aws-lc-rs = { version = "=1.18.1", default-features = false, features = ["non-fips", "alloc"] }
 futures = "0.3.34"
 gethostname = "1.1.0"
 scopeguard = "1.2.0"

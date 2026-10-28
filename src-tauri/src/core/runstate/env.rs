@@ -96,9 +96,11 @@ impl RunStateEnv for RealEnv {
 
     fn publish(&self, state: &RunState) {
         // Reconciliation must run before the app handle exists and must not block this transition.
-        crate::process::AsyncHandler::spawn(|| async {
-            crate::feat::reconcile_tun_availability().await;
-        });
+        if !cfg!(all(windows, feature = "portable")) {
+            crate::process::AsyncHandler::spawn(|| async {
+                crate::feat::reconcile_tun_availability().await;
+            });
+        }
 
         let Some(app_handle) = crate::APP_HANDLE.get() else {
             return;

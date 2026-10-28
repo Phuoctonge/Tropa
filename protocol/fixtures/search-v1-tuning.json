@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "searchId": "tuning-validation",
+  "jobId": "control",
+  "sequence": 1,
+  "type": "hello",
+  "payload": {
+    "buildId": "fixture-tuning",
+    "transports": [
+      "wg",
+      "awg",
+      "masqueH3",
+      "masqueH2"
+    ],
+    "tuning": [
+      "wg-default",
+      "awg-default",
+      "awg-junk-small",
+      "awg-junk-wide",
+      "awg-dns-google-i1",
+      "awg-dns-google-small",
+      "awg-dns-google-wide",
+      "awg-dns-apple-i1",
+      "awg-dns-apple-small",
+      "awg-dns-apple-wide",
+      "awg-sip-google-i1",
+      "awg-sip-google-small",
+      "awg-sip-google-wide",
+      "awg-sip-apple-i1",
+      "awg-sip-apple-small",
+      "awg-sip-apple-wide",
+      "awg-stun-i1",
+      "awg-stun-small",
+      "awg-stun-wide",
+      "masqueH3-default",
+      "masqueH3-apple",
+      "masqueH3-google",
+      "masqueH3-microsoft",
+      "masqueH3-jsdelivr",
+      "masqueH2-default",
+      "masqueH2-apple",
+      "masqueH2-google",
+      "masqueH2-microsoft",
+      "masqueH2-jsdelivr"
+    ],
+    "parameterSets": [
+      {
+        "name": "wg-default",
+        "transport": "wg",
+        "parameters": {}
+      },
+      {
+        "name": "awg-default",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": "<r 2><b 0x858000010001000000000669636c6f756403636f6d0000010001c00c000100010000105a00044d583737>"
+          }
+        }
+      },
+      {
+        "name": "awg-junk-small",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 4,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": ""
+          }
+        }
+      },
+      {
+        "name": "awg-junk-wide",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 40,
+            "jmax": 120,
+            "i1": ""
+          }
+        }
+      },
+      {
+        "name": "awg-dns-google-i1",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 0,
+            "jmin": 0,
+            "jmax": 0,
+            "i1": "<r 2><b 0x010000010000000000010377777706676f6f676c6503636f6d00000100010000291000000000000064000c0060><r 96>"
+          }
+        }
+      },
+      {
+        "name": "awg-dns-google-small",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 4,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": "<r 2><b 0x010000010000000000010377777706676f6f676c6503636f6d00000100010000291000000000000064000c0060><r 96>"
+          }
+        }
+      },
+      {
+        "name": "awg-dns-google-wide",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 40,
+            "jmax": 120,
+            "i1": "<r 2><b 0x010000010000000000010377777706676f6f676c6503636f6d00000100010000291000000000000064000c0060><r 96>"
+          }
+        }
+      },
+      {
+        "name": "awg-dns-apple-i1",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 0,
+            "jmin": 0,
+            "jmax": 0,
+            "i1": "<r 2><b 0x0100000100000000000103777777056170706c6503636f6d00000100010000291000000000000064000c0060><r 96>"
+          }
+        }
+      },
+      {
+        "name": "awg-dns-apple-small",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 4,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": "<r 2><b 0x0100000100000000000103777777056170706c6503636f6d00000100010000291000000000000064000c0060><r 96>"
+          }
+        }
+      },
+      {
+        "name": "awg-dns-apple-wide",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 40,
+            "jmax": 120,
+            "i1": "<r 2><b 0x0100000100000000000103777777056170706c6503636f6d00000100010000291000000000000064000c0060><r 96>"
+          }
+        }
+      },
+      {
+        "name": "awg-sip-google-i1",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 0,
+            "jmin": 0,
+            "jmax": 0,
+            "i1": "<b 0x4f5054494f4e53207369703a7777772e676f6f676c652e636f6d205349502f322e300d0a5669613a205349502f322e302f554450203139322e302e322e313a353036303b6272616e63683d7a39684734624b><rc 10><b 0x0d0a46726f6d3a203c7369703a><rc 8><b 0x407777772e676f6f676c652e636f6d3e3b7461673d><rd 6><b 0x0d0a546f3a203c7369703a7777772e676f6f676c652e636f6d3e0d0a43616c6c2d49443a20><rc 16><b 0x407777772e676f6f676c652e636f6d0d0a435365713a20><rd 4><b 0x204f5054494f4e530d0a4d61782d466f7277617264733a2037300d0a557365722d4167656e743a20504a5349502f322e31330d0a436f6e74656e742d4c656e6774683a20300d0a0d0a>"
+          }
+        }
+      },
+      {
+        "name": "awg-sip-google-small",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 4,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": "<b 0x4f5054494f4e53207369703a7777772e676f6f676c652e636f6d205349502f322e300d0a5669613a205349502f322e302f554450203139322e302e322e313a353036303b6272616e63683d7a39684734624b><rc 10><b 0x0d0a46726f6d3a203c7369703a><rc 8><b 0x407777772e676f6f676c652e636f6d3e3b7461673d><rd 6><b 0x0d0a546f3a203c7369703a7777772e676f6f676c652e636f6d3e0d0a43616c6c2d49443a20><rc 16><b 0x407777772e676f6f676c652e636f6d0d0a435365713a20><rd 4><b 0x204f5054494f4e530d0a4d61782d466f7277617264733a2037300d0a557365722d4167656e743a20504a5349502f322e31330d0a436f6e74656e742d4c656e6774683a20300d0a0d0a>"
+          }
+        }
+      },
+      {
+        "name": "awg-sip-google-wide",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 40,
+            "jmax": 120,
+            "i1": "<b 0x4f5054494f4e53207369703a7777772e676f6f676c652e636f6d205349502f322e300d0a5669613a205349502f322e302f554450203139322e302e322e313a353036303b6272616e63683d7a39684734624b><rc 10><b 0x0d0a46726f6d3a203c7369703a><rc 8><b 0x407777772e676f6f676c652e636f6d3e3b7461673d><rd 6><b 0x0d0a546f3a203c7369703a7777772e676f6f676c652e636f6d3e0d0a43616c6c2d49443a20><rc 16><b 0x407777772e676f6f676c652e636f6d0d0a435365713a20><rd 4><b 0x204f5054494f4e530d0a4d61782d466f7277617264733a2037300d0a557365722d4167656e743a20504a5349502f322e31330d0a436f6e74656e742d4c656e6774683a20300d0a0d0a>"
+          }
+        }
+      },
+      {
+        "name": "awg-sip-apple-i1",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 0,
+            "jmin": 0,
+            "jmax": 0,
+            "i1": "<b 0x4f5054494f4e53207369703a7777772e6170706c652e636f6d205349502f322e300d0a5669613a205349502f322e302f554450203139322e302e322e313a353036303b6272616e63683d7a39684734624b><rc 10><b 0x0d0a46726f6d3a203c7369703a><rc 8><b 0x407777772e6170706c652e636f6d3e3b7461673d><rd 6><b 0x0d0a546f3a203c7369703a7777772e6170706c652e636f6d3e0d0a43616c6c2d49443a20><rc 16><b 0x407777772e6170706c652e636f6d0d0a435365713a20><rd 4><b 0x204f5054494f4e530d0a4d61782d466f7277617264733a2037300d0a557365722d4167656e743a20504a5349502f322e31330d0a436f6e74656e742d4c656e6774683a20300d0a0d0a>"
+          }
+        }
+      },
+      {
+        "name": "awg-sip-apple-small",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 4,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": "<b 0x4f5054494f4e53207369703a7777772e6170706c652e636f6d205349502f322e300d0a5669613a205349502f322e302f554450203139322e302e322e313a353036303b6272616e63683d7a39684734624b><rc 10><b 0x0d0a46726f6d3a203c7369703a><rc 8><b 0x407777772e6170706c652e636f6d3e3b7461673d><rd 6><b 0x0d0a546f3a203c7369703a7777772e6170706c652e636f6d3e0d0a43616c6c2d49443a20><rc 16><b 0x407777772e6170706c652e636f6d0d0a435365713a20><rd 4><b 0x204f5054494f4e530d0a4d61782d466f7277617264733a2037300d0a557365722d4167656e743a20504a5349502f322e31330d0a436f6e74656e742d4c656e6774683a20300d0a0d0a>"
+          }
+        }
+      },
+      {
+        "name": "awg-sip-apple-wide",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 40,
+            "jmax": 120,
+            "i1": "<b 0x4f5054494f4e53207369703a7777772e6170706c652e636f6d205349502f322e300d0a5669613a205349502f322e302f554450203139322e302e322e313a353036303b6272616e63683d7a39684734624b><rc 10><b 0x0d0a46726f6d3a203c7369703a><rc 8><b 0x407777772e6170706c652e636f6d3e3b7461673d><rd 6><b 0x0d0a546f3a203c7369703a7777772e6170706c652e636f6d3e0d0a43616c6c2d49443a20><rc 16><b 0x407777772e6170706c652e636f6d0d0a435365713a20><rd 4><b 0x204f5054494f4e530d0a4d61782d466f7277617264733a2037300d0a557365722d4167656e743a20504a5349502f322e31330d0a436f6e74656e742d4c656e6774683a20300d0a0d0a>"
+          }
+        }
+      },
+      {
+        "name": "awg-stun-i1",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 0,
+            "jmin": 0,
+            "jmax": 0,
+            "i1": "<b 0x0001001c2112a442><r 12><b 0x80220018><rc 24>"
+          }
+        }
+      },
+      {
+        "name": "awg-stun-small",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 4,
+            "jmin": 10,
+            "jmax": 50,
+            "i1": "<b 0x0001001c2112a442><r 12><b 0x80220018><rc 24>"
+          }
+        }
+      },
+      {
+        "name": "awg-stun-wide",
+        "transport": "awg",
+        "parameters": {
+          "awg": {
+            "jc": 6,
+            "jmin": 40,
+            "jmax": 120,
+            "i1": "<b 0x0001001c2112a442><r 12><b 0x80220018><rc 24>"
+          }
+        }
+      },
+      {
+        "name": "masqueH3-default",
+        "transport": "masqueH3",
+        "parameters": {
+          "sni": "consumer-masque.cloudflareclient.com"
+        }
+      },
+      {
+        "name": "masqueH3-apple",
+        "transport": "masqueH3",
+        "parameters": {
+          "sni": "www.apple.com"
+        }
+      },
+      {
+        "name": "masqueH3-google",
+        "transport": "masqueH3",
+        "parameters": {
+          "sni": "www.google.com"
+        }
+      },
+      {
+        "name": "masqueH3-microsoft",
+        "transport": "masqueH3",
+        "parameters": {
+          "sni": "www.microsoft.com"
+        }
+      },
+      {
+        "name": "masqueH3-jsdelivr",
+        "transport": "masqueH3",
+        "parameters": {
+          "sni": "cdn.jsdelivr.net"
+        }
+      },
+      {
+        "name": "masqueH2-default",
+        "transport": "masqueH2",
+        "parameters": {
+          "sni": "consumer-masque.cloudflareclient.com"
+        }
+      },
+      {
+        "name": "masqueH2-apple",
+        "transport": "masqueH2",
+        "parameters": {
+          "sni": "www.apple.com"
+        }
+      },
+      {
+        "name": "masqueH2-google",
+        "transport": "masqueH2",
+        "parameters": {
+          "sni": "www.google.com"
+        }
+      },
+      {
+        "name": "masqueH2-microsoft",
+        "transport": "masqueH2",
+        "parameters": {
+          "sni": "www.microsoft.com"
+        }
+      },
+      {
+        "name": "masqueH2-jsdelivr",
+        "transport": "masqueH2",
+        "parameters": {
+          "sni": "cdn.jsdelivr.net"
+        }
+      }
+    ],
+    "unavailableTuning": [
+      {
+        "name": "awg-quic",
+        "reason": "provenance-unresolved"
+      }
+    ]
+  }
+}

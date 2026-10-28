@@ -799,6 +799,14 @@ async fn create_tray_menu(
     profiles_preview: Vec<IProfilePreview<'_>>,
     options: TrayMenuOptions,
 ) -> Result<(tauri::menu::Menu<Wry>, HashMap<std::string::String, LatencyMenuItem>)> {
+    if cfg!(all(windows, feature = "portable")) {
+        let open = MenuItem::with_id(app_handle, MenuIds::DASHBOARD, "Открыть Tropa", true, None::<&str>)?;
+        let exit = MenuItem::with_id(app_handle, MenuIds::EXIT, "Выход", true, None::<&str>)?;
+        return Ok((
+            tauri::menu::Menu::with_items(app_handle, &[&open, &exit])?,
+            HashMap::new(),
+        ));
+    }
     let current_proxy_mode = mode.unwrap_or("");
 
     let mut verge_settings = Config::verge().await.latest_arc();
@@ -1101,6 +1109,10 @@ fn on_tray_icon_event(_tray_icon: &TrayIcon, tray_event: TrayIconEvent) {
         }
 
         AsyncHandler::spawn(|| async move {
+            if cfg!(all(windows, feature = "portable")) {
+                WindowManager::show_main_window().await;
+                return;
+            }
             let verge = Config::verge().await.data_arc();
             let verge_tray_event = verge.tray_event.clone().unwrap_or_else(|| "main_window".into());
             let verge_tray_action = TrayAction::from(verge_tray_event.as_str());

@@ -29,6 +29,12 @@ pub static APP_HANDLE: OnceLock<AppHandle> = OnceLock::new();
 // Re-exported for src/bin/frontend-contract.rs; the wire contract stays owned
 // by core::notify.
 pub use crate::core::notify::frontend_wire_contract;
+#[cfg(feature = "tropa-probe")]
+pub use crate::core::warp_discovery::refresh_warp_discovery_probe;
+#[cfg(feature = "tropa-probe")]
+pub use crate::core::warp_discovery::run_warp_discovery_probe;
+#[cfg(feature = "tropa-probe")]
+pub use crate::core::warp_probe::run_warp_transport_probe;
 /// Application initialization helper functions
 mod app_init {
     use super::*;
@@ -47,14 +53,6 @@ mod app_init {
         let mut builder = builder
             .plugin(tauri_plugin_clash_verge_sysinfo::init())
             .plugin(tauri_plugin_notification::init())
-            .plugin(
-                tauri_plugin_updater::Builder::new()
-                    .default_version_comparator(|current, release| {
-                        release.version > current
-                            || core::updater::is_build_to_stable(&current.to_string(), &release.version.to_string())
-                    })
-                    .build(),
-            )
             .plugin(tauri_plugin_clipboard_manager::init())
             .plugin(tauri_plugin_process::init())
             .plugin(tauri_plugin_global_shortcut::Builder::new().build())
@@ -71,6 +69,17 @@ mod app_init {
                     .build(),
             );
 
+        if !cfg!(all(windows, feature = "portable")) {
+            builder = builder.plugin(
+                tauri_plugin_updater::Builder::new()
+                    .default_version_comparator(|current, release| {
+                        release.version > current
+                            || core::updater::is_build_to_stable(&current.to_string(), &release.version.to_string())
+                    })
+                    .build(),
+            );
+        }
+
         // Devtools plugin only in debug mode with feature tauri-dev
         // to avoid duplicated registering of logger since the devtools plugin also registers a logger
         #[cfg(all(debug_assertions, not(feature = "tokio-trace"), feature = "tauri-dev"))]
@@ -82,6 +91,9 @@ mod app_init {
 
     /// Setup deep link handling
     pub fn setup_deep_links(app: &tauri::App) {
+        if cfg!(all(windows, feature = "portable")) {
+            return;
+        }
         #[cfg(any(target_os = "linux", all(debug_assertions, windows)))]
         {
             logging!(debug, Type::Setup, "注册深层链接...");
@@ -100,6 +112,9 @@ mod app_init {
 
     /// Setup autostart plugin
     pub fn setup_autostart(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+        if cfg!(all(windows, feature = "portable")) {
+            return Ok(());
+        }
         #[cfg(target_os = "macos")]
         let mut auto_start_plugin_builder = tauri_plugin_autostart::Builder::new();
         #[cfg(not(target_os = "macos"))]
@@ -117,6 +132,9 @@ mod app_init {
 
     /// Setup window state management
     pub fn setup_window_state(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+        if cfg!(all(windows, feature = "portable")) {
+            return Ok(());
+        }
         logging!(debug, Type::Setup, "初始化窗口状态管理...");
         let window_state_plugin = tauri_plugin_window_state::Builder::new()
             .with_filename(files::WINDOW_STATE)
@@ -128,6 +146,27 @@ mod app_init {
 
     pub fn generate_handlers() -> impl Fn(tauri::ipc::Invoke<tauri::Wry>) -> bool + Send + Sync + 'static {
         tauri::generate_handler![
+            cmd::tropa::get_tropa_preferences,
+            cmd::tropa::set_tropa_game,
+            cmd::tropa::set_tropa_routing,
+            cmd::tropa::get_tropa_servers,
+            cmd::tropa::select_tropa_server,
+            cmd::tropa::set_tropa_selection_policy,
+            #[cfg(all(windows, feature = "portable"))]
+            cmd::tropa::get_tropa_connection,
+            #[cfg(all(windows, feature = "portable"))]
+            cmd::tropa::get_tropa_diagnostics,
+            #[cfg(all(windows, feature = "portable"))]
+            cmd::tropa::connect_tropa,
+            #[cfg(all(windows, feature = "portable"))]
+            cmd::tropa::refresh_tropa_servers,
+            #[cfg(all(windows, feature = "portable"))]
+            cmd::tropa::disconnect_tropa,
+            cmd::warp_account::get_warp_account_status,
+            cmd::warp_account::ensure_warp_registration,
+            cmd::warp_account::reset_warp_registration,
+            cmd::warp_account::get_masque_account_status,
+            cmd::warp_account::reset_masque_registration,
             tauri_plugin_clash_verge_sysinfo::commands::get_system_info,
             tauri_plugin_clash_verge_sysinfo::commands::get_app_uptime,
             tauri_plugin_clash_verge_sysinfo::commands::export_diagnostic_info,
@@ -250,6 +289,12 @@ pub fn run() -> std::process::ExitCode {
     if utils::macos_launch_guard::enforce_before_initialization() == utils::macos_launch_guard::LaunchDisposition::Exit
     {
         return std::process::ExitCode::SUCCESS;
+    }
+
+    #[cfg(all(windows, feature = "portable"))]
+    if let Err(error) = core::warp_elevation::wait_for_parent() {
+        eprintln!("[Tropa] Elevated restart failed: {error}");
+        return std::process::ExitCode::FAILURE;
     }
 
     // Runs before the singleton check, which is the first thing to open a file in that directory.
@@ -383,15 +428,16 @@ pub fn run() -> std::process::ExitCode {
             #[cfg(target_os = "macos")]
             handle::Handle::global().set_activation_policy_accessory();
 
-            if core::handle::Handle::global().is_exiting() {
-                return;
-            }
-
             if let tauri::WindowEvent::CloseRequested { api, .. } = api {
-                api.prevent_close();
-                if let Some(window) = WindowManager::get_main_window() {
-                    let _ = window.hide();
-                }
+                crate::dispatch_main_window_close(
+                    core::handle::Handle::global(),
+                    || api.prevent_close(),
+                    || {
+                        if let Some(window) = WindowManager::get_main_window() {
+                            let _ = window.hide();
+                        }
+                    },
+                );
             }
         }
 
@@ -527,6 +573,46 @@ pub fn run() -> std::process::ExitCode {
         _ => {}
     });
     std::process::ExitCode::SUCCESS
+}
+
+fn dispatch_main_window_close(handle: &core::handle::Handle, prevent_close: impl FnOnce(), hide: impl FnOnce()) {
+    if handle.is_exiting() {
+        #[cfg(all(windows, feature = "portable"))]
+        prevent_close();
+        return;
+    }
+    prevent_close();
+    hide();
+}
+
+#[cfg(all(test, windows, feature = "portable"))]
+mod portable_close_tests {
+    use super::dispatch_main_window_close;
+    use crate::core::handle::Handle;
+    use std::cell::Cell;
+
+    #[test]
+    fn portable_close_hides_without_starting_shutdown() {
+        let handle = Handle::new();
+        let prevented = Cell::new(0);
+        let hidden = Cell::new(0);
+        let close = || {
+            dispatch_main_window_close(
+                &handle,
+                || prevented.set(prevented.get() + 1),
+                || hidden.set(hidden.get() + 1),
+            )
+        };
+        close();
+        close();
+        assert_eq!(prevented.get(), 2);
+        assert_eq!(hidden.get(), 2);
+        assert!(!handle.is_exiting());
+        handle.set_is_exiting();
+        close();
+        assert_eq!(prevented.get(), 3);
+        assert_eq!(hidden.get(), 2);
+    }
 }
 
 #[cfg(test)]

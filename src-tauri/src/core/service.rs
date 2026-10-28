@@ -292,6 +292,17 @@ pub(crate) fn trusted_service_evidence() -> Result<bool> {
     Ok(open_registered_service()?.is_some())
 }
 
+pub(crate) async fn reserve_sidecar() -> Result<clash_verge_service_ipc::execution::CoreExecutionGuard> {
+    #[cfg(windows)]
+    if !trusted_service_evidence()? {
+        // No service can answer IPC; the shared OS guard still excludes concurrent cores.
+        return tokio::task::spawn_blocking(clash_verge_service_ipc::execution::CoreExecutionGuard::acquire)
+            .await
+            .context("core ownership inspection failed")?;
+    }
+    clash_verge_service_ipc::execution::reserve_sidecar().await
+}
+
 /// Why IPC cannot succeed until the service is started again, if it cannot. A starting service,
 /// or an AutoStart one the SCM has yet to start this boot, is left to the IPC retries.
 #[cfg(windows)]
@@ -781,6 +792,7 @@ fn force_reinstall_service() -> Result<()> {
 /// command line, which no other local account can alter, so a file swapped on disk after this
 /// hash was computed is refused by the installer instead of published.
 pub fn stage_approved_core(core_path: &Path) -> Result<()> {
+    ensure_service_management_available()?;
     tokio::task::block_in_place(|| {
         invoke_service_install(
             &[clash_verge_service_ipc::management::CoreSource {
@@ -798,6 +810,7 @@ pub fn stage_approved_core(core_path: &Path) -> Result<()> {
 
 /// Dispatches a privileged platform operation on a blocking thread.
 pub(crate) fn run_privileged_service_action(action: PendingAction) -> Result<()> {
+    ensure_service_management_available()?;
     let (operation, label): (fn() -> Result<()>, &'static str) = match action {
         PendingAction::Install => (install_service, "install service"),
         PendingAction::Uninstall => (uninstall_service, "uninstall service"),
@@ -805,6 +818,22 @@ pub(crate) fn run_privileged_service_action(action: PendingAction) -> Result<()>
         PendingAction::ForceReinstall => (force_reinstall_service, "force reinstall service"),
     };
     tokio::task::block_in_place(operation).with_context(|| format!("{label} failed"))
+}
+
+pub(crate) fn ensure_service_management_available() -> Result<()> {
+    anyhow::ensure!(
+        !cfg!(all(windows, feature = "portable")),
+        "Service management is disabled in portable mode"
+    );
+    Ok(())
+}
+
+#[cfg(all(test, windows, feature = "portable"))]
+mod portable_service_tests {
+    #[test]
+    fn portable_service_management_is_rejected() {
+        assert!(super::ensure_service_management_available().is_err());
+    }
 }
 
 /// Builds the same runtime bundle description for both service start and staging.
@@ -1887,7 +1916,7 @@ impl ServiceManager {
     }
 
     pub async fn detect_startup_status(&self) {
-        if cfg!(feature = "dev-sidecar") {
+        if cfg!(feature = "dev-sidecar") || cfg!(all(windows, feature = "portable")) {
             RUN_STATE.accept_sidecar();
             return;
         }
@@ -1922,6 +1951,9 @@ impl ServiceManager {
     }
 
     async fn apply_service_status(&self, status: ServiceStatus) -> Result<()> {
+        if requested_action(&status).is_some() {
+            ensure_service_management_available()?;
+        }
         // Use the caller's action; a racing observation may clear the stored pending action.
         let Some(action) = requested_action(&status) else {
             self.set_status(status.clone());

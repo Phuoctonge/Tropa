@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "platform": "windows-x64",
+  "components": [
+    {
+      "name": "mihomo",
+      "version": "1.19.33",
+      "file": "resources/verge-mihomo.exe",
+      "sha256": "0b4c7353057a78de8a09db445351aadec7d72a4f48adc7d99691f3c5ff74d3da",
+      "source": "https://github.com/MetaCubeX/mihomo/tree/v1.19.33",
+      "release": "https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.33",
+      "license": "GPL-3.0",
+      "licenseFile": "licenses/GPL-3.0.txt",
+      "sourceCommit": "3f27ef39f8c96bbfbc8b0b9bb10f5c9ef60149d8",
+      "goBuildInfo": {
+        "goVersion": "go1.26.10",
+        "goamd64": "v2",
+        "vcsModified": true
+      }
+    },
+    {
+      "name": "WarpScout",
+      "version": "0.16.1",
+      "file": "resources/warpscout.exe",
+      "sha256": "01f11965da6415b08a23c334ea055edbda7298d46f717c2065ca94c538fb730c",
+      "source": "https://github.com/vernette/warpscout/tree/v0.16.1",
+      "release": "https://github.com/vernette/warpscout/releases/tag/v0.16.1",
+      "license": "MIT; transitive review pending",
+      "licenseFile": "licenses/WarpScout.txt",
+      "sourceCommit": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "goBuildInfo": {
+        "goVersion": "go1.26.3",
+        "goamd64": "v1",
+        "vcsModified": false
+      }
+    }
+  ],
+  "publicReleaseReady": false,
+  "pending": [
+    "Corresponding source snapshot for the modified Tropa executable",
+    "Complete locked Rust, frontend and Go transitive license inventory",
+    "mini_quic_generator port provenance and additional license clauses",
+    "Wintun embedded driver and redistribution terms",
+    "Clean Windows, WebView2 and native connection validation",
+    "Signing and SmartScreen validation of the exact release build",
+    "Explicit license terms for pinned tauri-plugin-mihomo / tauri-plugin-mihomo-api",
+    "Exact modified build inputs for the mihomo release (embedded vcs.modified=true)",
+    "Go GPL/LGPL/MPL obligations, in-source notices and EasyTier embedded WASM source/dependencies",
+    "Wintun prebuilt DLL permitted-API and redistribution conditions for the embedded loader"
+  ],
+  "notices": [
+    {
+      "file": "licenses/Twemoji-Mozilla.txt",
+      "sourceFile": "scripts/licenses/Twemoji-Mozilla.txt",
+      "sha256": "d66bf056c997f71e92bf7357fc208d20dbb9f0eaed797105e0bd147ee4c0652d",
+      "source": "https://raw.githubusercontent.com/mozilla/twemoji-colr/c0460fdb2654dee584e75c4913bfa9fd2f873338/LICENSE.md"
+    },
+    {
+      "file": "licenses/Apache-2.0.txt",
+      "sourceFile": "scripts/licenses/Apache-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+    },
+    {
+      "file": "licenses/CC-BY-4.0.txt",
+      "sourceFile": "scripts/licenses/CC-BY-4.0.txt",
+      "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
+      "source": "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+    },
+    {
+      "file": "licenses/Wintun-0.14.1.txt",
+      "sourceFile": "scripts/licenses/Wintun-0.14.1.txt",
+      "sha256": "183adac21e7d96c508c8fd34d394b7b6708bc81564ad1bad61ab66143a008cd2",
+      "source": "https://www.wintun.net/builds/wintun-0.14.1.zip"
+    },
+    {
+      "file": "licenses/Go-modules.txt",
+      "sourceFile": "scripts/licenses/Go-modules.txt",
+      "sha256": "bc152b07b3d019b75e873a22fc8b89b5640e76e602374ac22dc1e927d817a3b6",
+      "source": "scripts/tropa-go-module-inventory.json"
+    },
+    {
+      "file": "licenses/Frontend-candidates.txt",
+      "sourceFile": "scripts/licenses/Frontend-candidates.txt",
+      "sha256": "7bb78cbaf4767c0b586b8cca4dcabfac13ef4d7914d0529684c174a0edf06605",
+      "source": "scripts/tropa-frontend-notice-inventory.json"
+    },
+    {
+      "file": "licenses/Rust-release-candidates.txt",
+      "sourceFile": "scripts/licenses/Rust-release-candidates.txt",
+      "sha256": "f20cff5d6098235f702a9ac41ac4442a999d3861bff9e46cf626475a00c8e6bd",
+      "source": "scripts/tropa-rust-notice-inventory.json"
+    }
+  ],
+  "embeddedAssets": [
+    {
+      "name": "Twemoji Mozilla",
+      "sourceFile": "src/assets/fonts/Twemoji.Mozilla.ttf",
+      "sha256": "61db6397b8b32b72c585d538ef698a84cf78cf2558a14046b3fa0ec4cc362540",
+      "origin": "https://github.com/mozilla/twemoji-colr/releases/tag/v0.7.0",
+      "upstreamModification": "https://github.com/clash-verge-rev/clash-verge-rev/commit/b10c1d5006081d79c7517dce9fec83627f796d4a",
+      "license": "Apache-2.0 (code); CC-BY-4.0 (artwork)",
+      "noticeFile": "licenses/Twemoji-Mozilla.txt"
+    }
+  ],
+  "embeddedBinaries": [
+    {
+      "name": "Wintun amd64 DLL",
+      "version": "0.14.1",
+      "inside": "resources/verge-mihomo.exe",
+      "sha256": "e5da8447dc2c320edc0fc52fa01885c103de8c118481f683643cacc3220dafce",
+      "bytes": 427552,
+      "source": "https://www.wintun.net/builds/wintun-0.14.1.zip",
+      "noticeFile": "licenses/Wintun-0.14.1.txt",
+      "license": "Wintun Prebuilt Binaries License; permitted API/redistribution review pending"
+    },
+    {
+      "name": "EasyTier core WASM",
+      "inside": "resources/verge-mihomo.exe",
+      "sha256": "8b82f37d62fba2ffe8e256386096fddf448d4261d51c495d5bd97cd11bbb24a0",
+      "bytes": 6850909,
+      "sourceModule": "github.com/easytier/easytier/easytier-go@v0.0.0-20260910071355-3d0c9c3ca5e2",
+      "license": "Module LGPL-3.0; embedded artifact corresponding source and Rust transitive review pending"
+    }
+  ]
+}

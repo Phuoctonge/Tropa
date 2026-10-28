@@ -17,3 +17,6 @@ target
 .vfox
 .claude
 .zed
+/data/
+**/secrets/
+warpscout-account*.json

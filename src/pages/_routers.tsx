@@ -2,10 +2,11 @@ import { createBrowserRouter, RouteObject } from 'react-router'
 
 import Layout from './_layout'
 import { navItems } from './_navigation'
+import TropaPage from './tropa'
 
 export const router = createBrowserRouter([
+  { path: '/', Component: TropaPage },
   {
-    path: '/',
     Component: Layout,
     children: navItems.map(
       (item) =>

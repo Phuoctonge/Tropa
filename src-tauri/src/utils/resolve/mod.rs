@@ -41,7 +41,9 @@ pub(crate) fn init_work_dir_and_logger() -> anyhow::Result<()> {
 
 pub(crate) fn resolve_setup_sync() {
     AsyncHandler::spawn(|| async {
-        AsyncHandler::spawn_blocking(init_scheme);
+        if !cfg!(all(windows, feature = "portable")) {
+            AsyncHandler::spawn_blocking(init_scheme);
+        }
         AsyncHandler::spawn_blocking(server::embed_server);
         #[cfg(target_os = "linux")]
         AsyncHandler::spawn_blocking(watch_linux_theme_changed);
@@ -55,6 +57,23 @@ pub(crate) fn resolve_setup_async() {
 #[tracing::instrument(skip_all, level = "info")]
 async fn resolve_setup() {
     logging!(info, Type::ClashVergeRev, "Version: {}", env!("CARGO_PKG_VERSION"));
+
+    if cfg!(all(windows, feature = "portable")) {
+        clash_verge_service_ipc::set_config(Some(ServiceManager::config())).await;
+        init_verge_config_before_window().await;
+        init_window().await;
+        init_tray().await;
+        resolve_done();
+        #[cfg(all(windows, feature = "portable", feature = "tropa-probe"))]
+        if crate::core::warp_smoke::run_if_requested().await {
+            return;
+        }
+        #[cfg(all(windows, feature = "portable"))]
+        if crate::core::warp_elevation::auto_connect_requested() {
+            let _ = crate::core::warp_connection::WARP_CONNECTION.run(false).await;
+        }
+        return;
+    }
 
     // Migrate before windows or timers can change the loaded config.
     logging_error!(Type::Setup, init::migrate_short_update_intervals().await);

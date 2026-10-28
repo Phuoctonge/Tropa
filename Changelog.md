@@ -3,6 +3,7 @@
 <details>
 <summary><strong> 🐞 修复问题 </strong></summary>
 
+- Fix rejection of AWG profiles that use I1 packets without junk traffic.
 - 修复系统托盘代理组行不显示延迟、超时项与未测过项无法区分的问题
 - 修复不同订阅源的同名节点测速和延迟显示指向错误节点的问题
 - 修复端口设置混淆保存值与运行值、输入无效时缺少提示的问题
@@ -17,6 +18,7 @@
 
 **🖥️ Windows**
 
+- Fix server search discarding earlier HTTPS candidates after later failed probes.
 - 修复 Windows 升级后因文件权限异常无法启动、需要手动清理配置的问题
 - 修复 Windows 服务启动类型被改为手动后，软件启动卡住约两分钟的问题，并提供一键修复
 - 修复 Windows 长时间运行后，托盘菜单点击无响应的问题

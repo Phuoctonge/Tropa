@@ -2,6 +2,9 @@ mod config;
 pub(crate) use config::ConfigUpdateGuard;
 mod lifecycle;
 mod state;
+mod tropa;
+#[cfg(all(windows, any(feature = "tropa-probe", feature = "portable", test)))]
+pub(crate) use state::create_and_assign_sidecar_job;
 
 use anyhow::Result;
 use arc_swap::{ArcSwap, ArcSwapOption};
@@ -97,6 +100,7 @@ pub struct CoreManager {
     core_readiness_state: AtomicU64,
     startup_error: parking_lot::Mutex<Option<CoreFailure>>,
     sidecar_exit: tokio::sync::Mutex<Option<tokio::task::JoinHandle<()>>>,
+    tropa_runtime: parking_lot::Mutex<Option<std::path::PathBuf>>,
     // 串行化 start/stop/restart 和 sidecar→service 交接。
     // 锁序固定为 config_update_in_progress → lifecycle_lock。
     pub(crate) lifecycle_lock: tokio::sync::Mutex<()>,
@@ -126,6 +130,7 @@ impl Default for CoreManager {
             core_readiness_state: AtomicU64::new(0),
             startup_error: parking_lot::Mutex::new(None),
             sidecar_exit: tokio::sync::Mutex::new(None),
+            tropa_runtime: parking_lot::Mutex::new(None),
             lifecycle_lock: tokio::sync::Mutex::new(()),
             #[cfg(target_os = "windows")]
             handoff_watcher_running: AtomicBool::new(false),

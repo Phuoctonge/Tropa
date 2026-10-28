@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "name": "hello",
+      "kind": "event",
+      "valid": true,
+      "json": "{\"version\":1,\"searchId\":\"golden-search\",\"jobId\":\"one\",\"sequence\":1,\"type\":\"hello\",\"payload\":{\"buildId\":\"golden-v1\",\"transports\":[\"wg\",\"awg\",\"masqueH3\",\"masqueH2\"],\"tuning\":[]}}",
+      "frameHex": "000000b07b2276657273696f6e223a312c227365617263684964223a22676f6c64656e2d736561726368222c226a6f624964223a226f6e65222c2273657175656e6365223a312c2274797065223a2268656c6c6f222c227061796c6f6164223a7b226275696c644964223a22676f6c64656e2d7631222c227472616e73706f727473223a5b227767222c22617767222c226d61737175654833222c226d61737175654832225d2c2274756e696e67223a5b5d7d7d"
+    },
+    {
+      "name": "candidate-null-metrics",
+      "kind": "event",
+      "valid": true,
+      "json": "{\"version\":1,\"searchId\":\"golden-search\",\"jobId\":\"one\",\"sequence\":2,\"type\":\"candidate\",\"payload\":{\"endpoint\":\"162.159.198.2:443\",\"transport\":\"masqueH2\",\"parameters\":{\"sni\":\"consumer-masque.cloudflareclient.com\"},\"stages\":{\"handshake\":true,\"http\":true,\"https\":false,\"udp\":null},\"endpointPingMs\":null,\"tunnelPingMs\":null,\"lossPercent\":null,\"jitterMs\":null,\"samples\":0,\"method\":\"\",\"node\":null,\"nodeCountry\":null,\"exitCountry\":null}}",
+      "frameHex": "000001ac7b2276657273696f6e223a312c227365617263684964223a22676f6c64656e2d736561726368222c226a6f624964223a226f6e65222c2273657175656e6365223a322c2274797065223a2263616e646964617465222c227061796c6f6164223a7b22656e64706f696e74223a223136322e3135392e3139382e323a343433222c227472616e73706f7274223a226d61737175654832222c22706172616d6574657273223a7b22736e69223a22636f6e73756d65722d6d61737175652e636c6f7564666c617265636c69656e742e636f6d227d2c22737461676573223a7b2268616e647368616b65223a747275652c2268747470223a747275652c226874747073223a66616c73652c22756470223a6e756c6c7d2c22656e64706f696e7450696e674d73223a6e756c6c2c2274756e6e656c50696e674d73223a6e756c6c2c226c6f737350657263656e74223a6e756c6c2c226a69747465724d73223a6e756c6c2c2273616d706c6573223a302c226d6574686f64223a22222c226e6f6465223a6e756c6c2c226e6f6465436f756e747279223a6e756c6c2c2265786974436f756e747279223a6e756c6c7d7d"
+    },
+    {
+      "name": "cancelled",
+      "kind": "event",
+      "valid": true,
+      "json": "{\"version\":1,\"searchId\":\"golden-search\",\"jobId\":\"one\",\"sequence\":3,\"type\":\"jobFinished\",\"payload\":{\"outcome\":\"cancelled\"}}",
+      "frameHex": "0000007a7b2276657273696f6e223a312c227365617263684964223a22676f6c64656e2d736561726368222c226a6f624964223a226f6e65222c2273657175656e6365223a332c2274797065223a226a6f6246696e6973686564222c227061796c6f6164223a7b226f7574636f6d65223a2263616e63656c6c6564227d7d"
+    },
+    {
+      "name": "incompatible-version",
+      "kind": "command",
+      "valid": false,
+      "json": "{\"version\":2,\"searchId\":\"golden-search\",\"jobId\":\"control\",\"type\":\"hello\",\"payload\":{}}",
+      "frameHex": "000000567b2276657273696f6e223a322c227365617263684964223a22676f6c64656e2d736561726368222c226a6f624964223a22636f6e74726f6c222c2274797065223a2268656c6c6f222c227061796c6f6164223a7b7d7d"
+    }
+  ]
+}

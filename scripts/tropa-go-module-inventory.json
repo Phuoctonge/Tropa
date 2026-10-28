@@ -1,0 +1,2822 @@
+{
+  "schemaVersion": 1,
+  "scope": "Pinned sidecar embedded module versions; h1-verified notice sources; no public release clearance",
+  "modules": [
+    {
+      "path": "github.com/Diniboy1123/connect-ip-go",
+      "version": "v0.0.0-20260613064811-66cba32d7d33",
+      "sum": "h1:HHEVWeNlF1ytUyi4xH+K0yVrkAwCOBAz2WvriKbs7HQ=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/!diniboy1123/connect-ip-go/@v/v0.0.0-20260613064811-66cba32d7d33.zip",
+      "verifiedH1": "h1:HHEVWeNlF1ytUyi4xH+K0yVrkAwCOBAz2WvriKbs7HQ=",
+      "zipSha256": "213526eb8070a03e4b066fed26f68f2d670635f2b185b82467346c72f1202140",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "8bcbabf56e2d09741d209292f583cc1d0fe3c894040a03b972a656da87beeddf"
+        }
+      ]
+    },
+    {
+      "path": "github.com/Diniboy1123/usque",
+      "version": "v1.5.1-0.20260720063354-6aa03fc97d12",
+      "sum": "h1:Y+ighsjCgrZ60S9aUegJU2q7mLyklIJquG3E+aYKeVg=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/!diniboy1123/usque/@v/v1.5.1-0.20260720063354-6aa03fc97d12.zip",
+      "verifiedH1": "h1:Y+ighsjCgrZ60S9aUegJU2q7mLyklIJquG3E+aYKeVg=",
+      "zipSha256": "fc1ae9ecb6e93dbfa80d41d8d272c80c0e7f53a2ebf1d5e0a6dd20dd6a6dfeb6",
+      "noticeSources": [
+        {
+          "path": "LICENSE.md",
+          "sha256": "b3e9fec720528afc8d92644ee0ec9b2659324970dea9d34d8c547c783124fd4b"
+        }
+      ]
+    },
+    {
+      "path": "github.com/RyuaNerin/go-krypto",
+      "version": "v1.3.0",
+      "sum": "h1:smavTzSMAx8iuVlGb4pEwl9MD2qicqMzuXR2QWp2/Pg=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/!ryua!nerin/go-krypto/@v/v1.3.0.zip",
+      "verifiedH1": "h1:smavTzSMAx8iuVlGb4pEwl9MD2qicqMzuXR2QWp2/Pg=",
+      "zipSha256": "4f98d5d243e2706b588fba752dd8a75c0e2e76542a990a3c6494fc0aac3e9a9b",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c2d2b9696b1303056e763bf9669bfdb956deb2d30dc5503ae9cdab8ee228e59f"
+        }
+      ]
+    },
+    {
+      "path": "github.com/Yawning/aez",
+      "version": "v0.0.0-20211027044916-e49e68abd344",
+      "sum": "h1:cDVUiFo+npB0ZASqnw4q90ylaVAbnYyx0JYqK4YcGok=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/!yawning/aez/@v/v0.0.0-20211027044916-e49e68abd344.zip",
+      "verifiedH1": "h1:cDVUiFo+npB0ZASqnw4q90ylaVAbnYyx0JYqK4YcGok=",
+      "zipSha256": "aa90c86cd46a111c7c86e7653cdcd4099059ba9ac63d235b496c1e1886f52a0f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "7179683e8000e6bdc9bbc60d85edf0a4ac8e76f951857f54fcb775d5886f1309"
+        }
+      ]
+    },
+    {
+      "path": "github.com/ajg/form",
+      "version": "v1.7.1",
+      "sum": "h1:OsnBDzTkrWdrxvEnO68I72ZVGJGNaMwPhoAm0V+llgc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/ajg/form/@v/v1.7.1.zip",
+      "verifiedH1": "h1:OsnBDzTkrWdrxvEnO68I72ZVGJGNaMwPhoAm0V+llgc=",
+      "zipSha256": "683da1615a209adbf425bf612d666f6ed3e2e6a248cf8eeb93365c26d8b40a2c",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "a66b5c17a29c5b28713fc55662593eb22fab1332d0060bdae5ff8c890e821c67"
+        }
+      ]
+    },
+    {
+      "path": "github.com/amnezia-vpn/amneziawg-go",
+      "version": "v0.2.20-0.20260709022233-c1e9bb3758e7",
+      "sum": "h1:OfKNgJiE0RnUv7gicBPe9bUm4ZEJDyPlb7MuLvQQHOg=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/amnezia-vpn/amneziawg-go/@v/v0.2.20-0.20260709022233-c1e9bb3758e7.zip",
+      "verifiedH1": "h1:OfKNgJiE0RnUv7gicBPe9bUm4ZEJDyPlb7MuLvQQHOg=",
+      "zipSha256": "9498f85264b26750ed83a6be577f84db5589dd125b7c7b72890b7c696f60fecf",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "9ec168d1f4af53f293be8bd2e882588f0e35af0334292d4ca4e5ede84408420e"
+        }
+      ]
+    },
+    {
+      "path": "github.com/andybalholm/brotli",
+      "version": "v1.1.1",
+      "sum": "h1:PR2pgnyFznKEugtsUo0xLdDop5SKXd5Qf5ysW+7XdTA=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/andybalholm/brotli/@v/v1.1.1.zip",
+      "verifiedH1": "h1:PR2pgnyFznKEugtsUo0xLdDop5SKXd5Qf5ysW+7XdTA=",
+      "zipSha256": "d183c2a1277d2784861bfa89e3903ecba31ef08237c3e92fbdfd4ab0b551154e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94"
+        }
+      ]
+    },
+    {
+      "path": "github.com/aymanbagabas/go-osc52/v2",
+      "version": "v2.0.1",
+      "sum": "h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/aymanbagabas/go-osc52/v2/@v/v2.0.1.zip",
+      "verifiedH1": "h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=",
+      "zipSha256": "939ebf2a5481f2172e1a5e0c318d05aef5b6d950a960556216c3da7879a927f8",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "11319e34d9dac2f45392f14f4f62e28b24173cfa13d39b32e7b7b66c2f3bdccd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/bahlo/generic-list-go",
+      "version": "v0.2.0",
+      "sum": "h1:5sz/EEAK+ls5wF+NeqDpk5+iNdMDXrh3z3nPnH1Wvgk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/bahlo/generic-list-go/@v/v0.2.0.zip",
+      "verifiedH1": "h1:5sz/EEAK+ls5wF+NeqDpk5+iNdMDXrh3z3nPnH1Wvgk=",
+      "zipSha256": "e773fa812176a62f1d27d7a1e7589683f5e5af2d36628fa6a5a522e59474c504",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+        }
+      ]
+    },
+    {
+      "path": "github.com/bodgit/plumbing",
+      "version": "v1.3.0",
+      "sum": "h1:pf9Itz1JOQgn7vEOE7v7nlEfBykYqvUYioC61TwWCFU=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/bodgit/plumbing/@v/v1.3.0.zip",
+      "verifiedH1": "h1:pf9Itz1JOQgn7vEOE7v7nlEfBykYqvUYioC61TwWCFU=",
+      "zipSha256": "15c80dc98fd6b972798a6c24a002f6fb00b28abdc9928185206a5abc5e56a089",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "5c74848524ad9ff97892be1d05418853eab0ea95e7f59545ba44153ef2017425"
+        }
+      ]
+    },
+    {
+      "path": "github.com/bodgit/windows",
+      "version": "v1.0.1",
+      "sum": "h1:tF7K6KOluPYygXa3Z2594zxlkbKPAOvqr97etrGNIz4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/bodgit/windows/@v/v1.0.1.zip",
+      "verifiedH1": "h1:tF7K6KOluPYygXa3Z2594zxlkbKPAOvqr97etrGNIz4=",
+      "zipSha256": "cbe5f1c687372fd463b19c05b2cfdd3cdcaad86baea38f83ebe580b26f19e956",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "8e937a4f1e8d29fb77b8433044b21906774513e307153a53c68bd638c87a1b09"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/bubbles",
+      "version": "v0.21.0",
+      "sum": "h1:9TdC97SdRVg/1aaXNVWfFH3nnLAwOXr8Fn6u6mfQdFs=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/bubbles/@v/v0.21.0.zip",
+      "verifiedH1": "h1:9TdC97SdRVg/1aaXNVWfFH3nnLAwOXr8Fn6u6mfQdFs=",
+      "zipSha256": "fdfdda9c2605a6898027c9bcd2ffc38abc7cec4beb4087d509694d813c4b1dc9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "9ca49aaf6748976a8f0a9d7448f34a5f5edf1f363385f1a789e09e328c3d3f84"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/bubbletea",
+      "version": "v1.3.10",
+      "sum": "h1:otUDHWMMzQSB0Pkc87rm691KZ3SWa4KUlvF9nRvCICw=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/bubbletea/@v/v1.3.10.zip",
+      "verifiedH1": "h1:otUDHWMMzQSB0Pkc87rm691KZ3SWa4KUlvF9nRvCICw=",
+      "zipSha256": "8afc524c11d18878b0ac3426fd3318fdf05ad576e65883c597996296c1b27117",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "69793670485e4ae8bf28fcbe5639141f604256d5bb6c1862571f3a32823fa221"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/colorprofile",
+      "version": "v0.2.3-0.20250311203215-f60798e515dc",
+      "sum": "h1:4pZI35227imm7yK2bGPcfpFEmuY1gc2YSTShr4iJBfs=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/colorprofile/@v/v0.2.3-0.20250311203215-f60798e515dc.zip",
+      "verifiedH1": "h1:4pZI35227imm7yK2bGPcfpFEmuY1gc2YSTShr4iJBfs=",
+      "zipSha256": "8df093c3abeab24f9c17464cf222a4f44e3875acc4cd7a071c8b856934bffc2d",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "57d6eeeb336030b89c0e0d12cf869f84b97a481cd00b350ef21fca995da5a39a"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/harmonica",
+      "version": "v0.2.0",
+      "sum": "h1:8NxJWRWg/bzKqqEaaeFNipOu77YR5t8aSwG4pgaUBiQ=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/harmonica/@v/v0.2.0.zip",
+      "verifiedH1": "h1:8NxJWRWg/bzKqqEaaeFNipOu77YR5t8aSwG4pgaUBiQ=",
+      "zipSha256": "8494d728916551f0fc9a065fa854dfae2d75c7191ce839bae07de1a6290db40a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "f5c39bb50a9366698111f27bff6652167cd7aa9c0d9ee538d3a3f2ba13d35ec8"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/lipgloss",
+      "version": "v1.1.0",
+      "sum": "h1:vYXsiLHVkK7fp74RkV7b2kq9+zDLoEU4MZoFqR/noCY=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/lipgloss/@v/v1.1.0.zip",
+      "verifiedH1": "h1:vYXsiLHVkK7fp74RkV7b2kq9+zDLoEU4MZoFqR/noCY=",
+      "zipSha256": "22512fd8c211302255bb6f57d8018eed9b8d8f6dd51310512901240bde9b061a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "699cffa88b62691ea09706d356e5ee0982e87ca2b1c58ca682f27d6ae87f9efc"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/x/ansi",
+      "version": "v0.10.1",
+      "sum": "h1:rL3Koar5XvX0pHGfovN03f5cxLbCF2YvLeyz7D2jVDQ=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/x/ansi/@v/v0.10.1.zip",
+      "verifiedH1": "h1:rL3Koar5XvX0pHGfovN03f5cxLbCF2YvLeyz7D2jVDQ=",
+      "zipSha256": "572284eda2d84e15af3c8d8cfa8fcdc2992dba9513c1d598d573b87b4f0f84f9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0baa4a5942a801d93f4050d2bc0039d8c037105fcd335230d118eec99a11782b"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/x/cellbuf",
+      "version": "v0.0.13-0.20250311204145-2c3ea96c31dd",
+      "sum": "h1:vy0GVL4jeHEwG5YOXDmi86oYw2yuYUGqz6a8sLwg0X8=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/x/cellbuf/@v/v0.0.13-0.20250311204145-2c3ea96c31dd.zip",
+      "verifiedH1": "h1:vy0GVL4jeHEwG5YOXDmi86oYw2yuYUGqz6a8sLwg0X8=",
+      "zipSha256": "afb3737da68b726e922e1982d8e2a354fc74ebc9a458879bbc1bbbcd39fda654",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0baa4a5942a801d93f4050d2bc0039d8c037105fcd335230d118eec99a11782b"
+        }
+      ]
+    },
+    {
+      "path": "github.com/charmbracelet/x/term",
+      "version": "v0.2.1",
+      "sum": "h1:AQeHeLZ1OqSXhrAWpYUtZyX1T3zVxfpZuEQMIQaGIAQ=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/charmbracelet/x/term/@v/v0.2.1.zip",
+      "verifiedH1": "h1:AQeHeLZ1OqSXhrAWpYUtZyX1T3zVxfpZuEQMIQaGIAQ=",
+      "zipSha256": "943ea615acab846478d15fc9b21eb5e47df786577915f84565b6d4b31d4014a0",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0baa4a5942a801d93f4050d2bc0039d8c037105fcd335230d118eec99a11782b"
+        }
+      ]
+    },
+    {
+      "path": "github.com/dlclark/regexp2",
+      "version": "v1.12.0",
+      "sum": "h1:0j4c5qQmnC6XOWNjP3PIXURXN2gWx76rd3KvgdPkCz8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/dlclark/regexp2/@v/v1.12.0.zip",
+      "verifiedH1": "h1:0j4c5qQmnC6XOWNjP3PIXURXN2gWx76rd3KvgdPkCz8=",
+      "zipSha256": "dac93d7598b95a6a2c8b334f98078c77d22e29a85b4f73573591bcda65406636",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "9be5d04bb4d706914d5bf943710da4afeb42048f7c529902fb57c82762a991a9"
+        }
+      ]
+    },
+    {
+      "path": "github.com/dunglas/httpsfv",
+      "version": "v1.0.2",
+      "sum": "h1:iERDp/YAfnojSDJ7PW3dj1AReJz4MrwbECSSE59JWL0=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/dunglas/httpsfv/@v/v1.0.2.zip",
+      "verifiedH1": "h1:iERDp/YAfnojSDJ7PW3dj1AReJz4MrwbECSSE59JWL0=",
+      "zipSha256": "c1570b9a558b1d780e9e0058f93ce951fdf9f8e74f647ed69864a036403af803",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2a5341732bde88aeb3b066492df6e15bf10d082761f9e3a251236ce80419d6ba"
+        }
+      ]
+    },
+    {
+      "path": "github.com/dunglas/httpsfv",
+      "version": "v1.1.0",
+      "sum": "h1:Jw76nAyKWKZKFrpMMcL76y35tOpYHqQPzHQiwDvpe54=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/dunglas/httpsfv/@v/v1.1.0.zip",
+      "verifiedH1": "h1:Jw76nAyKWKZKFrpMMcL76y35tOpYHqQPzHQiwDvpe54=",
+      "zipSha256": "5a246b4b8efa140a12ba5d2d76b8270b0960d9ad37fef891a4fa4de5750cd857",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2a5341732bde88aeb3b066492df6e15bf10d082761f9e3a251236ce80419d6ba"
+        }
+      ]
+    },
+    {
+      "path": "github.com/easytier/easytier/easytier-go",
+      "version": "v0.0.0-20260910071355-3d0c9c3ca5e2",
+      "sum": "h1:2/9iRUcMR3QPrT2XFf/i7QV5YoSHPFjkgBM5tP8xbcc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/easytier/easytier/easytier-go/@v/v0.0.0-20260910071355-3d0c9c3ca5e2.zip",
+      "verifiedH1": "h1:2/9iRUcMR3QPrT2XFf/i7QV5YoSHPFjkgBM5tP8xbcc=",
+      "zipSha256": "de1d7fc72d790330984f54a9eadf31123184ba0e14e99cafca60596669876928",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+        }
+      ]
+    },
+    {
+      "path": "github.com/enfein/mieru/v3",
+      "version": "v3.38.1",
+      "sum": "h1:UZ5zAJi0caSmaOniVy33pyY7ANxyf4PmPeLSuYZpDro=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/enfein/mieru/v3/@v/v3.38.1.zip",
+      "verifiedH1": "h1:UZ5zAJi0caSmaOniVy33pyY7ANxyf4PmPeLSuYZpDro=",
+      "zipSha256": "e4bf9829a6ab535ab8c89bcd6f853b6a5e1fbb6d2b9d62368f497dbfd89adc2e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "path": "build/package/mieru/amd64/debian/DEBIAN/copyright",
+          "sha256": "8979ce787c326c1d213ac8beba594829669e3d8b807bd9f89cd39de32eed5291"
+        },
+        {
+          "path": "build/package/mieru/arm64/debian/DEBIAN/copyright",
+          "sha256": "8979ce787c326c1d213ac8beba594829669e3d8b807bd9f89cd39de32eed5291"
+        },
+        {
+          "path": "build/package/mita/amd64/debian/DEBIAN/copyright",
+          "sha256": "8979ce787c326c1d213ac8beba594829669e3d8b807bd9f89cd39de32eed5291"
+        },
+        {
+          "path": "build/package/mita/arm64/debian/DEBIAN/copyright",
+          "sha256": "8979ce787c326c1d213ac8beba594829669e3d8b807bd9f89cd39de32eed5291"
+        },
+        {
+          "path": "pkg/deque/LICENSE",
+          "sha256": "33b7614d6cb1f09eb73b72656228375212267f74ea4719768dc8aef5aad288a7"
+        },
+        {
+          "path": "pkg/log/LICENSE",
+          "sha256": "51a0c9ec7f8b7634181b8d4c03e5b5d204ac21d6e72f46c313973424664b2e6b"
+        },
+        {
+          "path": "pkg/socks5/LICENSE",
+          "sha256": "1827290f11d53a54d744cd21550fc18a2562cbdafd3056476b15f239e7254ecb"
+        }
+      ]
+    },
+    {
+      "path": "github.com/ericlagergren/aegis",
+      "version": "v0.0.0-20250325060835-cd0defd64358",
+      "sum": "h1:kXYqH/sL8dS/FdoFjr12ePjnLPorPo2FsnrHNuXSDyo=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/ericlagergren/aegis/@v/v0.0.0-20250325060835-cd0defd64358.zip",
+      "verifiedH1": "h1:kXYqH/sL8dS/FdoFjr12ePjnLPorPo2FsnrHNuXSDyo=",
+      "zipSha256": "9c2daea819a0849f1d7137aac3c332184ecdd662338cf5718b9caef9c79226db",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "695d76be8e84ff48b57947fa07eab10ebe544cca4336f9a34fd22581c76d9147"
+        }
+      ]
+    },
+    {
+      "path": "github.com/ericlagergren/polyval",
+      "version": "v0.0.0-20220411101811-e25bc10ba391",
+      "sum": "h1:8j2RH289RJplhA6WfdaPqzg1MjH2K8wX5e0uhAxrw2g=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/ericlagergren/polyval/@v/v0.0.0-20220411101811-e25bc10ba391.zip",
+      "verifiedH1": "h1:8j2RH289RJplhA6WfdaPqzg1MjH2K8wX5e0uhAxrw2g=",
+      "zipSha256": "47adb15e96f65fb2e461bfa50ff1601e99a24eef1ab0cd47a0d7f35149f84c76",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "f2196c4078ad7e9a6c72a849175bd0a20b7bd7ea56a0df604d56695c8476ce3a"
+        }
+      ]
+    },
+    {
+      "path": "github.com/ericlagergren/siv",
+      "version": "v0.0.0-20220507050439-0b757b3aa5f1",
+      "sum": "h1:tlDMEdcPRQKBEz5nGDMvswiajqh7k8ogWRlhRwKy5mY=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/ericlagergren/siv/@v/v0.0.0-20220507050439-0b757b3aa5f1.zip",
+      "verifiedH1": "h1:tlDMEdcPRQKBEz5nGDMvswiajqh7k8ogWRlhRwKy5mY=",
+      "zipSha256": "9ac3191d9dcddc0a05fc64b6798b0ba30e2bbf1814d2c06c55b30d3776dd80e4",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c3a27477754df2a7b147105ff54807a010ef332928f50021075b94043543dba7"
+        }
+      ]
+    },
+    {
+      "path": "github.com/ericlagergren/subtle",
+      "version": "v0.0.0-20220507045147-890d697da010",
+      "sum": "h1:fuGucgPk5dN6wzfnxl3D0D3rVLw4v2SbBT9jb4VnxzA=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/ericlagergren/subtle/@v/v0.0.0-20220507045147-890d697da010.zip",
+      "verifiedH1": "h1:fuGucgPk5dN6wzfnxl3D0D3rVLw4v2SbBT9jb4VnxzA=",
+      "zipSha256": "3d3408d53b90ce6c2a69d456919e1fa5cd3f994582736bcaa7000bb63c139cb9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c3a27477754df2a7b147105ff54807a010ef332928f50021075b94043543dba7"
+        }
+      ]
+    },
+    {
+      "path": "github.com/erikgeiser/coninput",
+      "version": "v0.0.0-20211004153227-1c3628e74d0f",
+      "sum": "h1:Y/CXytFA4m6baUTXGLOoWe4PQhGxaX0KpnayAqC48p4=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/erikgeiser/coninput/@v/v0.0.0-20211004153227-1c3628e74d0f.zip",
+      "verifiedH1": "h1:Y/CXytFA4m6baUTXGLOoWe4PQhGxaX0KpnayAqC48p4=",
+      "zipSha256": "bd7f9a62374dc4d111863491729763a0eafcdc440d4a6ebead61d3af4a2c3f2f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0a00deeeb36bb7b8ccbb9003100b665e584d9384e66c8c26f29b5929ecaa745b"
+        }
+      ]
+    },
+    {
+      "path": "github.com/fsnotify/fsnotify",
+      "version": "v1.9.0",
+      "sum": "h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S9k=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/fsnotify/fsnotify/@v/v1.9.0.zip",
+      "verifiedH1": "h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S9k=",
+      "zipSha256": "94e64824b23591b7aa504e3321d5ec3f57de88f4d49882eaefbbf6820dab746e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2dfbe6d2b5eb18b55148f3805d88648a09e0d17e38428123259afb08c8996e37"
+        }
+      ]
+    },
+    {
+      "path": "github.com/fxamacker/cbor/v2",
+      "version": "v2.9.0",
+      "sum": "h1:NpKPmjDBgUfBms6tr6JZkTHtfFGcMKsw3eGcmD/sapM=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/fxamacker/cbor/v2/@v/v2.9.0.zip",
+      "verifiedH1": "h1:NpKPmjDBgUfBms6tr6JZkTHtfFGcMKsw3eGcmD/sapM=",
+      "zipSha256": "5b0ec6424bd522aeeeab30cbdcad6f40bf976a9a2ddf125ab27b97826140d97a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "78cad457d5ea7318230f3d969d4cdf29cef45524a1fc8ca3a97646da1ad7a841"
+        }
+      ]
+    },
+    {
+      "path": "github.com/gaukas/godicttls",
+      "version": "v0.0.4",
+      "sum": "h1:NlRaXb3J6hAnTmWdsEKb9bcSBD6BvcIjdGdeb0zfXbk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/gaukas/godicttls/@v/v0.0.4.zip",
+      "verifiedH1": "h1:NlRaXb3J6hAnTmWdsEKb9bcSBD6BvcIjdGdeb0zfXbk=",
+      "zipSha256": "6c9bddf1f3fec8b9b3900151e2e7405159a7e4f0c5ba77e7dad859c2789351fe",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "ac089a3cb515b32ba1c8c2b401646527f55815a9022013693d515f2e2e4fb6ec"
+        }
+      ]
+    },
+    {
+      "path": "github.com/go-ole/go-ole",
+      "version": "v1.3.0",
+      "sum": "h1:Dt6ye7+vXGIKZ7Xtk4s6/xVdGDQynvom7xCFEdWr6uE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/go-ole/go-ole/@v/v1.3.0.zip",
+      "verifiedH1": "h1:Dt6ye7+vXGIKZ7Xtk4s6/xVdGDQynvom7xCFEdWr6uE=",
+      "zipSha256": "bbf5b3bfa227a5daa06eb16ecdecccc0b20e08749bf103afb523fd72764e727a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "d883dbca28769ff23dd4368a8edb7ad9f9f23a8f86adde2875c6e41a828aac62"
+        }
+      ]
+    },
+    {
+      "path": "github.com/gobwas/httphead",
+      "version": "v0.1.0",
+      "sum": "h1:exrUm0f4YX0L7EBwZHuCF4GDp8aJfVeBrlLQrs6NqWU=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/gobwas/httphead/@v/v0.1.0.zip",
+      "verifiedH1": "h1:exrUm0f4YX0L7EBwZHuCF4GDp8aJfVeBrlLQrs6NqWU=",
+      "zipSha256": "a4646f1d12786fee639c489219e7c667b10f7dc19578a4e7222bd17c5d9bdf8a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "7d168561ad5212bf5b3023d55cba37c9594eb011ba74445d99f82055be662589"
+        }
+      ]
+    },
+    {
+      "path": "github.com/gobwas/pool",
+      "version": "v0.2.1",
+      "sum": "h1:xfeeEhW7pwmX8nuLVlqbzVc7udMDrwetjEv+TZIz1og=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/gobwas/pool/@v/v0.2.1.zip",
+      "verifiedH1": "h1:xfeeEhW7pwmX8nuLVlqbzVc7udMDrwetjEv+TZIz1og=",
+      "zipSha256": "79b505a9f42b141affca1eedd2edc87ae922482d052e16e3b6e5e3c9dcec89e1",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "bcc745631c0144db2c601650c55d108172c80d601cf2346c71594a0bc32f6f1c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/gobwas/ws",
+      "version": "v1.4.0",
+      "sum": "h1:CTaoG1tojrh4ucGPcoJFiAQUAsEWekEWvLy7GsVNqGs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/gobwas/ws/@v/v1.4.0.zip",
+      "verifiedH1": "h1:CTaoG1tojrh4ucGPcoJFiAQUAsEWekEWvLy7GsVNqGs=",
+      "zipSha256": "4c8a4b60d07be4c3a95d1840ff249f590503eebf2184f6c869f3a102a7ad4d0a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "db823214b3ef18274418accda3812faac38a1545b8bd589aeb613a849b949c7a"
+        }
+      ]
+    },
+    {
+      "path": "github.com/gofrs/uuid/v5",
+      "version": "v5.4.0",
+      "sum": "h1:EfbpCTjqMuGyq5ZJwxqzn3Cbr2d0rUZU7v5ycAk/e/0=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/gofrs/uuid/v5/@v/v5.4.0.zip",
+      "verifiedH1": "h1:EfbpCTjqMuGyq5ZJwxqzn3Cbr2d0rUZU7v5ycAk/e/0=",
+      "zipSha256": "3ee3a75fdc02cfdcbf1a44feb0f89ea89aad0cfa38b7730f95e67afb42e06f6c",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "92a328e1d5f3269b42e2ce32b4494eafdb3132f204a911c5c95cf3d8465490e4"
+        }
+      ]
+    },
+    {
+      "path": "github.com/golang/groupcache",
+      "version": "v0.0.0-20241129210726-2c02b8208cf8",
+      "sum": "h1:f+oWsMOmNPc8JmEHVZIycC7hBoQxHH9pNKQORJNozsQ=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/golang/groupcache/@v/v0.0.0-20241129210726-2c02b8208cf8.zip",
+      "verifiedH1": "h1:f+oWsMOmNPc8JmEHVZIycC7hBoQxHH9pNKQORJNozsQ=",
+      "zipSha256": "163367355442a630b12b0b452892cd98e99fcfdf7e40b68d358be73479cc1c23",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "73ba74dfaa520b49a401b5d21459a8523a146f3b7518a833eea5efa85130bf68"
+        }
+      ]
+    },
+    {
+      "path": "github.com/golang/snappy",
+      "version": "v1.0.0",
+      "sum": "h1:Oy607GVXHs7RtbggtPBnr2RmDArIsAefDwvrdWvRhGs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/golang/snappy/@v/v1.0.0.zip",
+      "verifiedH1": "h1:Oy607GVXHs7RtbggtPBnr2RmDArIsAefDwvrdWvRhGs=",
+      "zipSha256": "d712fef567e361d17e879f80ea53ebfdf529185a6bc74a2aa1996133ddd0a930",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "f69f157b0be75da373605dbc8bbf142e8924ee82d8f44f11bcaf351335bf98cf"
+        }
+      ]
+    },
+    {
+      "path": "github.com/google/btree",
+      "version": "v1.1.3",
+      "sum": "h1:CVpQJjYgC4VbzxeGVHfvZrv1ctoYCAI8vbl07Fcxlyg=",
+      "usedBy": [
+        "WarpScout",
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/google/btree/@v/v1.1.3.zip",
+      "verifiedH1": "h1:CVpQJjYgC4VbzxeGVHfvZrv1ctoYCAI8vbl07Fcxlyg=",
+      "zipSha256": "11b736bc8252b52fecdf346d3707ccf3a2b6d458ba21b4f843616fc12eeb30b2",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ]
+    },
+    {
+      "path": "github.com/google/pprof",
+      "version": "v0.0.0-20240727154555-813a5fbdbec8",
+      "sum": "h1:FKHo8hFI3A+7w0aUQuYXQ+6EN5stWmeY/AZqtM8xk9k=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/google/pprof/@v/v0.0.0-20240727154555-813a5fbdbec8.zip",
+      "verifiedH1": "h1:FKHo8hFI3A+7w0aUQuYXQ+6EN5stWmeY/AZqtM8xk9k=",
+      "zipSha256": "22d5ff7b4582b1269199573f80cfc2c1ad251ed7dab03d0ee73b9af166172a52",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "third_party/svgpan/LICENSE",
+          "sha256": "154c946c17de61ca71d28e13673d76a5798e6e25995a7397fbae157afc8f62b4"
+        }
+      ]
+    },
+    {
+      "path": "github.com/hashicorp/golang-lru/v2",
+      "version": "v2.0.7",
+      "sum": "h1:a+bsQ5rvGLjzHuww6tVxozPZFVghXaHOwFs4luLUK2k=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/hashicorp/golang-lru/v2/@v/v2.0.7.zip",
+      "verifiedH1": "h1:a+bsQ5rvGLjzHuww6tVxozPZFVghXaHOwFs4luLUK2k=",
+      "zipSha256": "2eb92ff13970bccd460efae14255bfc03bb51474da0137e477a60f95561acc30",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "6c7088eb877b5d7e6e0e9d27e822ea25fcda2e83f9eba59bb5f1418a656796e0"
+        },
+        {
+          "path": "simplelru/LICENSE_list",
+          "sha256": "6d462371baa8649492b06f51f154dba9b25d2ac9548369b8b4fdbbbb85f2f75d"
+        }
+      ]
+    },
+    {
+      "path": "github.com/insomniacslk/dhcp",
+      "version": "v0.0.0-20250109001534-8abf58130905",
+      "sum": "h1:q3OEI9RaN/wwcx+qgGo6ZaoJkCiDYe/gjDLfq7lQQF4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/insomniacslk/dhcp/@v/v0.0.0-20250109001534-8abf58130905.zip",
+      "verifiedH1": "h1:q3OEI9RaN/wwcx+qgGo6ZaoJkCiDYe/gjDLfq7lQQF4=",
+      "zipSha256": "1ab9ca57cc0ab35e6799fcabbcf21fd538129e607444383e66ad3e0b90a6581b",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "d034f64d0e3a12eec92e6d98ee6a0b1ee36f2a751aa96e9485fdd3a1280a6af1"
+        }
+      ]
+    },
+    {
+      "path": "github.com/josharian/native",
+      "version": "v1.1.0",
+      "sum": "h1:uuaP0hAbW7Y4l0ZRQ6C9zfb7Mg1mbFKry/xzDAfmtLA=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/josharian/native/@v/v1.1.0.zip",
+      "verifiedH1": "h1:uuaP0hAbW7Y4l0ZRQ6C9zfb7Mg1mbFKry/xzDAfmtLA=",
+      "zipSha256": "6bf490b63ce1b724d1ab0aceb7655648b25b0ae6dc16f7fb1d89127836e71c42",
+      "noticeSources": [
+        {
+          "path": "license",
+          "sha256": "ad2395352be6234aaee97b4c99eb2b290c81022c08238cdee45ed0b47ed18651"
+        }
+      ]
+    },
+    {
+      "path": "github.com/klauspost/compress",
+      "version": "v1.17.9",
+      "sum": "h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/klauspost/compress/@v/v1.17.9.zip",
+      "verifiedH1": "h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=",
+      "zipSha256": "a009d53eecbdb9d6b789e9a0662fa41c87a85ab280291b2b5a5d9664bb1c5e8f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0d9e582ee4bff57bf1189c9e514e6da7ce277f9cd3bc2d488b22fbb39a6d87cf"
+        },
+        {
+          "path": "gzhttp/LICENSE",
+          "sha256": "2252a5b1e2b1d3663b53ea77051b8ed065cb9270a3d1174d5d6ead8a2de051b6"
+        },
+        {
+          "path": "internal/lz4ref/LICENSE",
+          "sha256": "6a358d2540ca14048f02d366f23787c0a480157e58f058113f0e27168dd4e447"
+        },
+        {
+          "path": "internal/snapref/LICENSE",
+          "sha256": "f69f157b0be75da373605dbc8bbf142e8924ee82d8f44f11bcaf351335bf98cf"
+        },
+        {
+          "path": "s2/LICENSE",
+          "sha256": "08683b14bda8ae3538abf19e1879e853a39e3b8276a8d673363b529d15a61c1a"
+        },
+        {
+          "path": "s2/cmd/internal/filepathx/LICENSE",
+          "sha256": "8582c87d9a6baa28f7827c5205b7d16c3179bc794ebd4c7cc287c49a89b7eaa1"
+        },
+        {
+          "path": "s2/cmd/internal/readahead/LICENSE",
+          "sha256": "10fa24a602fde465db603cd5d546e37e33642a73cd24ddf5910be81724fec8b2"
+        },
+        {
+          "path": "snappy/LICENSE",
+          "sha256": "f69f157b0be75da373605dbc8bbf142e8924ee82d8f44f11bcaf351335bf98cf"
+        },
+        {
+          "path": "snappy/xerial/LICENSE",
+          "sha256": "d4ff111fa30ac75e28dca3868de957a3b73ff50b76bc4b8fe5c3a1f008d26703"
+        },
+        {
+          "path": "zstd/internal/xxhash/LICENSE.txt",
+          "sha256": "f566a9f97bacdaf00d9f21dd991e81dc11201c4e016c86b470799429a1c9a79c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/klauspost/cpuid/v2",
+      "version": "v2.2.6",
+      "sum": "h1:ndNyv040zDGIDh8thGkXYjnFtiN02M1PVVF+JE/48xc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/klauspost/cpuid/v2/@v/v2.2.6.zip",
+      "verifiedH1": "h1:ndNyv040zDGIDh8thGkXYjnFtiN02M1PVVF+JE/48xc=",
+      "zipSha256": "c59cbc93b0f34418e4cfc1f3a9e0d10e649bfc5bc3080be5bd60619625de13c0",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "5d966570d7a442d4e969892860a914e542c97f262c873baee8f0aa48e1f40212"
+        }
+      ]
+    },
+    {
+      "path": "github.com/klauspost/reedsolomon",
+      "version": "v1.12.3",
+      "sum": "h1:tzUznbfc3OFwJaTebv/QdhnFf2Xvb7gZ24XaHLBPmdc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/klauspost/reedsolomon/@v/v1.12.3.zip",
+      "verifiedH1": "h1:tzUznbfc3OFwJaTebv/QdhnFf2Xvb7gZ24XaHLBPmdc=",
+      "zipSha256": "2a94863ba24eb19dd0d8736d9408a9b12d4e2e5f19f48ffc7d04e1b7ad954ee2",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "345aa942daa8c117669a85bd75f44a8364faceee962812ddb5a576977e0610ee"
+        }
+      ]
+    },
+    {
+      "path": "github.com/lucasb-eyer/go-colorful",
+      "version": "v1.2.0",
+      "sum": "h1:1nnpGOrhyZZuNyfu1QjKiUICQ74+3FNCN69Aj6K7nkY=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/lucasb-eyer/go-colorful/@v/v1.2.0.zip",
+      "verifiedH1": "h1:1nnpGOrhyZZuNyfu1QjKiUICQ74+3FNCN69Aj6K7nkY=",
+      "zipSha256": "78d5d0e0737f0f54bbed77b6dfa847d8c871bed2668a9dc44328c7c3411ada10",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "1e4cf2a117516ec1b54041d68ed4f5d331878b04de3386f4790e7b5b9c04e1ec"
+        }
+      ]
+    },
+    {
+      "path": "github.com/mattn/go-isatty",
+      "version": "v0.0.20",
+      "sum": "h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/mattn/go-isatty/@v/v0.0.20.zip",
+      "verifiedH1": "h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=",
+      "zipSha256": "f2d5f89ca451577e17464b9bb596dc0d0ecececb5eaa63622c41b57cd0b7b8cc",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "08eab1118c80885fa1fa6a6dd7303f65a379fcb3733e063d20d1bbc2c76e6fa1"
+        }
+      ]
+    },
+    {
+      "path": "github.com/mattn/go-localereader",
+      "version": "v0.0.1",
+      "sum": "h1:ygSAOl7ZXTx4RdPYinUpg6W99U8jWvWi9Ye2JC/oIi4=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/mattn/go-localereader/@v/v0.0.1.zip",
+      "verifiedH1": "h1:ygSAOl7ZXTx4RdPYinUpg6W99U8jWvWi9Ye2JC/oIi4=",
+      "zipSha256": "aa67306797b071ce93188fe2834f63ffd7963faf623d49229d891ef52e595b35",
+      "noticeSources": [
+        {
+          "path": "README.md",
+          "sha256": "0c5c52517f13becd7a1e1234f1e8a5ba370f5a5078cee9ac058c2d534e267fcb",
+          "scope": "MIT declaration and author; full license not supplied by module"
+        }
+      ]
+    },
+    {
+      "path": "github.com/mattn/go-runewidth",
+      "version": "v0.0.16",
+      "sum": "h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6TULQc=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/mattn/go-runewidth/@v/v0.0.16.zip",
+      "verifiedH1": "h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6TULQc=",
+      "zipSha256": "179d2d900c76ee3560fbeda60d0237a3be6acb734d0cb7423b55e5ccb0cedbca",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "88a2379b3ca34bf5c57127aff9dcb802bbb60ece0805cdbda65b3bd115f971d9"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/age",
+      "version": "v0.0.0-20260603010618-28d156b4ea78",
+      "sum": "h1:LqWr0vb9zDNuQS+jJd4fnRYk/SEI7KJ7TDe/L4WFK48=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/age/@v/v0.0.0-20260603010618-28d156b4ea78.zip",
+      "verifiedH1": "h1:LqWr0vb9zDNuQS+jJd4fnRYk/SEI7KJ7TDe/L4WFK48=",
+      "zipSha256": "f0082f5bb5e49494ffcb9f137676f14ceade3d7cdf7c20ffcc52b9ed99be1589",
+      "noticeSources": [
+        {
+          "path": ".github/workflows/LICENSE.suffix.txt",
+          "sha256": "51c0235a1b3e808d8c54a1e29d322751b79565488c6041f3fb3bee1ab2bc29a3"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "c5d65279d02955c0fc2294ae417c3add650d228f4f5c82bd6d531fc26c89cd96"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/amneziawg-go",
+      "version": "v0.0.0-20260908071407-0c1c6f40ecd7",
+      "sum": "h1:OJa/EzqUNScl8X4UCUfG5DDqRdEds89k2XwzBZrnqcE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/amneziawg-go/@v/v0.0.0-20260908071407-0c1c6f40ecd7.zip",
+      "verifiedH1": "h1:OJa/EzqUNScl8X4UCUfG5DDqRdEds89k2XwzBZrnqcE=",
+      "zipSha256": "e3bb4f56a6e7b61d6fa9eb34a991a064b82e899c737b18e0ce25a80536b1347e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "9ec168d1f4af53f293be8bd2e882588f0e35af0334292d4ca4e5ede84408420e"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/ascon",
+      "version": "v0.1.0",
+      "sum": "h1:6ZWxmXYszT1XXtwkf6nxfFhc/OTtQ9R3Vyj1jN32lGM=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/ascon/@v/v0.1.0.zip",
+      "verifiedH1": "h1:6ZWxmXYszT1XXtwkf6nxfFhc/OTtQ9R3Vyj1jN32lGM=",
+      "zipSha256": "2be4d6203a4264933422c98cf8d615633f2b34dbac5f287babdcf6e9463e30cd",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "47d99bd74dc14e248d1a4f0b7bcbbc5deec00df5041fdd30cbc8c75f890294b0"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/bart",
+      "version": "v0.29.0",
+      "sum": "h1:yVc/lLdDqn+7FShI0qUghStHl0/d3mn4EH/I5R5niKk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/bart/@v/v0.29.0.zip",
+      "verifiedH1": "h1:yVc/lLdDqn+7FShI0qUghStHl0/d3mn4EH/I5R5niKk=",
+      "zipSha256": "3ec696432421003a6e5addcb1e9e3b7d388ab30fc58201b1d6bb857669bf7267",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "8fc2dc86e3a004c34bf613d4f72365ca4c16a35d26fbc4ce1d8deac83c6eae15"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/bbolt",
+      "version": "v0.0.0-20260706163408-d4ec34ad7c48",
+      "sum": "h1:D+AoQ7g/ZeZAHAapelrZB0xUNRcDGuoNLcGmHCnC9Ss=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/bbolt/@v/v0.0.0-20260706163408-d4ec34ad7c48.zip",
+      "verifiedH1": "h1:D+AoQ7g/ZeZAHAapelrZB0xUNRcDGuoNLcGmHCnC9Ss=",
+      "zipSha256": "1e2e0e847c40bd6a5e00355ac3b200051a8e4b23431f04ad5b3d034fed1cb37d",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c15d721c37e277a11584547de6d618541501f7aa10c4e32a945a4f9ff36cb0f6"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/blake3",
+      "version": "v0.1.0",
+      "sum": "h1:KGnjh/56REO7U+cgZA8dnBhxdP7jByrG7hTP+bu6cqY=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/blake3/@v/v0.1.0.zip",
+      "verifiedH1": "h1:KGnjh/56REO7U+cgZA8dnBhxdP7jByrG7hTP+bu6cqY=",
+      "zipSha256": "c40b750bb9cd949918741862af72696ffb686b85da77bc3fb05dddd5e9b98511",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "7a576402565d51f9c0c7ee5a639aa91d49ed1a54c21a8d0b56f0d25e72d8b2f1"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/chacha",
+      "version": "v0.1.5",
+      "sum": "h1:fKWMb/5c7ZrY8Uoqi79PPFxl+qwR7X/q0OrsAubyX2M=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/chacha/@v/v0.1.5.zip",
+      "verifiedH1": "h1:fKWMb/5c7ZrY8Uoqi79PPFxl+qwR7X/q0OrsAubyX2M=",
+      "zipSha256": "558efe2b5c53497277ab7d91b3ab834b7e07fede44078d9b27e4474dd5c88097",
+      "noticeSources": [
+        {
+          "path": "chachapoly1305/LICENSE",
+          "sha256": "dda83f2eec1dd997613aa628ddc96b0650ed2a3a63b6cd36f04282cce757f2a8"
+        },
+        {
+          "path": "poly1305/LICENSE",
+          "sha256": "16685415eddfc629886f470a177a55985da5d57d42610483f997634cc783e8d5"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/chi",
+      "version": "v0.1.1",
+      "sum": "h1:GajmCIXSIPAZNxqTTYpkCrkY9suBz9wjIdgPcoQ5K1A=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/chi/@v/v0.1.1.zip",
+      "verifiedH1": "h1:GajmCIXSIPAZNxqTTYpkCrkY9suBz9wjIdgPcoQ5K1A=",
+      "zipSha256": "d85066fc6e0c6623e141692b1b2e2e30fc7f74e18b4360d084f50171dd45fccd",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "a2d51b7515acfaff2f7a88688650f2fc4fd99561383e72bba2305e3db59a1647"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/connect-ip-go",
+      "version": "v0.0.0-20260727083417-67ccdb0cf771",
+      "sum": "h1:nLGBvwQ2vmsD+gU/XWBQH3xaYCM3vQCJIqPfw3mc/L0=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/connect-ip-go/@v/v0.0.0-20260727083417-67ccdb0cf771.zip",
+      "verifiedH1": "h1:nLGBvwQ2vmsD+gU/XWBQH3xaYCM3vQCJIqPfw3mc/L0=",
+      "zipSha256": "335d55a7fb7d0c83c0656cee88803357f9f8b12ec2377418e389945d4e9da8af",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "8bcbabf56e2d09741d209292f583cc1d0fe3c894040a03b972a656da87beeddf"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/cpu",
+      "version": "v0.1.2",
+      "sum": "h1:xJHPWLkGilSWm6vEvzz8Loe+UusODRkVnuXz96TWAZo=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/cpu/@v/v0.1.2.zip",
+      "verifiedH1": "h1:xJHPWLkGilSWm6vEvzz8Loe+UusODRkVnuXz96TWAZo=",
+      "zipSha256": "e1453420d8008a1bce8cb902fe7a60a76161cfe1998b82d7ce86cf066c04e000",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/edwards25519",
+      "version": "v1.2.0",
+      "sum": "h1:pIQZLBsjQgg3Nl/c86YYFEUAbL5qQRnPq4LrgIw0KK4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/edwards25519/@v/v1.2.0.zip",
+      "verifiedH1": "h1:pIQZLBsjQgg3Nl/c86YYFEUAbL5qQRnPq4LrgIw0KK4=",
+      "zipSha256": "742768d4b0fe0e96c463a0970db7972ebc75b8f30b84c670df258d5242f160c4",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/fswatch",
+      "version": "v0.1.1",
+      "sum": "h1:jqU7C/v+g0qc2RUFgmAOPoVvfl2BXXUXEumn6oQuxhU=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/fswatch/@v/v0.1.1.zip",
+      "verifiedH1": "h1:jqU7C/v+g0qc2RUFgmAOPoVvfl2BXXUXEumn6oQuxhU=",
+      "zipSha256": "8b8eec4a17abfa1141e9c9901392ea5df8219c9c26deb4442a250f7f9931fbbb",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/gvisor",
+      "version": "v0.0.0-20260922041103-e2cbcd6e7400",
+      "sum": "h1:r9YO+xZUWi+xQROzdYkKL2twoliSJh34vOHMVAqsaL8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/gvisor/@v/v0.0.0-20260922041103-e2cbcd6e7400.zip",
+      "verifiedH1": "h1:r9YO+xZUWi+xQROzdYkKL2twoliSJh34vOHMVAqsaL8=",
+      "zipSha256": "6679b838ea3de94250bd6c29ecf3008029992e54ca7a6bb3f762dd1d8276b680",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0fbab5c58efbdf6d31e8085214f2dd821659c03d73cff3ed2b08e98826ea1cd9"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/hkdf",
+      "version": "v0.1.0",
+      "sum": "h1:fPA6VzXK8cU1foc/TOmGCDmSa7pZbxlnqhl3RNsthaA=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/hkdf/@v/v0.1.0.zip",
+      "verifiedH1": "h1:fPA6VzXK8cU1foc/TOmGCDmSa7pZbxlnqhl3RNsthaA=",
+      "zipSha256": "1e74e68565c112b698aa3329ee531319f843ef6e7607109f8f480291a97d9626",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/hpke",
+      "version": "v0.1.0",
+      "sum": "h1:gu2jUNhraehWi0P/z5HX2md3d7L1FhPQE6/Q0E9r9xQ=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/hpke/@v/v0.1.0.zip",
+      "verifiedH1": "h1:gu2jUNhraehWi0P/z5HX2md3d7L1FhPQE6/Q0E9r9xQ=",
+      "zipSha256": "f1d6040487779dce209492c985b7ecb0f208924395e5d30c611f5aff3c82548f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/http",
+      "version": "v0.1.8",
+      "sum": "h1:d91onDan2ZXYE8W/uAy5oFmXHH2xi1L7LbGPV5EmCM0=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/http/@v/v0.1.8.zip",
+      "verifiedH1": "h1:d91onDan2ZXYE8W/uAy5oFmXHH2xi1L7LbGPV5EmCM0=",
+      "zipSha256": "6e92b401a4e769d74004506042432b413c935d3a0727948ae0ba2560b2048e41",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/jls-quic-go",
+      "version": "v0.0.0-20260727080412-732f2fc9a34d",
+      "sum": "h1:OF3TUGKdHRrRMp7nb0Pa72QYwKPol9NqSy2yTcP2Sog=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/jls-quic-go/@v/v0.0.0-20260727080412-732f2fc9a34d.zip",
+      "verifiedH1": "h1:OF3TUGKdHRrRMp7nb0Pa72QYwKPol9NqSy2yTcP2Sog=",
+      "zipSha256": "81489b34d2dad8e44c0a7d04f6f0bfe19c52670df84cfbfcb384ddb3d87c3998",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "77d0b7b53e8abb84cf4dd3f9945a7fdf27044240d2e8023966a721a9a46fe96e"
+        },
+        {
+          "path": "assets/LICENSE.md",
+          "sha256": "2c8d4ff4244edf09d99dcd428d278e47a059d24f0030b38c1ab38e93b1c8030c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/jls-tls",
+      "version": "v0.0.0-20260723084315-67adc0e2f796",
+      "sum": "h1:1iI4np/Dm1ztCfTW2LoN166O6n728HXMc11aIazYdps=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/jls-tls/@v/v0.0.0-20260723084315-67adc0e2f796.zip",
+      "verifiedH1": "h1:1iI4np/Dm1ztCfTW2LoN166O6n728HXMc11aIazYdps=",
+      "zipSha256": "afd3fbb2c7c9dc08b452e20295bd4935330e1095f46a4ebd490053fd63cfe08d",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/jsonv2",
+      "version": "v0.0.0-20260721082349-16b4998c8f89",
+      "sum": "h1:v41RWXQbmSD1wqOuoN5VvRHo78wuSziG/bbsLdeH2TQ=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/jsonv2/@v/v0.0.0-20260721082349-16b4998c8f89.zip",
+      "verifiedH1": "h1:v41RWXQbmSD1wqOuoN5VvRHo78wuSziG/bbsLdeH2TQ=",
+      "zipSha256": "0cb75ff10715d1602b1f61438b38fc785f938a2f1c016fe9f5b3374f1f62e37b",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "14a34c4db2d21bf9cf80d028b802cd22fed9bf597a6c2db7ce30ee6ffd04967a"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/kcp-go",
+      "version": "v0.0.0-20260105040817-550693377604",
+      "sum": "h1:hJwCVlE3ojViC35MGHB+FBr8TuIf3BUFn2EQ1VIamsI=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/kcp-go/@v/v0.0.0-20260105040817-550693377604.zip",
+      "verifiedH1": "h1:hJwCVlE3ojViC35MGHB+FBr8TuIf3BUFn2EQ1VIamsI=",
+      "zipSha256": "e37d0c3923f693cfd7bb9aaa4dc91747a130faae0c3cfe664c047d1c6e8f0125",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "68eb46479424095361384cbb6b056dd10c0f9bb708796a68bdd830fa7baa6ebb"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/mhurl",
+      "version": "v0.1.0",
+      "sum": "h1:ZdW4Zxe3j3uJ89gNytOazHu6kbHn5owutN/VfXOI8GE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/mhurl/@v/v0.1.0.zip",
+      "verifiedH1": "h1:ZdW4Zxe3j3uJ89gNytOazHu6kbHn5owutN/VfXOI8GE=",
+      "zipSha256": "4fdc6e3f4922fb233f640e7078c0504b9d8f39b37d2a24fae795a64bd859b512",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/mipstack",
+      "version": "v0.0.0-20261019124225-9a80a07eaeb9",
+      "sum": "h1:/uFijgwBH3L7m/Ztfd+XpQjMmYgN74FjNTxperKhtdQ=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/mipstack/@v/v0.0.0-20261019124225-9a80a07eaeb9.zip",
+      "verifiedH1": "h1:/uFijgwBH3L7m/Ztfd+XpQjMmYgN74FjNTxperKhtdQ=",
+      "zipSha256": "6d95c7e316743f8a76efc24b340aed635b3438a25fc353e9a55c29486a7c72a8",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/mlkem",
+      "version": "v0.1.0",
+      "sum": "h1:wFClitonSFcmipzzQvax75beLQU+D7JuC+VK1RzSL8I=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/mlkem/@v/v0.1.0.zip",
+      "verifiedH1": "h1:wFClitonSFcmipzzQvax75beLQU+D7JuC+VK1RzSL8I=",
+      "zipSha256": "66b22000ed184b11565fa51cd12d581b655d13c78143c91ef387f707032381ab",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/protobuf-go",
+      "version": "v0.0.0-20260306035419-7ceee0674686",
+      "sum": "h1:PIXmYT2anQt9V8vdmwixtbIJxOpoPXJfIACHPjXEgnE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/protobuf-go/@v/v0.0.0-20260306035419-7ceee0674686.zip",
+      "verifiedH1": "h1:PIXmYT2anQt9V8vdmwixtbIJxOpoPXJfIACHPjXEgnE=",
+      "zipSha256": "ccb778707cdc9ef356cf8a3134bcc85e19be8bea3901870a3cd8b8c762410b91",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "4835612df0098ca95f8e7d9e3bffcb02358d435dbb38057c844c99d7f725eb20"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/qpack",
+      "version": "v0.6.0",
+      "sum": "h1:YqClGIMOpiRYLjV1qOs483Od08MdPgRnHjt90FuaAKw=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/qpack/@v/v0.6.0.zip",
+      "verifiedH1": "h1:YqClGIMOpiRYLjV1qOs483Od08MdPgRnHjt90FuaAKw=",
+      "zipSha256": "65e1f7f8895d2697bc105987776898e76261f36322c0e7d6cc0729891f41d8cb",
+      "noticeSources": [
+        {
+          "path": "LICENSE.md",
+          "sha256": "1b6a897efd39b20b3cdce8cd306160d115dbded39d855ceeffe21dc11e4d53df"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/quic-go",
+      "version": "v0.61.1-0.20260727080200-2548683b76f4",
+      "sum": "h1:7oX6CpHVqoUXNyyt0MTuO5ywd1qVe1S1t3jXWMW7bYc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/quic-go/@v/v0.61.1-0.20260727080200-2548683b76f4.zip",
+      "verifiedH1": "h1:7oX6CpHVqoUXNyyt0MTuO5ywd1qVe1S1t3jXWMW7bYc=",
+      "zipSha256": "d1f53a9e9e6eb502b5738de6d8a95c32b36675f95418ff92a0b5deb67dfc73b5",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "77d0b7b53e8abb84cf4dd3f9945a7fdf27044240d2e8023966a721a9a46fe96e"
+        },
+        {
+          "path": "assets/LICENSE.md",
+          "sha256": "2c8d4ff4244edf09d99dcd428d278e47a059d24f0030b38c1ab38e93b1c8030c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/randv2",
+      "version": "v0.2.0",
+      "sum": "h1:uP38uBvV2SxYfLj53kuvAjbND4RUDfFJjwr4UigMiLs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/randv2/@v/v0.2.0.zip",
+      "verifiedH1": "h1:uP38uBvV2SxYfLj53kuvAjbND4RUDfFJjwr4UigMiLs=",
+      "zipSha256": "e71e838b8b6679124e88c987f72351c5640023fbf3e664d0cd13acbd8750e8ff",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/restls-client-go",
+      "version": "v0.1.9",
+      "sum": "h1:QmLKwVFuAjB6rL9lQNKj8CuwHqGMJjV36oskeBPEtVs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/restls-client-go/@v/v0.1.9.zip",
+      "verifiedH1": "h1:QmLKwVFuAjB6rL9lQNKj8CuwHqGMJjV36oskeBPEtVs=",
+      "zipSha256": "c79c9f40ddb880f84d0681377688d1ab8ae99063892d59cb9da06ed12808b611",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+        },
+        {
+          "path": "LICENSE-RESTLS",
+          "sha256": "36ebeeb813a1570a049f991d95dd4c11df773fd657628638a2a8919e15e2f43f"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sevenzip",
+      "version": "v1.6.4",
+      "sum": "h1:OIL+DeOeSAbKNsjqxcYUMiarRmX6Kaxakb0GT7E9Oik=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sevenzip/@v/v1.6.4.zip",
+      "verifiedH1": "h1:OIL+DeOeSAbKNsjqxcYUMiarRmX6Kaxakb0GT7E9Oik=",
+      "zipSha256": "13d455788855dbe843ebdcbec75ab83a634d086a01ee54b72469defe5307e51f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "4135898ee98985c6084e6d8304930b010dec1b395083074ae455ae20ca207d9a"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing",
+      "version": "v0.5.8",
+      "sum": "h1:OwJDSPP+pza6Ywt7NMR4kEYq+UNrsIywSk/eAMlqxz8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing/@v/v0.5.8.zip",
+      "verifiedH1": "h1:OwJDSPP+pza6Ywt7NMR4kEYq+UNrsIywSk/eAMlqxz8=",
+      "zipSha256": "f1bed01075dd2a31d6a5ec0a2f2d8b5f86deda261c3ae721d73181e03afc28ca",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-mux",
+      "version": "v0.3.12",
+      "sum": "h1:80jrJsGgRW7ZHpJCRpwJhG3yzT5muEHIWjaOsDJZ2wE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-mux/@v/v0.3.12.zip",
+      "verifiedH1": "h1:80jrJsGgRW7ZHpJCRpwJhG3yzT5muEHIWjaOsDJZ2wE=",
+      "zipSha256": "fd4da51b7cb7f41cbf590b0f1058d3dd26fb812d7924784158f825ae5fd86a55",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-quic",
+      "version": "v0.0.0-20260904234848-1c242664697a",
+      "sum": "h1:qZzQwtWDrPU1LXoMow0/iLHY3mb7uauS/mho8hYcenE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-quic/@v/v0.0.0-20260904234848-1c242664697a.zip",
+      "verifiedH1": "h1:qZzQwtWDrPU1LXoMow0/iLHY3mb7uauS/mho8hYcenE=",
+      "zipSha256": "08b8a037b196eedeb57048028de7abf8c69570788b6cacc23658ae6dadedaf7a",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-shadowsocks",
+      "version": "v0.2.13",
+      "sum": "h1:PKmInHy9+4nY3FLhmKcWdASUBo9WZ/KrSPWjNpGaUTQ=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-shadowsocks/@v/v0.2.13.zip",
+      "verifiedH1": "h1:PKmInHy9+4nY3FLhmKcWdASUBo9WZ/KrSPWjNpGaUTQ=",
+      "zipSha256": "c20267fad5c48f728ebd0890ba4539d99b013d0c992452ff00d3e23d8be7cceb",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-shadowsocks2",
+      "version": "v0.2.8",
+      "sum": "h1:6MoODu7BAcnwIC0w9muq+2LZVz01wWD07L5IRhOty9Q=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-shadowsocks2/@v/v0.2.8.zip",
+      "verifiedH1": "h1:6MoODu7BAcnwIC0w9muq+2LZVz01wWD07L5IRhOty9Q=",
+      "zipSha256": "763a29d316fad2d06a9abad5d78fe846aa4c8b8b8d9196585b57d1ebe8d3324e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-tun",
+      "version": "v0.4.28",
+      "sum": "h1:IWcH13jEbsxzM5SZrRat3IeJG31WiF9fOj3r18yGHw4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-tun/@v/v0.4.28.zip",
+      "verifiedH1": "h1:IWcH13jEbsxzM5SZrRat3IeJG31WiF9fOj3r18yGHw4=",
+      "zipSha256": "3175f8ddfac241b546e58d99a495c6efbcde5ef8b675013b303baf7428cbecfb",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-vmess",
+      "version": "v0.2.5",
+      "sum": "h1:m9Zt5I27lB9fmLMZfism9sH2LcnAfShZfwSkf6/KJoE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-vmess/@v/v0.2.5.zip",
+      "verifiedH1": "h1:m9Zt5I27lB9fmLMZfism9sH2LcnAfShZfwSkf6/KJoE=",
+      "zipSha256": "366ce3b3c3e65aad5a76079330a6a8186648d8e44f23f4c22b096e5bb5dd70bc",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2f02b7486bcfa90d115c71a20437f3906b6fd5bef81c5dc0efd341399e89d0fd"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/sing-wireguard",
+      "version": "v0.0.0-20261002050126-e5fa1a607406",
+      "sum": "h1:sronRtbNXPCT9sOpcsISq87w4mLufxP7mQFUEg+zUCY=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/sing-wireguard/@v/v0.0.0-20261002050126-e5fa1a607406.zip",
+      "verifiedH1": "h1:sronRtbNXPCT9sOpcsISq87w4mLufxP7mQFUEg+zUCY=",
+      "zipSha256": "8e8b3549841a31fb9531d53e1bae423c8ab79c0f03df6d5c214f46289e122afd",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/smux",
+      "version": "v0.0.0-20260105030934-d0c8756d3141",
+      "sum": "h1:DK2l6m2Fc85H2BhiAPgbJygiWhesPlfGmF+9Vw6ARdk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/smux/@v/v0.0.0-20260105030934-d0c8756d3141.zip",
+      "verifiedH1": "h1:DK2l6m2Fc85H2BhiAPgbJygiWhesPlfGmF+9Vw6ARdk=",
+      "zipSha256": "c1de3e665d701bb04b67ff379b118a6554f4ecd1d2221cc78131006439eba106",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "4d853d6e64790ccada70727c25334c50529b25ce57048129aaf6f8b0f2208516"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/ssh",
+      "version": "v0.1.0",
+      "sum": "h1:iGfr99qk/eMHzUnQ/0bTxXT8+8SWqLSHBWDHoAhngzw=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/ssh/@v/v0.1.0.zip",
+      "verifiedH1": "h1:iGfr99qk/eMHzUnQ/0bTxXT8+8SWqLSHBWDHoAhngzw=",
+      "zipSha256": "f06b3d41029c0453478cc7722dcf3cf1da083f6b153d7b210d0e5e7b4196a5df",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/tailscale",
+      "version": "v0.0.0-20260821153257-ff0ecd818181",
+      "sum": "h1:hWsSSzuCHe+WvPV1zhoJ8gXTXbp/5nhpPKxtpqgIXu0=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/tailscale/@v/v0.0.0-20260821153257-ff0ecd818181.zip",
+      "verifiedH1": "h1:hWsSSzuCHe+WvPV1zhoJ8gXTXbp/5nhpPKxtpqgIXu0=",
+      "zipSha256": "5e7cc8dd0600e648f1050074324d7f980e7a93e34e7bdc6b9e24294e0559b5d8",
+      "noticeSources": [
+        {
+          "path": ".github/licenses.tmpl",
+          "sha256": "d449925239921c1f51ad832efc4a43d4fe85c4b9df1b1702b5e6f509b004249d"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "a7ca6186a7963a0a60740f6047760eecd7a0234e8c38bd7e1e0bbcb324bda45b"
+        },
+        {
+          "path": "license_test.go",
+          "sha256": "067fbe72abf2ccb27a85519cd99fc2c1d97a88438b0ac5390b550881550a92ba"
+        },
+        {
+          "path": "tempfork/goupnp/LICENSE",
+          "sha256": "440688406aeb546bad566031c8a01531a01a683166f7010380fcc0f68d830311"
+        },
+        {
+          "path": "tempfork/oauth2/LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/tailscale-wireguard-go",
+      "version": "v0.0.0-20260725073821-e61ab99cede2",
+      "sum": "h1:nKyLVJEU4jsLVx+rdqbDUbEKTX/Sdu161AeVoZC9tlY=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/tailscale-wireguard-go/@v/v0.0.0-20260725073821-e61ab99cede2.zip",
+      "verifiedH1": "h1:nKyLVJEU4jsLVx+rdqbDUbEKTX/Sdu161AeVoZC9tlY=",
+      "zipSha256": "7daac962a2493b9a63b581f85167608dde2c7fe5c5f07c80130b26972cdfddea",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "91276db973f25602d1aa43491f59cbc84cb88e6f151e1d0cc82a755563ce0195"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/tfo-go",
+      "version": "v0.0.0-20260623020846-376a77860b8c",
+      "sum": "h1:+2C1UshSLzaogLY/IDz1XhOLxjhs3rkhVHB4eCN9Zto=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/tfo-go/@v/v0.0.0-20260623020846-376a77860b8c.zip",
+      "verifiedH1": "h1:+2C1UshSLzaogLY/IDz1XhOLxjhs3rkhVHB4eCN9Zto=",
+      "zipSha256": "4c1552308aadbf371a0ea63000b5e960b526d08ced85250617e8cab126ed6882",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "092daaeb0ef37d1e9870febdaa8e2e19f263128bf4351f811bd5181d0f4a1081"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/tls",
+      "version": "v0.1.9",
+      "sum": "h1:pcHJSwFeHNswF96Z5RQW+j5cmwI2AYPdsNumK6JJSls=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/tls/@v/v0.1.9.zip",
+      "verifiedH1": "h1:pcHJSwFeHNswF96Z5RQW+j5cmwI2AYPdsNumK6JJSls=",
+      "zipSha256": "2066ce21cd24c024de089d2d56cedf3b800e9fc8810d8fb2eff114c507ec6459",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "22975ebe413674bc619428a26e53412013dccffa69e2f27100dbd8d946fde287"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/utls",
+      "version": "v1.8.8",
+      "sum": "h1:7fiMYahL+tT1I/vG1MWidv88r/3A5NnPrurjzApZGyQ=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/utls/@v/v1.8.8.zip",
+      "verifiedH1": "h1:7fiMYahL+tT1I/vG1MWidv88r/3A5NnPrurjzApZGyQ=",
+      "zipSha256": "2eb4a99f8d7295c16500ac215f912796deac43d8b67054d589d8ed680515747e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+        },
+        {
+          "path": "dicttls/LICENSE",
+          "sha256": "ac089a3cb515b32ba1c8c2b401646527f55815a9022013693d515f2e2e4fb6ec"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/wazero",
+      "version": "v0.0.0-20260628025728-9ae6bdcf2a7d",
+      "sum": "h1:UMFI+kdp0jA8s9tC7oul0pWeTW6s8lnm0dD5PT+RY14=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/wazero/@v/v0.0.0-20260628025728-9ae6bdcf2a7d.zip",
+      "verifiedH1": "h1:UMFI+kdp0jA8s9tC7oul0pWeTW6s8lnm0dD5PT+RY14=",
+      "zipSha256": "4ea3bc1ac53fa76fe697f19f1fa849620029ffd01d38a71620c5801b6bc7e2ce",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c46f033d017a5af71a1de0105ec56c41bd47f81a0bbdf779fffe316336dc7c1f"
+        },
+        {
+          "path": "NOTICE",
+          "sha256": "e6f0c5c151a3ff1eba8f5930a31ec084ca6d7adda43c8675ab81f7d36af50b4f"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/wireguard-go",
+      "version": "v0.0.0-20250820062549-a6cecdd7f57f",
+      "sum": "h1:FGBPRb1zUabhPhDrlKEjQ9lgIwQ6cHL4x8M9lrERhbk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/wireguard-go/@v/v0.0.0-20250820062549-a6cecdd7f57f.zip",
+      "verifiedH1": "h1:FGBPRb1zUabhPhDrlKEjQ9lgIwQ6cHL4x8M9lrERhbk=",
+      "zipSha256": "64365aae87e5a4845a64897cfd30ad51f28e1d34986bfd70f57827d94f334ae7",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "91276db973f25602d1aa43491f59cbc84cb88e6f151e1d0cc82a755563ce0195"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/yamux",
+      "version": "v0.0.0-20250918083631-dd5f17c0be49",
+      "sum": "h1:lhlqpYHopuTLx9xQt22kSA9HtnyTDmk5XjjQVCGHe2E=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/yamux/@v/v0.0.0-20250918083631-dd5f17c0be49.zip",
+      "verifiedH1": "h1:lhlqpYHopuTLx9xQt22kSA9HtnyTDmk5XjjQVCGHe2E=",
+      "zipSha256": "0aaaea640061b16df9ba66948031a6453c4eb53ac74f43c1a75d4432a35dc050",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "812e9d96e900a093ae4d1d3f22c5f82f568a0a0461c3007a99d00573d41c5461"
+        },
+        {
+          "path": "LICENSE-BSD",
+          "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067"
+        }
+      ]
+    },
+    {
+      "path": "github.com/metacubex/zerotier-go",
+      "version": "v0.0.0-20260813124750-13fa6f45da5f",
+      "sum": "h1:OS35JZobxU+AUv+9EjH/ULiKwyGciSK98n1CmxitDFo=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/metacubex/zerotier-go/@v/v0.0.0-20260813124750-13fa6f45da5f.zip",
+      "verifiedH1": "h1:OS35JZobxU+AUv+9EjH/ULiKwyGciSK98n1CmxitDFo=",
+      "zipSha256": "cfe7cd4a6ec5c2649d2866b31f9cf1d5409170016a71d3aa96a8f79171713a06",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+        },
+        {
+          "path": "NOTICE",
+          "sha256": "1f4da8e3ff59959ca6900c91fcbb2ed6da29e04bd5dc1e7cc8255fab42312282"
+        }
+      ]
+    },
+    {
+      "path": "github.com/miekg/dns",
+      "version": "v1.1.63",
+      "sum": "h1:8M5aAw6OMZfFXTT7K5V0Eu5YiiL8l7nUAkyN6C9YwaY=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/miekg/dns/@v/v1.1.63.zip",
+      "verifiedH1": "h1:8M5aAw6OMZfFXTT7K5V0Eu5YiiL8l7nUAkyN6C9YwaY=",
+      "zipSha256": "8d0268cc9e6399c264dd4cb632fb76ed4e389330db0c4b311ba6ae1f46923eeb",
+      "noticeSources": [
+        {
+          "path": "COPYRIGHT",
+          "sha256": "66550c0ad5ca7ec1e08683e5f872cc45c741f311eee3b8ee484206ecbf9c740d"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "f200ff9bad73385db2ed81e23ee2c1fe069eb5776e17fae4ee85ad0a9e1361a5"
+        }
+      ]
+    },
+    {
+      "path": "github.com/mitchellh/go-ps",
+      "version": "v1.0.0",
+      "sum": "h1:i6ampVEEF4wQFF+bkYfwYgY+F/uYJDktmvLPf7qIgjc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/mitchellh/go-ps/@v/v1.0.0.zip",
+      "verifiedH1": "h1:i6ampVEEF4wQFF+bkYfwYgY+F/uYJDktmvLPf7qIgjc=",
+      "zipSha256": "f2f0400b1d5e136419daed275c27a930b0f5447ac12bb8acd3ddbe39547b2834",
+      "noticeSources": [
+        {
+          "path": "LICENSE.md",
+          "sha256": "3c377fad2e5ae1d7081c7c2f16da867a87cca1d1f5f1aa7ed0b8a16bb553142a"
+        }
+      ]
+    },
+    {
+      "path": "github.com/mroth/weightedrand/v2",
+      "version": "v2.1.0",
+      "sum": "h1:o1ascnB1CIVzsqlfArQQjeMy1U0NcIbBO5rfd5E/OeU=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/mroth/weightedrand/v2/@v/v2.1.0.zip",
+      "verifiedH1": "h1:o1ascnB1CIVzsqlfArQQjeMy1U0NcIbBO5rfd5E/OeU=",
+      "zipSha256": "ab726e329007198fa87b9e4489ecaccf0fcde4da537951e6237946e9d062669d",
+      "noticeSources": [
+        {
+          "path": "LICENSE.txt",
+          "sha256": "16003c0ec31eb7da4647e3df18c0966a85f9a7ed8d9069197e221397ef5327b5"
+        }
+      ]
+    },
+    {
+      "path": "github.com/muesli/ansi",
+      "version": "v0.0.0-20230316100256-276c6243b2f6",
+      "sum": "h1:ZK8zHtRHOkbHy6Mmr5D264iyp3TiX5OmNcI5cIARiQI=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/muesli/ansi/@v/v0.0.0-20230316100256-276c6243b2f6.zip",
+      "verifiedH1": "h1:ZK8zHtRHOkbHy6Mmr5D264iyp3TiX5OmNcI5cIARiQI=",
+      "zipSha256": "59c0d420908d51df3c701510337fbe42bfb4d48fcc5f490b5eb2f36fc25f91b9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "43f65e00e8919fa43c5f45bb2ae578b6d3ee823eb99aa14c85c9ecd06e0350b5"
+        }
+      ]
+    },
+    {
+      "path": "github.com/muesli/cancelreader",
+      "version": "v0.2.2",
+      "sum": "h1:3I4Kt4BQjOR54NavqnDogx/MIoWBFa0StPA8ELUXHmA=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/muesli/cancelreader/@v/v0.2.2.zip",
+      "verifiedH1": "h1:3I4Kt4BQjOR54NavqnDogx/MIoWBFa0StPA8ELUXHmA=",
+      "zipSha256": "f0654e7f8f8a49b02ff10a75ccaa0eb08a65aaacbc45f5ba93305276e2ac7f61",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "8c139dbbc83b4fb055b4100b6b9402f7de3dd6bbca05015bdfcc4b392c8cfd5f"
+        }
+      ]
+    },
+    {
+      "path": "github.com/muesli/termenv",
+      "version": "v0.16.0",
+      "sum": "h1:S5AlUN9dENB57rsbnkPyfdGuWIlkmzJjbFf0Tf5FWUc=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/muesli/termenv/@v/v0.16.0.zip",
+      "verifiedH1": "h1:S5AlUN9dENB57rsbnkPyfdGuWIlkmzJjbFf0Tf5FWUc=",
+      "zipSha256": "ba02d3ebd9c1d87e2c2133b1f2bb61a7001b3765196e8016029ce9fe54c5c0fc",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "233e8cf9a812999ccee4d3edb270b0f11ab3539658e680bcb873604915ca5038"
+        }
+      ]
+    },
+    {
+      "path": "github.com/oasisprotocol/deoxysii",
+      "version": "v0.0.0-20220228165953-2091330c22b7",
+      "sum": "h1:1102pQc2SEPp5+xrS26wEaeb26sZy6k9/ZXlZN+eXE4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/oasisprotocol/deoxysii/@v/v0.0.0-20220228165953-2091330c22b7.zip",
+      "verifiedH1": "h1:1102pQc2SEPp5+xrS26wEaeb26sZy6k9/ZXlZN+eXE4=",
+      "zipSha256": "8c79b7068e42ff035ec81f4bf898150283317a702a25b91b23edf0709139171c",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "ecb518b94c3343060994b1fb30ac4372c27e955936f600d163df25f54e2a691d"
+        }
+      ]
+    },
+    {
+      "path": "github.com/openacid/low",
+      "version": "v0.1.21",
+      "sum": "h1:Tr2GNu4N/+rGRYdOsEHOE89cxUIaDViZbVmKz29uKGo=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/openacid/low/@v/v0.1.21.zip",
+      "verifiedH1": "h1:Tr2GNu4N/+rGRYdOsEHOE89cxUIaDViZbVmKz29uKGo=",
+      "zipSha256": "d1b56672b1131e40a9894cb4b531231a0d4156933783e5182dbecac1329b04b5",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "ccf4f457510783b37a52783b40d1f8d611dfc8ae3b836b0eceede07811e47b5c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/oschwald/maxminddb-golang",
+      "version": "v1.12.0",
+      "sum": "h1:9FnTOD0YOhP7DGxGsq4glzpGy5+w7pq50AS6wALUMYs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/oschwald/maxminddb-golang/@v/v1.12.0.zip",
+      "verifiedH1": "h1:9FnTOD0YOhP7DGxGsq4glzpGy5+w7pq50AS6wALUMYs=",
+      "zipSha256": "160a3e324bd889247553c362405f405800c955046499d5fa5d69c149218d9206",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "cb89cb8d744d4890187eb3e98fa36f644adf2e56866faba0af891f55493ac522"
+        }
+      ]
+    },
+    {
+      "path": "github.com/patrickmn/go-cache",
+      "version": "v2.1.0+incompatible",
+      "sum": "h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/patrickmn/go-cache/@v/v2.1.0+incompatible.zip",
+      "verifiedH1": "h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=",
+      "zipSha256": "d5d1c13e3c9cfeb04a943f656333ec68627dd6ce136af67e2aa5881ad7353c55",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0070a164e0fc28e82739a764c37b38c56de796f9a8d1862b4413eb6978cd4e04"
+        }
+      ]
+    },
+    {
+      "path": "github.com/pierrec/lz4/v4",
+      "version": "v4.1.27",
+      "sum": "h1:+PhzhWDrjRj89TH2sw43nE3+4+W8lSxIuQadEHZyjUk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/pierrec/lz4/v4/@v/v4.1.27.zip",
+      "verifiedH1": "h1:+PhzhWDrjRj89TH2sw43nE3+4+W8lSxIuQadEHZyjUk=",
+      "zipSha256": "702ad206ffeec8d3ac8bc1ce7e2d0b201fbc7683c8ab8758210172c54f03353f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "6a358d2540ca14048f02d366f23787c0a480157e58f058113f0e27168dd4e447"
+        }
+      ]
+    },
+    {
+      "path": "github.com/pires/go-proxyproto",
+      "version": "v0.8.0",
+      "sum": "h1:5unRmEAPbHXHuLjDg01CxJWf91cw3lKHc/0xzKpXEe0=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/pires/go-proxyproto/@v/v0.8.0.zip",
+      "verifiedH1": "h1:5unRmEAPbHXHuLjDg01CxJWf91cw3lKHc/0xzKpXEe0=",
+      "zipSha256": "ca2a97733046c704fdfcc4666802bb82ea231d42338ffdd52a80a636b6c456bb",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "666f1951be1d543e744818d232bb311a4a310fd1d344288642c796fca39af3c7"
+        }
+      ]
+    },
+    {
+      "path": "github.com/quic-go/qpack",
+      "version": "v0.6.0",
+      "sum": "h1:g7W+BMYynC1LbYLSqRt8PBg5Tgwxn214ZZR34VIOjz8=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/quic-go/qpack/@v/v0.6.0.zip",
+      "verifiedH1": "h1:g7W+BMYynC1LbYLSqRt8PBg5Tgwxn214ZZR34VIOjz8=",
+      "zipSha256": "3ac037cd1747420bc00bd6a793b4b197a2359fc354de12dc2187477417564914",
+      "noticeSources": [
+        {
+          "path": "LICENSE.md",
+          "sha256": "1b6a897efd39b20b3cdce8cd306160d115dbded39d855ceeffe21dc11e4d53df"
+        }
+      ]
+    },
+    {
+      "path": "github.com/quic-go/quic-go",
+      "version": "v0.60.0",
+      "sum": "h1:xcQioE8OM66UQLeUMHltK1CCcOu3JbVB4JAQdDQSB+0=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/quic-go/quic-go/@v/v0.60.0.zip",
+      "verifiedH1": "h1:xcQioE8OM66UQLeUMHltK1CCcOu3JbVB4JAQdDQSB+0=",
+      "zipSha256": "a48d4e302591fd1b51bec8733f2e7e4e6ed97b369f1139141a55d43f69a7fcbd",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "77d0b7b53e8abb84cf4dd3f9945a7fdf27044240d2e8023966a721a9a46fe96e"
+        },
+        {
+          "path": "assets/LICENSE.md",
+          "sha256": "2c8d4ff4244edf09d99dcd428d278e47a059d24f0030b38c1ab38e93b1c8030c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/rasky/go-lzo",
+      "version": "v0.0.0-20200203143853-96a758eda86e",
+      "sum": "h1:dCWirM5F3wMY+cmRda/B1BiPsFtmzXqV9b0hLWtVBMs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/rasky/go-lzo/@v/v0.0.0-20200203143853-96a758eda86e.zip",
+      "verifiedH1": "h1:dCWirM5F3wMY+cmRda/B1BiPsFtmzXqV9b0hLWtVBMs=",
+      "zipSha256": "0ac65ffc1638da5f12da18c4d8b78e22dec14ff3ff5807410ed1bcaebe24168d",
+      "noticeSources": [
+        {
+          "path": "LICENSE.gpl",
+          "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+        }
+      ]
+    },
+    {
+      "path": "github.com/rivo/uniseg",
+      "version": "v0.4.7",
+      "sum": "h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/rivo/uniseg/@v/v0.4.7.zip",
+      "verifiedH1": "h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=",
+      "zipSha256": "b995e4aa0cc1e5779cc61138ac925cb8c1e963e40c80e4b93ee8553812ebb792",
+      "noticeSources": [
+        {
+          "path": "LICENSE.txt",
+          "sha256": "a59885f5f0f3b3c07cf9444db5fe399b6f0791eac82055f7b85cc65500551039"
+        }
+      ]
+    },
+    {
+      "path": "github.com/samber/lo",
+      "version": "v1.53.0",
+      "sum": "h1:t975lj2py4kJPQ6haz1QMgtId2gtmfktACxIXArw3HM=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/samber/lo/@v/v1.53.0.zip",
+      "verifiedH1": "h1:t975lj2py4kJPQ6haz1QMgtId2gtmfktACxIXArw3HM=",
+      "zipSha256": "4969cf0094a1736a16ca0f89c42dea92369ba0ebacdbd9b22f1299ff7fe1f579",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "adb3ac2e3e382989de6befdd489f4714785af8aca47c01193a9892e8b26b3860"
+        }
+      ]
+    },
+    {
+      "path": "github.com/sina-ghaderi/poly1305",
+      "version": "v0.0.0-20220724002748-c5926b03988b",
+      "sum": "h1:rXHg9GrUEtWZhEkrykicdND3VPjlVbYiLdX9J7gimS8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/sina-ghaderi/poly1305/@v/v0.0.0-20220724002748-c5926b03988b.zip",
+      "verifiedH1": "h1:rXHg9GrUEtWZhEkrykicdND3VPjlVbYiLdX9J7gimS8=",
+      "zipSha256": "2f318147c0b181ce18942aa5c67a94bddf8bf964c31ef57da4a5bb3369700ed9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        }
+      ]
+    },
+    {
+      "path": "github.com/sina-ghaderi/rabaead",
+      "version": "v0.0.0-20220730151906-ab6e06b96e8c",
+      "sum": "h1:DjKMC30y6yjG3IxDaeAj3PCoRr+IsO+bzyT+Se2m2Hk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/sina-ghaderi/rabaead/@v/v0.0.0-20220730151906-ab6e06b96e8c.zip",
+      "verifiedH1": "h1:DjKMC30y6yjG3IxDaeAj3PCoRr+IsO+bzyT+Se2m2Hk=",
+      "zipSha256": "d5785f695cc1e99449e3355ff460ece1f8d0ff6ab72c6f48eb76d7f8c644f66e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        }
+      ]
+    },
+    {
+      "path": "github.com/sina-ghaderi/rabbitio",
+      "version": "v0.0.0-20220730151941-9ce26f4f872e",
+      "sum": "h1:ur8uMsPIFG3i4Gi093BQITvwH9znsz2VUZmnmwHvpIo=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/sina-ghaderi/rabbitio/@v/v0.0.0-20220730151941-9ce26f4f872e.zip",
+      "verifiedH1": "h1:ur8uMsPIFG3i4Gi093BQITvwH9znsz2VUZmnmwHvpIo=",
+      "zipSha256": "702ff9c3964ac8ce8516a52b5e52c6246940cd3ecf1c382b1d12fd76c4c9938c",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        }
+      ]
+    },
+    {
+      "path": "github.com/sirupsen/logrus",
+      "version": "v1.9.4",
+      "sum": "h1:TsZE7l11zFCLZnZ+teH4Umoq5BhEIfIzfRDZ1Uzql2w=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/sirupsen/logrus/@v/v1.9.4.zip",
+      "verifiedH1": "h1:TsZE7l11zFCLZnZ+teH4Umoq5BhEIfIzfRDZ1Uzql2w=",
+      "zipSha256": "3847d00c5ee6948f1ff0d0120bc343c55ce852becb7720f8f08f53eecfe9e437",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "51a0c9ec7f8b7634181b8d4c03e5b5d204ac21d6e72f46c313973424664b2e6b"
+        }
+      ]
+    },
+    {
+      "path": "github.com/songgao/water",
+      "version": "v0.0.0-20200317203138-2b4b6d7c09d8",
+      "sum": "h1:TG/diQgUe0pntT/2D9tmUCz4VNwm9MfrtPr0SU2qSX8=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/songgao/water/@v/v0.0.0-20200317203138-2b4b6d7c09d8.zip",
+      "verifiedH1": "h1:TG/diQgUe0pntT/2D9tmUCz4VNwm9MfrtPr0SU2qSX8=",
+      "zipSha256": "9411b54a45f3b35ed3a1b1b7c31e6c447533f7f634c1c0702619c27b56073438",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "cc2fcf72a8fbf5ded025d3b0c7ae4a410e1cee3d8c3fd6f100ccb50893cd71b3"
+        }
+      ]
+    },
+    {
+      "path": "github.com/stangelandcl/ppmd",
+      "version": "v0.1.1",
+      "sum": "h1:c25QazhlWUn5nmR1QOzafKhQxBicAr7GGCKER2aJ8H8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/stangelandcl/ppmd/@v/v0.1.1.zip",
+      "verifiedH1": "h1:c25QazhlWUn5nmR1QOzafKhQxBicAr7GGCKER2aJ8H8=",
+      "zipSha256": "e832489fca0e2a2455bc76235c9681509b3666b89f154afcd994814929a9081b",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "9bdaf6c691adeb560c86a43c26b9dd4f8a52c8d9965229e356e545e5894c3ab1"
+        }
+      ]
+    },
+    {
+      "path": "github.com/tailscale/certstore",
+      "version": "v0.1.1-0.20260409135935-3638fb84b77d",
+      "sum": "h1:JcGKBZAL7ePLwOhUdN8qGQZlP5GueEiIZwY7R62pejE=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/tailscale/certstore/@v/v0.1.1-0.20260409135935-3638fb84b77d.zip",
+      "verifiedH1": "h1:JcGKBZAL7ePLwOhUdN8qGQZlP5GueEiIZwY7R62pejE=",
+      "zipSha256": "28121a4e30fe7a4d4b566366d6923cdc69afc7f0b3485e94400581d0e1cf4826",
+      "noticeSources": [
+        {
+          "path": "LICENSE.md",
+          "sha256": "e4a0c3d87230b78d441e4666fba1ab95211fd1e9be76bf445d664685ae0a9e48"
+        }
+      ]
+    },
+    {
+      "path": "github.com/tailscale/go-winio",
+      "version": "v0.0.0-20231025203758-c4f33415bf55",
+      "sum": "h1:Gzfnfk2TWrk8Jj4P4c1a3CtQyMaTVCznlkLZI++hok4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/tailscale/go-winio/@v/v0.0.0-20231025203758-c4f33415bf55.zip",
+      "verifiedH1": "h1:Gzfnfk2TWrk8Jj4P4c1a3CtQyMaTVCznlkLZI++hok4=",
+      "zipSha256": "0433037071e067ec3cc0600db97a31b2296b852ade8688b4aad990f7ecbd1a37",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "cf248820bf1178370bb4f1670a59f8748d46bc96d0f64080cd631511c6046409"
+        }
+      ]
+    },
+    {
+      "path": "github.com/tailscale/hujson",
+      "version": "v0.0.0-20221223112325-20486734a56a",
+      "sum": "h1:SJy1Pu0eH1C29XwJucQo73FrleVK6t4kYz4NVhp34Yw=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/tailscale/hujson/@v/v0.0.0-20221223112325-20486734a56a.zip",
+      "verifiedH1": "h1:SJy1Pu0eH1C29XwJucQo73FrleVK6t4kYz4NVhp34Yw=",
+      "zipSha256": "8e65bacebfc0a1edc067fd97f839fcfeb93c1e7b8cc0186d1773cff4e125d9d5",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "a125b6c2721809b6c2a8761771932611833008ed8697d752b3e35d36e4bbd83e"
+        }
+      ]
+    },
+    {
+      "path": "github.com/txthinking/runnergroup",
+      "version": "v0.0.0-20250224021307-5864ffeb65ae",
+      "sum": "h1:ArVM1jICfm7g4E4dBet+KHUFMLuxmj1Nxdp/tr3ByCU=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/txthinking/runnergroup/@v/v0.0.0-20250224021307-5864ffeb65ae.zip",
+      "verifiedH1": "h1:ArVM1jICfm7g4E4dBet+KHUFMLuxmj1Nxdp/tr3ByCU=",
+      "zipSha256": "14916d3a7d4874ca99336ddd2a05741f5019cbf4c56295e13397b1ce286537ba",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "3ae88bb797c7c18251e39aaea82b24c7841165b94cbd74644cc32ac0a1ac7c26"
+        }
+      ]
+    },
+    {
+      "path": "github.com/txthinking/socks5",
+      "version": "v0.0.0-20260601051520-339b044ab0eb",
+      "sum": "h1:cFSmrCbLJPb87QrwDhUTnguVLezlIqDiJuY8xKcFZnw=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/txthinking/socks5/@v/v0.0.0-20260601051520-339b044ab0eb.zip",
+      "verifiedH1": "h1:cFSmrCbLJPb87QrwDhUTnguVLezlIqDiJuY8xKcFZnw=",
+      "zipSha256": "5f07f251250f16d6456a592504f4519613912907b83f8dd73df58bbb8e9f680f",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "4ef866e5129e1366d250c6df788ad8ba74a619c3a73490ec8bebfa88830dc39e"
+        }
+      ]
+    },
+    {
+      "path": "github.com/u-root/uio",
+      "version": "v0.0.0-20230220225925-ffce2a382923",
+      "sum": "h1:tHNk7XK9GkmKUR6Gh8gVBKXc2MVSZ4G/NnWLtzw4gNA=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/u-root/uio/@v/v0.0.0-20230220225925-ffce2a382923.zip",
+      "verifiedH1": "h1:tHNk7XK9GkmKUR6Gh8gVBKXc2MVSZ4G/NnWLtzw4gNA=",
+      "zipSha256": "663715655a8e46662f75e9156b7e4175beefb70caae61e934cfb6fb849dfd1ee",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "babfb29ac285c50579ef027c197805f288be53a2fdea58adbf8f69a5e296d3ef"
+        }
+      ]
+    },
+    {
+      "path": "github.com/ulikunitz/xz",
+      "version": "v0.5.15",
+      "sum": "h1:9DNdB5s+SgV3bQ2ApL10xRc35ck0DuIX/isZvIk+ubY=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/ulikunitz/xz/@v/v0.5.15.zip",
+      "verifiedH1": "h1:9DNdB5s+SgV3bQ2ApL10xRc35ck0DuIX/isZvIk+ubY=",
+      "zipSha256": "ca1830f9abc6c99a003ad28f2b145ea0af0c99d5769ddff08d23ce055959fd12",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "701cbcc144a7c865b072f27547e66ddbf17ac44a3bd21f71149ace02518f107c"
+        },
+        {
+          "path": "cmd/gxz/licenses.go",
+          "sha256": "5ba84d32f01877ef90371b3ba41c27ee4a71ba47e45ac530fc7a830fa520910c"
+        },
+        {
+          "path": "cmd/xb/copyright.go",
+          "sha256": "0aa75c9c999aa7564c8e4c786b89dbfdba17890b02f9b05cb724ea688da2772c"
+        }
+      ]
+    },
+    {
+      "path": "github.com/vmihailenco/msgpack/v5",
+      "version": "v5.4.1",
+      "sum": "h1:cQriyiUvjTwOHg8QZaPihLWeRAAVoCpE00IUPn0Bjt8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/vmihailenco/msgpack/v5/@v/v5.4.1.zip",
+      "verifiedH1": "h1:cQriyiUvjTwOHg8QZaPihLWeRAAVoCpE00IUPn0Bjt8=",
+      "zipSha256": "f966b8091c59efce1b44e265097f239be5d4174a827be0a5debebae09517d2b8",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "1530185dd39cdde7cb2f786a7a5fcf8bc34368b6ae73c15e72bafe88fd80b9a2"
+        }
+      ]
+    },
+    {
+      "path": "github.com/vmihailenco/tagparser/v2",
+      "version": "v2.0.0",
+      "sum": "h1:y09buUbR+b5aycVFQs/g70pqKVZNBmxwAhO7/IwNM9g=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/vmihailenco/tagparser/v2/@v/v2.0.0.zip",
+      "verifiedH1": "h1:y09buUbR+b5aycVFQs/g70pqKVZNBmxwAhO7/IwNM9g=",
+      "zipSha256": "70096ead331b4ac4efc0bf740674cbe55772beee6eace39507a610c5652aa8b5",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0f02aac22084ef463aa5f42f566feeec6aa4c99653519744a8c25cb079da5b5d"
+        }
+      ]
+    },
+    {
+      "path": "github.com/x448/float16",
+      "version": "v0.8.4",
+      "sum": "h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/x448/float16/@v/v0.8.4.zip",
+      "verifiedH1": "h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=",
+      "zipSha256": "73b24a41037ea999ab66851e3798a0973dbb1f214925915b01f0820f7b2f1500",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "a555f1194fdac34da70fb416968f7e2217b02352c26c1eac2fa45fcb4290ae8d"
+        }
+      ]
+    },
+    {
+      "path": "github.com/xo/terminfo",
+      "version": "v0.0.0-20220910002029-abceb7e1c41e",
+      "sum": "h1:JVG44RsyaB9T2KIHavMF/ppJZNG9ZpyihvCd0w101no=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/github.com/xo/terminfo/@v/v0.0.0-20220910002029-abceb7e1c41e.zip",
+      "verifiedH1": "h1:JVG44RsyaB9T2KIHavMF/ppJZNG9ZpyihvCd0w101no=",
+      "zipSha256": "b8f4270191e08e135e932dfe168769046a4268ec7f3892593b1d773b2c5fa4cf",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "1f5f51151ba96f0492ce288bd007242f924fdad9f04002e175e951644340a891"
+        }
+      ]
+    },
+    {
+      "path": "github.com/yosida95/uritemplate/v3",
+      "version": "v3.0.2",
+      "sum": "h1:Ed3Oyj9yrmi9087+NczuL5BwkIc4wvTb5zIM+UJPGz4=",
+      "usedBy": [
+        "WarpScout",
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/github.com/yosida95/uritemplate/v3/@v/v3.0.2.zip",
+      "verifiedH1": "h1:Ed3Oyj9yrmi9087+NczuL5BwkIc4wvTb5zIM+UJPGz4=",
+      "zipSha256": "65a29b6ab759cd30a1ed496a8a77b144a5683b89d505cfde51f907cb7ab9b8bd",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0761aadfb1921103752869ee942d4a71bdd54494697684d4b13dc17ad9781191"
+        }
+      ]
+    },
+    {
+      "path": "gitlab.com/go-extension/aes-ccm",
+      "version": "v0.0.0-20230221065045-e58665ef23c7",
+      "sum": "h1:UNrDfkQqiEYzdMlNsVvBYOAJWZjdktqFE9tQh5BT2+4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/gitlab.com/go-extension/aes-ccm/@v/v0.0.0-20230221065045-e58665ef23c7.zip",
+      "verifiedH1": "h1:UNrDfkQqiEYzdMlNsVvBYOAJWZjdktqFE9tQh5BT2+4=",
+      "zipSha256": "49edefa08eb14c488b9cd08eab4067c6aa43f59fad8ca1995af3ae40b176bdfe",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "08b3d75b37035234019f060d0893078ae06c38e7dfb087f1803503a50dff41cd"
+        }
+      ]
+    },
+    {
+      "path": "gitlab.com/yawning/bsaes.git",
+      "version": "v0.0.0-20190805113838-0a714cd429ec",
+      "sum": "h1:FpfFs4EhNehiVfzQttTuxanPIT43FtkkCFypIod8LHo=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/gitlab.com/yawning/bsaes.git/@v/v0.0.0-20190805113838-0a714cd429ec.zip",
+      "verifiedH1": "h1:FpfFs4EhNehiVfzQttTuxanPIT43FtkkCFypIod8LHo=",
+      "zipSha256": "f619d6e47a42fbaddf6c1e688085c3016b756f7f3219e595b079d7017a121cea",
+      "noticeSources": [
+        {
+          "path": "LICENSE.txt",
+          "sha256": "a3d26ec9a42ce5d09c004cc3e5c433a0c9c7283cd778ac6f7a359457fbce6e34"
+        }
+      ]
+    },
+    {
+      "path": "go.uber.org/automaxprocs",
+      "version": "v1.6.0",
+      "sum": "h1:O3y2/QNTOdbF+e/dpXNNW7Rx2hZ4sTIPyybbxyNqTUs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/go.uber.org/automaxprocs/@v/v1.6.0.zip",
+      "verifiedH1": "h1:O3y2/QNTOdbF+e/dpXNNW7Rx2hZ4sTIPyybbxyNqTUs=",
+      "zipSha256": "964c6f548f7ee6df9fa3a9080d722c7950060bda0cb84ff9e2ae065f078813c4",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "5d7e88625cbc52ce4a5da7902d7afb09255635b5a60de640e202b1af943b9a19"
+        }
+      ]
+    },
+    {
+      "path": "go.yaml.in/yaml/v3",
+      "version": "v3.0.5",
+      "sum": "h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/go.yaml.in/yaml/v3/@v/v3.0.5.zip",
+      "verifiedH1": "h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=",
+      "zipSha256": "f2d70caa35f66283aec58b889af8c5f07c374c5934be27a738c1215263e19205",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "d18f6323b71b0b768bb5e9616e36da390fbd39369a81807cca352de4e4e6aa0b"
+        },
+        {
+          "path": "NOTICE",
+          "sha256": "f6c2dd3a67b576eafb89b80200b8b1627230bf3821a0c14cb99a22ac19107d00"
+        }
+      ]
+    },
+    {
+      "path": "go4.org/mem",
+      "version": "v0.0.0-20240501181205-ae6ca9944745",
+      "sum": "h1:Tl++JLUCe4sxGu8cTpDzRLd3tN7US4hOxG5YpKCzkek=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/go4.org/mem/@v/v0.0.0-20240501181205-ae6ca9944745.zip",
+      "verifiedH1": "h1:Tl++JLUCe4sxGu8cTpDzRLd3tN7US4hOxG5YpKCzkek=",
+      "zipSha256": "9b5037a57122457fdc5c2c0a31e3996b44cf9dfcdee5c53ed72adfd88d077795",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+        }
+      ]
+    },
+    {
+      "path": "go4.org/netipx",
+      "version": "v0.0.0-20260823151212-3075585bcbeb",
+      "sum": "h1:XBM4hvfwGAttkkiTIFfeigdfcL1xIfdKXqFdgiHGtDs=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/go4.org/netipx/@v/v0.0.0-20260823151212-3075585bcbeb.zip",
+      "verifiedH1": "h1:XBM4hvfwGAttkkiTIFfeigdfcL1xIfdKXqFdgiHGtDs=",
+      "zipSha256": "6d0c289f57693a2a5b7a64b4a7f79f0954ce8f7d451528fe602ea594fbcdffff",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "1bfc4f32f4ec8ca8fce54bd2d97784f003786753a69a78ca74ffae1574037fb9"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/crypto",
+      "version": "v0.33.0",
+      "sum": "h1:IOBPskki6Lysi0lo9qQvbxiQ+FvsCC/YWOecCHAixus=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/crypto/@v/v0.33.0.zip",
+      "verifiedH1": "h1:IOBPskki6Lysi0lo9qQvbxiQ+FvsCC/YWOecCHAixus=",
+      "zipSha256": "3b0c19c1d259e93464f540165470de872721e5fc66ce3f0d36ffd27d307ec5bb",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/crypto",
+      "version": "v0.53.0",
+      "sum": "h1:QZ4Muo8THX6CizN2vPPd5fBGHyogrdK9fG4wLPFUsto=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/crypto/@v/v0.53.0.zip",
+      "verifiedH1": "h1:QZ4Muo8THX6CizN2vPPd5fBGHyogrdK9fG4wLPFUsto=",
+      "zipSha256": "90ef99675e16b3e5105a80d93007faaf5de989c21fa5a47339b5062e72320c9e",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/exp",
+      "version": "v0.0.0-20240904232852-e7e105dedf7e",
+      "sum": "h1:I88y4caeGeuDQxgdoFPUq097j7kNfw6uvuiNxUBfcBk=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/exp/@v/v0.0.0-20240904232852-e7e105dedf7e.zip",
+      "verifiedH1": "h1:I88y4caeGeuDQxgdoFPUq097j7kNfw6uvuiNxUBfcBk=",
+      "zipSha256": "f9837e3d39cfcd0167b1c18efd5b9771a651cfd3e3c1cdba468c0373be1d49ac",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/exp",
+      "version": "v0.0.0-20260611194520-c48552f49976",
+      "sum": "h1:X8Hz2ImujgbmetVuW+w2YkyZChE3cBpZi2P158rTG9M=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/exp/@v/v0.0.0-20260611194520-c48552f49976.zip",
+      "verifiedH1": "h1:X8Hz2ImujgbmetVuW+w2YkyZChE3cBpZi2P158rTG9M=",
+      "zipSha256": "2ff12996d2155beccfaa1c59235ca4b9a1c9551c07345da1988a3b26782dd308",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/net",
+      "version": "v0.35.0",
+      "sum": "h1:T5GQRQb2y08kTAByq9L4/bz8cipCdA8FbRTXewonqY8=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/net/@v/v0.35.0.zip",
+      "verifiedH1": "h1:T5GQRQb2y08kTAByq9L4/bz8cipCdA8FbRTXewonqY8=",
+      "zipSha256": "9c746c215d695e80d6f4d1b1f1d55deaae5e451b4c031223af25f2b2f0757215",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/net",
+      "version": "v0.56.0",
+      "sum": "h1:Rw8j/hFzGvJUZwNBXnAtf5sVDVt+65SK2C7IxCxZt5o=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/net/@v/v0.56.0.zip",
+      "verifiedH1": "h1:Rw8j/hFzGvJUZwNBXnAtf5sVDVt+65SK2C7IxCxZt5o=",
+      "zipSha256": "bbc975b3ec9cd86892cfc515badc125657e135c00162d0da5de33f6d07930464",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/sync",
+      "version": "v0.11.0",
+      "sum": "h1:GGz8+XQP4FvTTrjZPzNKTMFtSXH80RAzG+5ghFPgK9w=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/sync/@v/v0.11.0.zip",
+      "verifiedH1": "h1:GGz8+XQP4FvTTrjZPzNKTMFtSXH80RAzG+5ghFPgK9w=",
+      "zipSha256": "0906a8026217a4e31c30ea5fc2514f18fc13480c62fe6bfae7a57e7ce0313de9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/sys",
+      "version": "v0.30.0",
+      "sum": "h1:QjkSwP/36a20jFYWkSue1YwXzLmsV5Gfq7Eiy72C1uc=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/sys/@v/v0.30.0.zip",
+      "verifiedH1": "h1:QjkSwP/36a20jFYWkSue1YwXzLmsV5Gfq7Eiy72C1uc=",
+      "zipSha256": "f5214bfec98f00e5432da68bbece03e98600fa41594ed026556cbde8fcb6f7c9",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/sys",
+      "version": "v0.46.0",
+      "sum": "h1:noSf2Fq6F8DBgS+LysIkx7rIExoNHJsxOAtPp4rthXw=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/sys/@v/v0.46.0.zip",
+      "verifiedH1": "h1:noSf2Fq6F8DBgS+LysIkx7rIExoNHJsxOAtPp4rthXw=",
+      "zipSha256": "36dc83b6bc5884d260cdbd9d09e597b1eed64d15dfdc374ca6e31aef99d533d7",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/term",
+      "version": "v0.29.0",
+      "sum": "h1:L6pJp37ocefwRRtYPKSWOWzOtWSxVajvz2ldH/xi3iU=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/term/@v/v0.29.0.zip",
+      "verifiedH1": "h1:L6pJp37ocefwRRtYPKSWOWzOtWSxVajvz2ldH/xi3iU=",
+      "zipSha256": "9d92c583d222113ac653848b3319ff559d2dba92f8232baff03d08fc9c0b8619",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/text",
+      "version": "v0.22.0",
+      "sum": "h1:bofq7m3/HAFvbF51jz3Q9wLg3jkvSPuiZu/pD1XwgtM=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/text/@v/v0.22.0.zip",
+      "verifiedH1": "h1:bofq7m3/HAFvbF51jz3Q9wLg3jkvSPuiZu/pD1XwgtM=",
+      "zipSha256": "939cb4c202aa8fa302f2ba6f9d29165ce82fce9c665d9a1a0bb0d9e51b79e6f5",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/text",
+      "version": "v0.38.0",
+      "sum": "h1:sXmwo9DwP3OK9EZ7PqAdaooSGozfl/3a6/xJcbzPRhE=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/text/@v/v0.38.0.zip",
+      "verifiedH1": "h1:sXmwo9DwP3OK9EZ7PqAdaooSGozfl/3a6/xJcbzPRhE=",
+      "zipSha256": "be98266212ac63cdc78631ae0ff8f783e0f5e47d9b6094c11ffebe43fd0424b3",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/time",
+      "version": "v0.10.0",
+      "sum": "h1:3usCWA8tQn0L8+hFJQNgzpWbd89begxN66o1Ojdn5L4=",
+      "usedBy": [
+        "mihomo"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/time/@v/v0.10.0.zip",
+      "verifiedH1": "h1:3usCWA8tQn0L8+hFJQNgzpWbd89begxN66o1Ojdn5L4=",
+      "zipSha256": "7420a12017bb47bd85ccab81f9d1f7a3ff6daf8da768256292bc1dbb3bf9ba63",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.org/x/time",
+      "version": "v0.15.0",
+      "sum": "h1:bbrp8t3bGUeFOx08pvsMYRTCVSMk89u4tKbNOZbp88U=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.org/x/time/@v/v0.15.0.zip",
+      "verifiedH1": "h1:bbrp8t3bGUeFOx08pvsMYRTCVSMk89u4tKbNOZbp88U=",
+      "zipSha256": "8cfb20e915fa5d6c3fd264304233f8d71a3385e48a37819239c532ad9da27f84",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+        }
+      ]
+    },
+    {
+      "path": "golang.zx2c4.com/wintun",
+      "version": "v0.0.0-20230126152724-0fa3db229ce2",
+      "sum": "h1:B82qJJgjvYKsXS9jeunTOisW56dUokqW/FOteYJJ/yg=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.zx2c4.com/wintun/@v/v0.0.0-20230126152724-0fa3db229ce2.zip",
+      "verifiedH1": "h1:B82qJJgjvYKsXS9jeunTOisW56dUokqW/FOteYJJ/yg=",
+      "zipSha256": "06599222daa6af8547045c446cefa9a2bab19d57bde1fc6436114308d79a2b4b",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "91276db973f25602d1aa43491f59cbc84cb88e6f151e1d0cc82a755563ce0195"
+        }
+      ]
+    },
+    {
+      "path": "golang.zx2c4.com/wireguard",
+      "version": "v0.0.0-20260522210424-ecfc5a8d5446",
+      "sum": "h1:cqHQ3AycTHvM2R7ikgyX57D+XvtcSnGylsLkOVhta/w=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/golang.zx2c4.com/wireguard/@v/v0.0.0-20260522210424-ecfc5a8d5446.zip",
+      "verifiedH1": "h1:cqHQ3AycTHvM2R7ikgyX57D+XvtcSnGylsLkOVhta/w=",
+      "zipSha256": "b49f63b29e173e7bc960b647b787d420e425c60e478d7a2f337ef219a0f74821",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "91276db973f25602d1aa43491f59cbc84cb88e6f151e1d0cc82a755563ce0195"
+        }
+      ]
+    },
+    {
+      "path": "gvisor.dev/gvisor",
+      "version": "v0.0.0-20260616165937-8e4bc62602eb",
+      "sum": "h1:TJ8BuwC+RUuKZgRETtxPjRk8e2Kj3kH08I73AKIdOFY=",
+      "usedBy": [
+        "WarpScout"
+      ],
+      "url": "https://proxy.golang.org/gvisor.dev/gvisor/@v/v0.0.0-20260616165937-8e4bc62602eb.zip",
+      "verifiedH1": "h1:TJ8BuwC+RUuKZgRETtxPjRk8e2Kj3kH08I73AKIdOFY=",
+      "zipSha256": "4784c302e3aa29288f5cb7501bbaa2085acf263f299ddfeac8b17d5df1d2cf16",
+      "noticeSources": [
+        {
+          "path": "LICENSE",
+          "sha256": "0fbab5c58efbdf6d31e8085214f2dd821659c03d73cff3ed2b08e98826ea1cd9"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "i1gen.go",
+      "sha256": "d7d834e3f7aea74a9ffec9dc5b4a6c2ea3f662d121f3a97f4b17497fedaa1f28",
+      "use": "DNS/SIP/STUN CPS construction adapted into finite immutable tuning profiles; no QUIC implementation copied"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "findsni.go",
+      "sha256": "6214742712653af0ae8c3f24033b9704c6175e8b11a1d55955271bbc59d7d613",
+      "use": "Default-first finite SNI candidate ordering; no CLI, global state or threshold-based winner selection copied"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "findjunk.go",
+      "sha256": "9d3118a0699af879ddc81e0b1142e8cee1b12765ee80588542bc0fd38f909b96",
+      "use": "Parameter-search reference; Tropa uses finite junk tiers with concrete returned parameters instead of the unbounded global loop"
+    },
+    {
+      "project": "openwarpkit/warpscout-android",
+      "revision": "463b897813c6fc740f9868b82bf5d609ba7b39e7",
+      "path": "core/engine.go",
+      "sha256": "4426c6d224f4b7b43bd326c42a4ddf71defb916310cf6e185cc55961fe8de505",
+      "use": "API design reference; no protocol implementation copied yet"
+    },
+    {
+      "project": "openwarpkit/warpscout-android",
+      "revision": "463b897813c6fc740f9868b82bf5d609ba7b39e7",
+      "path": "core/types.go",
+      "sha256": "0c54fe9c22acdf7caa434dc0172eb1dbf33fae8469cf9bb43c3475a08718881d",
+      "use": "API design reference; no protocol implementation copied yet"
+    },
+    {
+      "project": "openwarpkit/warpscout-android",
+      "revision": "463b897813c6fc740f9868b82bf5d609ba7b39e7",
+      "path": "mobileapi/bridge.go",
+      "sha256": "26e56ca59370377112a9d8eb10b11a68defbe042f5c5f113b1d391e5bfbd4c77",
+      "use": "API design reference; no protocol implementation copied yet"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "warp.go",
+      "sha256": "c305450ddf66f55d44b9b601ff5b3329a24d21a181f09f2e48d442a5a008083d",
+      "use": "WG UAPI, single-packet bind and userspace-device lifecycle adapted into session-owned internal/probe; no CLI or package-global state"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "bind.go",
+      "sha256": "80c56252902edb94eae94125c9d841afd6dfeb53cced484d2cc5da54599ae63f",
+      "use": "WG UAPI, single-packet bind and userspace-device lifecycle adapted into session-owned internal/probe; no CLI or package-global state"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "tunnel.go",
+      "sha256": "475e7ae20d0b764c3f147265b4cc33efe1bac80d6a059cca59ed967ac721fb5e",
+      "use": "WG UAPI, single-packet bind and userspace-device lifecycle adapted into session-owned internal/probe; no CLI or package-global state"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "masque.go",
+      "sha256": "ac1134639c126a7fe438a7596b1ed703449149faa8b994e3207548a5b6f77ba3",
+      "use": "Adapted enrolled-key TLS certificate, dial-lifetime and userspace packet-pump approach; registration, globals and terminal code excluded"
+    },
+    {
+      "project": "Diniboy1123/usque",
+      "revision": "6aa03fc97d12848dce34eedbd187fb1077b5d1ea",
+      "path": "api/masque.go",
+      "sha256": "950f11170c69a5fe2e897d07ab9798868ee806d3adc0212153c058354cd1b5ad",
+      "use": "Direct PrepareTlsConfig and H3 ConnectTunnel imports; direct-endpoint H2 dialing adapted with explicit TCP ownership and without environment proxy fallback"
+    }
+  ],
+  "protocolImplementationsCopied": true
+}

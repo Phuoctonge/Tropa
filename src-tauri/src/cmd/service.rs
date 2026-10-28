@@ -19,6 +19,8 @@ pub enum ServiceInstallOutcome {
 }
 
 async fn execute_service_operation_sync(status: ServiceStatus, error_code: &str) -> CmdResult<ServiceInstallOutcome> {
+    crate::core::service::ensure_service_management_available()
+        .map_err(|error| proxy_aware_coded_error(&error, error_code))?;
     let manager = CoreManager::global();
     let result = {
         let _lifecycle = manager.lifecycle_lock.lock().await;
@@ -152,6 +154,24 @@ mod tests {
         CoreAvailability, CoreInspection, InstallationStatus, ProtocolInfo, management::InstallationVerificationError,
     };
     use std::cell::Cell;
+
+    #[cfg(all(windows, feature = "portable"))]
+    #[tokio::test]
+    async fn portable_service_commands_reject_before_initializing_config_or_stopping_core() {
+        let failures = [
+            super::install_service().await.expect_err("portable install must fail"),
+            super::reinstall_service()
+                .await
+                .expect_err("portable reinstall must fail"),
+            super::repair_service().await.expect_err("portable repair must fail"),
+            super::uninstall_service()
+                .await
+                .expect_err("portable uninstall must fail"),
+        ];
+        for failure in failures {
+            assert!(failure.detail.contains("disabled in portable mode"));
+        }
+    }
 
     #[tokio::test]
     async fn rejected_installation_reports_sidecar_only_after_successful_continuation() {

@@ -38,6 +38,9 @@ const fn proxy_stop_intent(is_macos: bool, running_mode: RunningMode, decision: 
 }
 
 const fn startup_decision(status: &ServiceStatus, service_required: bool) -> StartupDecision {
+    if cfg!(all(windows, feature = "portable")) {
+        return StartupDecision::Sidecar;
+    }
     match status {
         ServiceStatus::Ready => StartupDecision::Service,
         ServiceStatus::NotInstalled if !service_required => StartupDecision::Sidecar,
@@ -456,6 +459,7 @@ impl CoreManager {
 
     #[tracing::instrument(skip_all, level = "info", fields(readiness_generation = tracing::field::Empty))]
     pub async fn uninstall_service_and_start_sidecar(&self) -> Result<()> {
+        crate::core::service::ensure_service_management_available()?;
         if !self.try_start_config_update() {
             anyhow::bail!("configuration update is already running");
         }
@@ -732,6 +736,9 @@ impl CoreManager {
     }
 
     pub(crate) async fn controlled_stop_core_inner(&self) -> Result<()> {
+        if self.owns_tropa_runtime() {
+            return self.stop_tropa_core_inner().await;
+        }
         self.controlled_stop_core_with_intent(ProxyStopIntent::Clear).await
     }
 
@@ -818,6 +825,10 @@ impl CoreManager {
     }
 
     async fn prepare_startup(&self) -> StartupDecision {
+        if cfg!(all(windows, feature = "portable")) {
+            crate::core::runstate::RUN_STATE.accept_sidecar();
+            return startup_decision(&ServiceStatus::SidecarAllowed, false);
+        }
         #[cfg(target_os = "windows")]
         self.wait_for_service_if_needed().await;
 
@@ -873,6 +884,9 @@ impl CoreManager {
         use std::sync::atomic::Ordering;
         use std::time::Instant;
 
+        if cfg!(feature = "portable") {
+            return;
+        }
         // An accepted Sidecar is the user's decision for this session, not a wait for the Service.
         let needs_service = Config::verge().await.latest_arc().enable_tun_mode.unwrap_or(false)
             && !crate::core::runstate::RUN_STATE.state().sidecar_allowed;
@@ -1485,6 +1499,28 @@ mod tests {
         }
     }
 
+    #[cfg(all(windows, feature = "portable"))]
+    #[test]
+    fn portable_startup_never_adopts_or_requires_a_service() {
+        for status in [
+            ServiceStatus::Ready,
+            ServiceStatus::NotInstalled,
+            ServiceStatus::NeedsReinstall,
+            ServiceStatus::Checking,
+            ServiceStatus::InstallRequired,
+            ServiceStatus::UninstallRequired,
+            ServiceStatus::ReinstallRequired,
+            ServiceStatus::ForceReinstallRequired,
+            ServiceStatus::Unavailable("offline".into()),
+            ServiceStatus::SidecarAllowed,
+        ] {
+            for tun_enabled in [false, true] {
+                assert_eq!(startup_decision(&status, tun_enabled), StartupDecision::Sidecar);
+            }
+        }
+    }
+
+    #[cfg(not(all(windows, feature = "portable")))]
     #[test]
     fn startup_waits_when_a_service_requirement_cannot_be_satisfied() {
         assert_eq!(startup_decision(&ServiceStatus::Ready, true), StartupDecision::Service);
@@ -1511,6 +1547,7 @@ mod tests {
         assert_eq!(startup_decision(&ServiceStatus::Checking, true), StartupDecision::Wait);
     }
 
+    #[cfg(not(all(windows, feature = "portable")))]
     #[test]
     fn service_evidence_failures_never_silently_fall_back() {
         assert_eq!(

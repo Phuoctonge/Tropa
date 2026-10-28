@@ -6,6 +6,7 @@ use crate::utils;
 use crate::utils::window_manager::WindowManager;
 use anyhow::{Context as _, anyhow};
 use clash_verge_logging::{Type, logging};
+#[cfg(not(all(windows, feature = "portable")))]
 use parking_lot::Mutex;
 use std::sync::mpsc::RecvTimeoutError;
 use tokio::time::Duration;
@@ -62,6 +63,7 @@ where
     }
 }
 
+#[cfg(any(not(all(windows, feature = "portable")), test))]
 async fn run_interactive_cleanup_transition<Stop, StopFuture, Ancillary, AncillaryFuture>(
     stop_core: Stop,
     ancillary_cleanup: Ancillary,
@@ -134,6 +136,8 @@ pub async fn quit() -> clash_verge_signal::ShutdownOutcome {
     logging!(debug, Type::System, "启动退出流程");
     // 设置退出标志
     handle::Handle::global().set_is_exiting();
+    #[cfg(all(windows, feature = "portable"))]
+    crate::core::warp_connection::WARP_CONNECTION.cancel();
 
     Config::apply_all_and_save_file().await;
 
@@ -174,6 +178,22 @@ pub async fn quit() -> clash_verge_signal::ShutdownOutcome {
     clash_verge_signal::ShutdownOutcome::Committed
 }
 
+#[cfg(all(windows, feature = "portable"))]
+pub async fn clean_async() -> CleanupResult {
+    match crate::core::warp_connection::WARP_CONNECTION.disconnect().await {
+        Ok(_) => CleanupResult {
+            all_success: true,
+            core_stopped: true,
+            stop_error: None,
+        },
+        Err(error) => CleanupResult {
+            stop_error: Some(error.to_string()),
+            ..Default::default()
+        },
+    }
+}
+
+#[cfg(not(all(windows, feature = "portable")))]
 pub async fn clean_async() -> CleanupResult {
     let stop_error = Mutex::new(None);
     let mut result = run_interactive_cleanup_transition(

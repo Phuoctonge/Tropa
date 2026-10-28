@@ -1,3 +1,17 @@
+# Tropa
+
+Portable game-focused WARP client based on Clash Verge Rev. The first native baseline builds from v2.5.8; portable runtime and game routing are not yet verified.
+
+[Tropa overview](docs/tropa-overview.md) | [Design](docs/superpowers/specs/2026-10-27-game-warp-design.md) | [Roadmap](docs/roadmap.md)
+
+The current Windows x64 package uses a pinned mihomo core built for x86-64-v2 and requires an existing WebView2 Runtime. Its emoji font has separate Apache-2.0 / CC BY 4.0 notices. Clean Windows and native connection checks remain pending.
+
+Local development packages are checked with `python scripts/verify-tropa-package.py <archive.zip>` without running bundled executables. See [component inventory](docs/third-party-components.md) and [portable release status](docs/validation/portable-release.md); public release gates remain open.
+
+The original project README and attribution follow.
+
+---
+
 <h1 align="center">
   <img src="./src-tauri/icons/icon.png" alt="Clash" width="128" />
   <br>

@@ -161,7 +161,7 @@ impl CoreManager {
     #[tracing::instrument(skip_all, level = "info", fields(pid = tracing::field::Empty))]
     pub(super) async fn start_core_by_sidecar(&self) -> Result<()> {
         self.wait_for_sidecar_exit().await?;
-        let execution = clash_verge_service_ipc::execution::reserve_sidecar()
+        let execution = service::reserve_sidecar()
             .await
             .inspect_err(service::record_residual_service)
             .map_err(explain_core_occupancy)?;
@@ -171,8 +171,11 @@ impl CoreManager {
         handle::Handle::app_handle()
             .mihomo()
             .update_socket_path(dirs::path_to_str(&sidecar_ipc)?.to_owned())?;
+        let tropa_runtime = self.tropa_runtime.lock().clone();
         #[cfg(target_os = "windows")]
-        let config_file = if crate::core::runstate::RUN_STATE.state().is_admin {
+        let config_file = if let Some(path) = &tropa_runtime {
+            path.clone()
+        } else if crate::core::runstate::RUN_STATE.state().is_admin {
             Config::generate_file().await?
         } else {
             // Reconciliation persists the preference later; the first spawn must already have TUN off.
@@ -182,17 +185,26 @@ impl CoreManager {
         #[cfg(not(target_os = "windows"))]
         let config_file = Config::generate_file().await?;
         let app_handle = handle::Handle::app_handle();
-        let clash_core = Config::verge().await.latest_arc().get_valid_clash_core();
+        let clash_core = if tropa_runtime.is_some() {
+            "verge-mihomo".into()
+        } else {
+            Config::verge().await.latest_arc().get_valid_clash_core()
+        };
         let config_dir = dirs::app_home_dir()?;
         #[cfg(unix)]
         discard_unwritable_core_cache(&config_dir);
 
         #[cfg(unix)]
         let previous_mask = unsafe { tauri_plugin_clash_verge_sysinfo::libc::umask(0o077) };
-        let command = app_handle
-            .shell()
-            .sidecar(clash_core.as_str())
-            .map_err(|error| anyhow::anyhow!("failed to build sidecar command for core {clash_core:?}: {error:#}"))?;
+        let command = if tropa_runtime.is_some() {
+            app_handle
+                .shell()
+                .command(dirs::app_resources_dir()?.join("verge-mihomo.exe"))
+        } else {
+            app_handle.shell().sidecar(clash_core.as_str()).map_err(|error| {
+                anyhow::anyhow!("failed to build sidecar command for core {clash_core:?}: {error:#}")
+            })?
+        };
         let command = command.args([
             "-d",
             dirs::path_to_str(&config_dir)?,
@@ -306,7 +318,9 @@ impl CoreManager {
         self.set_job_handle(Some(job));
         self.set_running_child_sidecar(child);
         self.core_started(RunningMode::Sidecar);
-        self.restore_selected_nodes().await;
+        if tropa_runtime.is_none() {
+            self.restore_selected_nodes().await;
+        }
 
         Ok(())
     }
@@ -330,11 +344,13 @@ impl CoreManager {
             }
         }
         let result = self.wait_for_sidecar_exit().await;
-        self.core_stopped();
+        if result.is_ok() {
+            self.core_stopped();
+        }
         result
     }
 
-    async fn wait_for_sidecar_exit(&self) -> Result<()> {
+    pub(super) async fn wait_for_sidecar_exit(&self) -> Result<()> {
         let mut exit = self.sidecar_exit.lock().await;
         if let Some(task) = exit.as_mut() {
             tokio::time::timeout(std::time::Duration::from_secs(5), task)
@@ -597,7 +613,7 @@ mod readiness_tests {
 }
 
 #[cfg(target_os = "windows")]
-fn create_and_assign_sidecar_job(child_pid: u32) -> Result<OwnedHandle> {
+pub(crate) fn create_and_assign_sidecar_job(child_pid: u32) -> Result<OwnedHandle> {
     unsafe {
         let raw_job: HANDLE = CreateJobObjectW(std::ptr::null(), std::ptr::null());
         if raw_job.is_null() {

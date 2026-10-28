@@ -1,4 +1,5 @@
 import { DragDropProvider, KeyboardSensor, PointerSensor } from '@dnd-kit/react'
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded'
 import { Box, List, Menu, MenuItem, SvgIcon } from '@mui/material'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -175,6 +176,15 @@ export const LayoutSidebar = (props: LayoutSidebarProps) => {
 
       {/* Navigation menu */}
       <List className="the-menu" onContextMenu={handleMenuContextMenu}>
+        <LayoutItem
+          to="/"
+          icon={[
+            <ArrowBackRounded key="mono" />,
+            <ArrowBackRounded key="color" />,
+          ]}
+        >
+          Tropa
+        </LayoutItem>
         <DragDropProvider sensors={SENSORS} onDragEnd={handleMenuDragEnd}>
           {navMenuItems}
         </DragDropProvider>

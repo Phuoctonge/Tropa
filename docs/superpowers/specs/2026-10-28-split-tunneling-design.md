@@ -1,0 +1,15 @@
+# Application split tunneling
+
+The reported defect is an expectation mismatch: the EXE picker saves a game path while the runtime still uses `MATCH,WARP`. Selecting Firefox therefore does not exclude Chrome. Replace this placeholder surface with explicit application routing, leaving future game-server optimization separate.
+
+Two modes: all computer traffic through WARP; or only the selected application executables through WARP, with a final DIRECT rule for other processes. Store an explicit routing mode and a bounded application-path list in portable preferences. Legacy `game` data must not silently activate a routing policy. Keep it as a suggested previous selection which the user can explicitly add. An empty selected-applications policy must refuse connection rather than route the entire computer through WARP.
+
+Match exact Windows process paths, case-insensitively, rather than executable names shared by different installations. Resolve the known FirefoxPortable.exe launcher to its installed App/Firefox64/firefox.exe or App/Firefox/firefox.exe child executable, and show the resolved executable to the user. Do not assume arbitrary launcher children inherit process rules. Unknown launchers require choosing the actual executable. Changes require disconnection; configuration writes and connection startup share operation ownership.
+
+Use pinned mihomo process routing with find-process-mode always. Selected mode must not use the all-computer DNS-through-WARP setting: its general DNS resolver uses DIRECT, while the WARP outbound retains remote DNS resolution for selected applications. Unknown or unidentifiable processes follow DIRECT in selected mode; do not claim fail-closed application isolation or a kill switch.
+
+The existing system-wide HTTPS WARP check cannot validate selected mode because Tropa itself should be DIRECT. Add a random-authenticated, loopback-only verification listener with a fixed WARP outbound to the owned runtime; confirm warp=on/plus through it for selected mode. Keep system-path verification for all mode. A successful outbound check alone does not prove process separation: verify selected and unselected process paths separately in native TUN tests before claiming that behavior works on Windows.
+
+The connected view retains the active routing snapshot. Show routing mode on the home screen and label the panel Split tunneling, with an application list and add/remove actions. Do not label a saved EXE as game optimization. Prevent mode/list edits during an active connection or operation; clearly instruct the user to disconnect and reconnect.
+
+No updater, protocol selection, server filtering, automatic switching, game latency optimization or arbitrary child-process discovery changes are in scope. Preserve existing user processes and connections during development. Tests must cover legacy configuration, empty selected mode, exact-path escaping, explicit portable launcher resolution, routing/DNS defaults, and the distinction between tunnel verification and real process routing.

@@ -1,0 +1,20 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Tropa",
+  "identifier": "app.tropa.portable",
+  "bundle": {
+    "active": false,
+    "createUpdaterArtifacts": false,
+    "externalBin": [],
+    "publisher": "Tropa",
+    "shortDescription": "Tropa portable WARP client",
+    "longDescription": "Portable WARP client with automatic connection discovery"
+  },
+  "build": {
+    "beforeBuildCommand": "node scripts/prepare-tropa.mjs && npx --yes pnpm@12.10.0 run web:build"
+  },
+  "plugins": {
+    "updater": null,
+    "deep-link": { "desktop": { "schemes": [] } }
+  }
+}

@@ -35,7 +35,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     #[cfg(not(feature = "clippy"))]
-    tauri_build::build();
+    {
+        let mut attributes = tauri_build::Attributes::new();
+        if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows")
+            && std::env::var_os("CARGO_FEATURE_PORTABLE").is_some()
+        {
+            println!("cargo:rerun-if-changed=tropa.manifest.xml");
+            attributes = attributes.windows_attributes(
+                tauri_build::WindowsAttributes::new().app_manifest(include_str!("tropa.manifest.xml")),
+            );
+        }
+        tauri_build::try_build(attributes)?;
+    }
 
     Ok(())
 }

@@ -105,9 +105,11 @@ pub mod runtime;
 pub mod save_profile;
 pub mod service;
 pub mod system;
+pub mod tropa;
 pub mod uwp;
 pub mod validate;
 pub mod verge;
+pub mod warp_account;
 pub mod webdav;
 
 // Re-export all command functions for backwards compatibility

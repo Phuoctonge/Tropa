@@ -8,12 +8,14 @@ use std::{
 };
 use tauri::Manager as _;
 
-#[cfg(not(feature = "verge-dev"))]
+#[cfg(all(windows, feature = "portable"))]
+pub static APP_ID: &str = "app.tropa.portable";
+#[cfg(all(not(feature = "verge-dev"), not(all(windows, feature = "portable"))))]
 pub static APP_ID: &str = "io.github.clash-verge-rev.clash-verge-rev";
 #[cfg(not(feature = "verge-dev"))]
 pub static BACKUP_DIR: &str = "clash-verge-rev-backup";
 
-#[cfg(feature = "verge-dev")]
+#[cfg(all(feature = "verge-dev", not(all(windows, feature = "portable"))))]
 pub static APP_ID: &str = "io.github.clash-verge-rev.clash-verge-rev.dev";
 #[cfg(feature = "verge-dev")]
 pub static BACKUP_DIR: &str = "clash-verge-rev-backup-dev";
@@ -24,15 +26,39 @@ pub static PROFILE_YAML: &str = "profiles.yaml";
 /// Marks that the one-shot raise of too-short auto-update intervals has already run.
 pub static UPDATE_INTERVAL_MIGRATED: &str = ".update-interval-migrated";
 
-/// Uses the same platform data resolver as Tauri, including before its handle exists.
+/// Resolves the data root before and after Tauri initialization.
 pub fn app_home_dir() -> Result<PathBuf> {
-    ::dirs::data_dir()
-        .map(|root| root.join(APP_ID))
-        .ok_or_else(|| anyhow::anyhow!("Failed to get the app home directory"))
+    #[cfg(all(windows, feature = "portable"))]
+    {
+        let executable = std::env::current_exe()?;
+        let directory = executable
+            .parent()
+            .ok_or_else(|| anyhow::anyhow!("Failed to get the executable directory"))?;
+        Ok(directory.join("data"))
+    }
+    #[cfg(not(all(windows, feature = "portable")))]
+    {
+        ::dirs::data_dir()
+            .map(|root| root.join(APP_ID))
+            .ok_or_else(|| anyhow::anyhow!("Failed to get the app home directory"))
+    }
 }
 
 pub fn preinit_app_data_dir() -> Result<PathBuf> {
     app_home_dir()
+}
+
+#[cfg(all(test, windows, feature = "portable"))]
+mod portable_data_tests {
+    #[test]
+    fn startup_and_runtime_keep_data_beside_the_executable() -> anyhow::Result<()> {
+        let executable = std::env::current_exe()?;
+        let expected = executable.parent().expect("test executable has a parent").join("data");
+
+        assert_eq!(super::preinit_app_data_dir()?, expected);
+        assert_eq!(super::app_home_dir()?, expected);
+        Ok(())
+    }
 }
 
 pub fn app_resources_dir() -> Result<PathBuf> {

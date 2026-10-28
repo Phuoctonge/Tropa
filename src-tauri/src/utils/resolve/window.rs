@@ -13,11 +13,29 @@ const LIGHT_BACKGROUND_COLOR: Color = Color(245, 245, 245, 255); // #F5F5F5
 const DARK_BACKGROUND_HEX: &str = "#2E303D";
 const LIGHT_BACKGROUND_HEX: &str = "#F5F5F5";
 
-const DEFAULT_WIDTH: f64 = 940.0;
-const DEFAULT_HEIGHT: f64 = 700.0;
+const DEFAULT_WIDTH: f64 = if cfg!(all(windows, feature = "portable")) {
+    420.0
+} else {
+    940.0
+};
+const DEFAULT_HEIGHT: f64 = if cfg!(all(windows, feature = "portable")) {
+    720.0
+} else {
+    700.0
+};
 
-const MINIMAL_WIDTH: f64 = 520.0;
+const MINIMAL_WIDTH: f64 = if cfg!(all(windows, feature = "portable")) {
+    360.0
+} else {
+    520.0
+};
 const MINIMAL_HEIGHT: f64 = 520.0;
+
+#[cfg(all(test, windows, feature = "portable"))]
+#[test]
+fn portable_window_accepts_the_compact_interface() {
+    assert!(!restored_window_size_is_too_small(420, 720));
+}
 
 #[cfg(target_os = "linux")]
 const DEFAULT_DECORATIONS: bool = false;
@@ -81,7 +99,7 @@ pub async fn build_new_window() -> Result<WebviewWindow, String> {
         "main", /* the unique window label */
         tauri::WebviewUrl::App(start_page.into()),
     )
-    .title("Clash Verge")
+    .title("Tropa")
     .center()
     .decorations(DEFAULT_DECORATIONS)
     .fullscreen(false)
@@ -98,6 +116,15 @@ pub async fn build_new_window() -> Result<WebviewWindow, String> {
         logging_error!(Type::Window, window.show());
         logging_error!(Type::Window, window.set_focus());
     });
+
+    #[cfg(all(windows, feature = "portable"))]
+    {
+        builder = builder.data_directory(
+            crate::utils::dirs::app_home_dir()
+                .map_err(|error| error.to_string())?
+                .join("webview"),
+        );
+    }
 
     if let Some(theme) = resolved_theme {
         builder = builder.theme(Some(theme));
