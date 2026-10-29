@@ -32,16 +32,18 @@ Automatic grouping of game launchers, related processes and shared anti-cheat
 services remains research; it is not part of the current routing behavior.
 Game-specific server measurements are a separate planned feature.
 
-## Download a development build
+## Download a preview
 
-1. Open [Tropa Windows Portable in Actions](https://github.com/Phuoctonge/Tropa/actions/workflows/tropa-portable.yml).
-2. Select a successfully completed run and download its `Tropa-windows-x64-<run number>` artifact.
-3. Extract the artifact, then extract the included `Tropa-windows-x64.zip` into a writable folder.
-4. Run `Tropa.exe` and approve the Windows administrator prompt. Keep the accompanying resources and licenses.
+1. Open [Releases](https://github.com/Phuoctonge/Tropa/releases) and select an application release marked **Pre-release**.
+2. Download `Tropa-windows-x64.zip` and extract it into a writable folder.
+3. Run `Tropa.exe` and approve the Windows administrator prompt. Keep the accompanying resources and licenses.
 
-The artifact also contains checksums, source snapshots and build records.
-The `tropa-build-inputs-v1` prerelease contains dependency inputs for CI;
-it is not a Tropa application download.
+Checksums, source snapshots and build records are attached to the release.
+The `tropa-build-inputs-v1` prerelease contains CI dependencies, not a Tropa
+application download.
+
+Intermediate development builds remain available as
+[Actions artifacts](https://github.com/Phuoctonge/Tropa/actions/workflows/tropa-portable.yml).
 
 ## Requirements
 

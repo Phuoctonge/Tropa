@@ -2,6 +2,9 @@ name: Tropa Windows Portable
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*-preview.*'
 
 permissions:
   contents: read
@@ -105,7 +108,7 @@ jobs:
           python scripts/verify-tropa-package.py .artifacts/portable/Tropa-windows-x64.zip --build-record .artifacts/validation/github-ci/build.json --source-snapshot .artifacts/validation/github-ci/source.zip --engine-build .artifacts/engine-build/github-ci
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $hash = (Get-FileHash .artifacts/portable/Tropa-windows-x64.zip -Algorithm SHA256).Hash.ToLowerInvariant()
-          "$hash  Tropa-windows-x64.zip" | Set-Content .artifacts/portable/SHA256SUMS.txt -Encoding utf8
+          [IO.File]::WriteAllText((Join-Path $PWD '.artifacts/portable/SHA256SUMS.txt'), "$hash  Tropa-windows-x64.zip`n", [Text.UTF8Encoding]::new($false))
 
       - uses: actions/upload-artifact@v4
         with:
@@ -131,3 +134,45 @@ jobs:
           retention-days: 7
           include-hidden-files: true
           path: .artifacts/validation/github-ci/cargo.jsonl
+
+  publish-preview:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: windows-x64
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Tropa-windows-x64-${{ github.run_number }}
+          path: .artifacts/release
+
+      - name: Publish verified preview assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          cd .artifacts/release
+          (cd portable && sed 's/\r$//' SHA256SUMS.txt | sha256sum --check)
+          mkdir assets
+          cp portable/Tropa-windows-x64.zip assets/
+          cp validation/github-ci/source.zip assets/Tropa-source.zip
+          cp validation/github-ci/build.json assets/Tropa-build.json
+          cp engine-build/github-ci/source.zip assets/Tropa-worker-source.zip
+          cp engine-build/github-ci/build.json assets/Tropa-worker-build.json
+          cp build-inputs/mihomo-source.zip assets/mihomo-source.zip
+          (cd assets && sha256sum *.zip *.json > SHA256SUMS.txt)
+          cat > notes.md <<'NOTES'
+          Тестовая portable-сборка Tropa для Windows x64.
+
+          Скачайте Tropa-windows-x64.zip, распакуйте и запустите Tropa.exe.
+          Сохраните рядом ресурсы и лицензии. Нужны WebView2 и права администратора.
+
+          Сборка и проверка архива прошли в CI. Это неподписанная версия для
+          тестирования; CI не подтверждает работу игр, античитов или всех сетевых режимов.
+          Проверка лицензий и готовность публичного выпуска ещё не завершены.
+
+          Исходники компонентов, сведения о сборке и контрольные суммы приложены.
+          NOTES
+          gh release create "$RELEASE_TAG" assets/* --repo "$GH_REPO" --verify-tag --prerelease --title "Tropa $RELEASE_TAG" --notes-file notes.md

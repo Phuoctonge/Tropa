@@ -2,7 +2,9 @@
 
 The **Tropa Windows Portable** workflow builds a Windows x64 development package
 on a fresh Windows runner. Start it from Actions after pushing the desired source
-revision. It does not publish an application release or enable a tunnel.
+revision. Manual runs upload development artifacts without publishing a release.
+Pushing a tag matching `v*-preview.*` runs the same checks and publishes a
+GitHub prerelease only after successful packaging. Neither path enables a tunnel.
 
 The workflow installs Rust 1.99.0, Go 1.26.3, Node 24.21.0 and pnpm 12.10.0. It
 downloads locked dependencies before running the existing offline, source-bound
@@ -28,3 +30,16 @@ the app. Keep the adjacent resources and licenses in place.
 CI compilation does not establish real TUN routing, anti-cheat compatibility,
 clean-machine acceptance or public release readiness. The package remains an
 unsigned development build, with pending obligations recorded in its inventory.
+
+## Preview publication
+
+Push a unique preview tag, for example `v0.1.0-preview.2`, at the source commit
+intended for distribution. The publication job needs a successful Windows build
+and receives `contents: write`; the build job retains read-only permissions.
+The job downloads that run's artifact, checks the ZIP checksum and attaches the
+portable archive, named app/worker source snapshots, build records, mihomo source
+and checksums to a prerelease. Existing release tags are not overwritten.
+
+The first preview promotes successful run 40850455594 at commit
+`9d013a048c6f6caf75fc33031791e21eeea5d533`. Subsequent README and publication
+workflow changes do not change the provenance of that already-built executable.
