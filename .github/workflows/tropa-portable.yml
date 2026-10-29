@@ -157,13 +157,23 @@ jobs:
           (cd portable && sed 's/\r$//' SHA256SUMS.txt | sha256sum --check)
           mkdir assets
           cp portable/Tropa-windows-x64.zip assets/
-          cp validation/github-ci/source.zip assets/Tropa-source.zip
-          cp validation/github-ci/build.json assets/Tropa-build.json
-          cp engine-build/github-ci/source.zip assets/Tropa-worker-source.zip
-          cp engine-build/github-ci/build.json assets/Tropa-worker-build.json
-          cp build-inputs/mihomo-source.zip assets/mihomo-source.zip
-          (cd assets && sha256sum *.zip *.json > SHA256SUMS.txt)
-          cat > notes.md <<'NOTES'
+          python3 - <<'PY'
+          from zipfile import ZIP_DEFLATED, ZipFile
+
+          sources = {
+              "Tropa-source.zip": "validation/github-ci/source.zip",
+              "Tropa-build.json": "validation/github-ci/build.json",
+              "Tropa-worker-source.zip": "engine-build/github-ci/source.zip",
+              "Tropa-worker-build.json": "engine-build/github-ci/build.json",
+              "mihomo-source.zip": "build-inputs/mihomo-source.zip",
+          }
+          with ZipFile("assets/Tropa-sources.zip", "w", compression=ZIP_DEFLATED) as archive:
+              for name, path in sources.items():
+                  archive.write(path, name)
+          PY
+          (cd assets && sha256sum *.zip > SHA256SUMS.txt)
+          printf '[**Скачать Tropa для Windows x64**](https://github.com/%s/releases/download/%s/Tropa-windows-x64.zip)\n\n' "$GH_REPO" "$RELEASE_TAG" > notes.md
+          cat >> notes.md <<'NOTES'
           Тестовая portable-сборка Tropa для Windows x64.
 
           Скачайте Tropa-windows-x64.zip, распакуйте и запустите Tropa.exe.
@@ -173,6 +183,8 @@ jobs:
           тестирования; CI не подтверждает работу игр, античитов или всех сетевых режимов.
           Проверка лицензий и готовность публичного выпуска ещё не завершены.
 
-          Исходники компонентов, сведения о сборке и контрольные суммы приложены.
+          Для запуска нужен только Tropa-windows-x64.zip.
+          Tropa-sources.zip содержит исходники компонентов и сведения о сборке;
+          SHA256SUMS.txt — контрольные суммы двух архивов.
           NOTES
           gh release create "$RELEASE_TAG" assets/* --repo "$GH_REPO" --verify-tag --prerelease --title "Tropa $RELEASE_TAG" --notes-file notes.md

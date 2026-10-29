@@ -37,8 +37,8 @@ Push a unique preview tag, for example `v0.1.0-preview.2`, at the source commit
 intended for distribution. The publication job needs a successful Windows build
 and receives `contents: write`; the build job retains read-only permissions.
 The job downloads that run's artifact, checks the ZIP checksum and attaches the
-portable archive, named app/worker source snapshots, build records, mihomo source
-and checksums to a prerelease. Existing release tags are not overwritten.
+portable archive, a single `Tropa-sources.zip` containing the named app/worker
+source snapshots, build records and mihomo source, and `SHA256SUMS.txt` to a prerelease. Existing release tags are not overwritten.
 
 The first preview promotes successful run 40850455594 at commit
 `9d013a048c6f6caf75fc33031791e21eeea5d533`. Subsequent README and publication

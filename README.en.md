@@ -34,11 +34,14 @@ Game-specific server measurements are a separate planned feature.
 
 ## Download a preview
 
+[**Download Tropa for Windows x64**](https://github.com/Phuoctonge/Tropa/releases/download/v0.1.0-preview.1/Tropa-windows-x64.zip)
+
 1. Open [Releases](https://github.com/Phuoctonge/Tropa/releases) and select an application release marked **Pre-release**.
 2. Download `Tropa-windows-x64.zip` and extract it into a writable folder.
 3. Run `Tropa.exe` and approve the Windows administrator prompt. Keep the accompanying resources and licenses.
 
-Checksums, source snapshots and build records are attached to the release.
+Only `Tropa-windows-x64.zip` is needed to run the app. `Tropa-sources.zip`
+contains component sources and build records; `SHA256SUMS.txt` contains the checksums.
 The `tropa-build-inputs-v1` prerelease contains CI dependencies, not a Tropa
 application download.
 
