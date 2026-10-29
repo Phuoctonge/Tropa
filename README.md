@@ -4,82 +4,84 @@
 
 <h1 align="center">Tropa</h1>
 
-<p align="center">A portable Cloudflare WARP client for Windows.</p>
+<p align="center">Русский · <a href="README.en.md">English</a></p>
 
-Tropa connects through WARP, finds usable endpoints and lets you choose between
-automatic connection selection and a specific server. Selecting a game is not
-required to connect. The project is based on Clash Verge Rev and uses mihomo
-with an owned Go discovery worker.
+<p align="center">Портативный клиент Cloudflare WARP для Windows.</p>
 
-**Development preview.** Packages are unsigned test builds. Public release
-readiness, clean-machine compatibility and the remaining license reviews are
-still in progress.
+Tropa подключается через WARP, находит доступные адреса и позволяет выбирать
+между автоматическим подбором подключения и конкретным сервером. Для подключения
+не нужно выбирать игру. Приложение основано на Clash Verge Rev и использует
+mihomo вместе с собственным модулем поиска на Go.
 
-## Features
+**Версия в разработке.** Доступные пакеты предназначены для тестирования и не
+подписаны цифровой подписью. Проверки на чистой Windows, подготовка публичного
+выпуска и оставшаяся проверка лицензий ещё не завершены.
 
-- Automatic connection selection and manual server/profile selection.
-- Connection search for WireGuard, AmneziaWG and MASQUE HTTP/3 and HTTP/2.
-- An expandable server table with protocol, measurements and available location details.
-- Split tunneling for selected executable paths or folders, or routing the whole computer through WARP.
-- A portable folder containing the application, its resources and license notices.
-- Close-to-tray behavior and explicit disconnect/exit controls.
+## Возможности
 
-Protocol availability depends on the network and endpoint. Search results are
-candidates until the application confirms that the connection passes traffic.
-Automatic grouping of game launchers, related processes and shared anti-cheat
-services remains research; it is not part of the current routing behavior.
-Game-specific server measurements are a separate planned feature.
+- Автоматический подбор подключения и ручной выбор сервера или профиля.
+- Поиск подключений WireGuard, AmneziaWG и MASQUE HTTP/3 и HTTP/2.
+- Раскрывающаяся таблица серверов с протоколом, результатами измерений и доступной информацией о расположении.
+- Раздельное туннелирование по выбранным EXE или папкам либо подключение всего компьютера через WARP.
+- Портативная папка с приложением, необходимыми ресурсами и лицензионными уведомлениями.
+- Сворачивание в трей, отключение соединения и полный выход из приложения.
 
-## Download a development build
+Доступность протоколов зависит от сети и выбранного адреса. Найденные варианты
+считаются кандидатами, пока приложение не подтвердит передачу данных через туннель.
+Автоматическое объединение игры, лаунчера, связанных процессов и общих служб
+античита пока исследуется и не входит в текущую маршрутизацию. Измерения серверов
+для конкретной игры запланированы как отдельная функция.
 
-1. Open [Tropa Windows Portable in Actions](https://github.com/Phuoctonge/Tropa/actions/workflows/tropa-portable.yml).
-2. Select a successfully completed run and download its `Tropa-windows-x64-<run number>` artifact.
-3. Extract the artifact, then extract the included `Tropa-windows-x64.zip` into a writable folder.
-4. Run `Tropa.exe` and approve the Windows administrator prompt. Keep the accompanying resources and licenses.
+## Скачать тестовую сборку
 
-The artifact also contains checksums, source snapshots and build records.
-The `tropa-build-inputs-v1` prerelease contains dependency inputs for CI;
-it is not a Tropa application download.
+1. Откройте [Tropa Windows Portable в Actions](https://github.com/Phuoctonge/Tropa/actions/workflows/tropa-portable.yml).
+2. Выберите успешно завершённый запуск и скачайте его артефакт `Tropa-windows-x64-<номер запуска>`.
+3. Распакуйте артефакт, затем находящийся внутри `Tropa-windows-x64.zip` в папку с доступом на запись.
+4. Запустите `Tropa.exe` и подтвердите запрос прав администратора Windows. Сохраните рядом папки ресурсов и лицензий.
 
-## Requirements
+В артефакте также находятся контрольные суммы, снимки исходников и сведения
+о сборке. Предварительный выпуск `tropa-build-inputs-v1` содержит зависимости
+для сборки на GitHub, а не готовое приложение Tropa.
 
-- Windows x64 and a processor supporting x86-64-v2, required by the pinned mihomo build.
-- Microsoft Edge WebView2 Runtime already installed.
-- Administrator rights for the portable application and its TUN connection.
+## Требования
 
-Portable means running from an extracted folder without a Tropa installer.
-It does not mean a single executable or that Windows runtime dependencies are bundled.
+- Windows x64 и процессор с поддержкой x86-64-v2, необходимой закреплённой версии mihomo.
+- Установленный Microsoft Edge WebView2 Runtime.
+- Права администратора для запуска портативного приложения и TUN-подключения.
 
-## Development
+Портативность означает запуск из распакованной папки без установщика Tropa.
+Это не обязательно один EXE; системные компоненты Windows не входят в комплект автоматически.
 
-The interface uses React and TypeScript with a Rust/Tauri application. The
-owned Go worker handles discovery and protocol checks; mihomo provides the
-connection runtime. WarpScout CLI is not required by the current package.
+## Разработка
 
-[GitHub build instructions](docs/validation/github-actions.md) explain the
-pinned tools, dependency assets and portable artifact verification. CI builds
-the app and worker without launching a tunnel.
+Интерфейс написан на React и TypeScript, приложение — на Rust с Tauri.
+Собственный модуль на Go выполняет поиск и проверки протоколов, а mihomo
+обеспечивает работу подключения. WarpScout CLI текущему комплекту не требуется.
 
-For current evidence and remaining work, see:
+[Инструкция по сборке на GitHub](docs/validation/github-actions.md) описывает
+версии инструментов, входные зависимости и проверку портативного архива.
+CI собирает приложение и модуль поиска, не запуская туннель.
 
-- [Status and roadmap](docs/tropa-status-and-roadmap-2026-10-28.md)
-- [Portable package validation](docs/validation/portable-release.md)
-- [Connection validation](docs/validation/production-connection.md)
-- [Third-party component review](docs/third-party-components.md)
+Результаты проверок и оставшиеся задачи:
 
-## Credits and license
+- [Статус и дальнейшие этапы](docs/tropa-status-and-roadmap-2026-10-28.md)
+- [Проверки портативного комплекта](docs/validation/portable-release.md)
+- [Проверки подключения](docs/validation/production-connection.md)
+- [Анализ сторонних компонентов](docs/third-party-components.md)
 
-Tropa is derived from [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev),
-which continues [Clash Verge](https://github.com/zzzgydi/clash-verge). The upstream
-Git history, author attribution and applicable license notices are retained.
+## Благодарности и лицензия
 
-Thanks to [Cloudflare WARP](https://one.one.one.one/),
+Tropa основана на [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev),
+продолжающем [Clash Verge](https://github.com/zzzgydi/clash-verge). История Git,
+указание авторов и применимые лицензионные уведомления исходных проектов сохранены.
+
+Благодарим авторов и участников [Cloudflare WARP](https://one.one.one.one/),
 [mihomo](https://github.com/MetaCubeX/mihomo),
 [WarpScout](https://github.com/vernette/warpscout),
-[Tauri](https://github.com/tauri-apps/tauri),
-[React](https://github.com/facebook/react) and their contributors.
-WarpScout informed the discovery implementation; the worker's component
-origins and notices are documented in [engine notices](engine/THIRD_PARTY_NOTICES.md).
+[Tauri](https://github.com/tauri-apps/tauri) и
+[React](https://github.com/facebook/react).
+Наработки WarpScout использованы при реализации поиска; происхождение
+компонентов модуля описано в [его уведомлениях](engine/THIRD_PARTY_NOTICES.md).
 
-Tropa is licensed under [GPL-3.0](LICENSE). Third-party components retain their
-own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Tropa распространяется по лицензии [GPL-3.0](LICENSE). Сторонние компоненты
+сохраняют собственные лицензии — см. [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
