@@ -1,6 +1,6 @@
 ## Problem
 
-What breaks or what is missing. Link the issue if one exists (`Fixes #123`).
+What breaks or what is missing. Issue links are optional (`Fixes #123`); there is no need to create an issue for this pull request.
 
 ## Approach
 

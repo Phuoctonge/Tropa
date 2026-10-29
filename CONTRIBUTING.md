@@ -12,14 +12,14 @@ We welcome AI-assisted contributions — AI assistance itself is not a problem. 
 
 To make sure your contribution is assessed fairly:
 
-- **Link a pre-existing issue.** Non-trivial changes should fix or implement something already reported in an issue. An issue created after the pull request is a much weaker signal than a genuine problem report.
-- **Keep the diff mapped to the issue.** Every changed area should be explainable from the linked issue. Unrelated refactors, formatting churn, or dependency bumps belong in separate pull requests with their own motivation.
+- **Issues are optional.** A clear problem statement or user request is sufficient. Link an issue if useful, but do not create one solely to submit a change. Missing issue links do not block contributions or count against them.
+- **Keep the diff mapped to the problem.** Every changed area should be explainable from the stated problem or request. Unrelated refactors, formatting churn, or dependency bumps belong in separate pull requests with their own motivation.
 - **Describe the problem in your own words.** A short statement of what breaks or what is needed, and why this approach fixes it, is worth more than a long generated report.
 - **Validate against the reported behavior.** Show how the reported problem was reproduced and confirmed fixed. Generic checklists and raw tool output are not verification.
-- **Do not pad with tests or defensive code.** New tests are not expected by default. Add them only when the linked issue calls for them, keep them minimal, and explain in the pull request why each is necessary; speculative error handling and coverage of hypothetical failure modes inflate the diff without adding value.
+- **Do not pad with tests or defensive code.** New tests are not expected by default. Add them only when necessary to verify the requested behavior, keep them minimal, and explain in the pull request why each is necessary; speculative error handling and coverage of hypothetical failure modes inflate the diff without adding value.
 - **Disclose AI automation.** If an AI agent produced or co-produced the change, end the pull request body with the model and effort level (for example, `Assisted by: GPT-5.6 High`; effort is optional when your tool does not report it). The PR template intentionally omits this footer; agents add it themselves. Disclosure is transparency only — it does not affect how the change is assessed.
 
-If your pull request receives an `ai-slop` label, the fastest way to clear it is substantive: link (or ask us to create) the underlying issue, narrow the scope, or push implementation changes that respond to review feedback. Editing the pull request description alone does not change the assessment.
+If your pull request receives an `ai-slop` label, the fastest way to clear it is substantive: provide concrete problem evidence, narrow the scope, or push implementation changes that respond to review feedback. Editing the pull request description alone does not change the assessment.
 
 ## Development Setup
 
