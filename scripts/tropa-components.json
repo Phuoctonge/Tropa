@@ -6,33 +6,20 @@
       "name": "mihomo",
       "version": "1.19.33",
       "file": "resources/verge-mihomo.exe",
-      "sha256": "0b4c7353057a78de8a09db445351aadec7d72a4f48adc7d99691f3c5ff74d3da",
+      "sha256": "8ccf696897f4d56aa8f9b13893b6b3c6d24a8a505eb257d46eeac53e6701ed2e",
       "source": "https://github.com/MetaCubeX/mihomo/tree/v1.19.33",
       "release": "https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.33",
       "license": "GPL-3.0",
       "licenseFile": "licenses/GPL-3.0.txt",
       "sourceCommit": "3f27ef39f8c96bbfbc8b0b9bb10f5c9ef60149d8",
       "goBuildInfo": {
-        "goVersion": "go1.26.10",
-        "goamd64": "v2",
-        "vcsModified": true
-      }
-    },
-    {
-      "name": "WarpScout",
-      "version": "0.16.1",
-      "file": "resources/warpscout.exe",
-      "sha256": "01f11965da6415b08a23c334ea055edbda7298d46f717c2065ca94c538fb730c",
-      "source": "https://github.com/vernette/warpscout/tree/v0.16.1",
-      "release": "https://github.com/vernette/warpscout/releases/tag/v0.16.1",
-      "license": "MIT; transitive review pending",
-      "licenseFile": "licenses/WarpScout.txt",
-      "sourceCommit": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
-      "goBuildInfo": {
         "goVersion": "go1.26.3",
-        "goamd64": "v1",
+        "goamd64": "v2",
         "vcsModified": false
-      }
+      },
+      "sourceArchiveSha256": "43fa54b72f351c9f511c32e3e472129ffdf1e83f68d51b06c6a06f62e32f13cf",
+      "buildTags": ["with_gvisor"],
+      "buildTime": "source-3f27ef39"
     }
   ],
   "publicReleaseReady": false,
@@ -44,7 +31,7 @@
     "Clean Windows, WebView2 and native connection validation",
     "Signing and SmartScreen validation of the exact release build",
     "Explicit license terms for pinned tauri-plugin-mihomo / tauri-plugin-mihomo-api",
-    "Exact modified build inputs for the mihomo release (embedded vcs.modified=true)",
+    "Full Rust/worker/mihomo and TUN acceptance of the clean source-built core",
     "Go GPL/LGPL/MPL obligations, in-source notices and EasyTier embedded WASM source/dependencies",
     "Wintun prebuilt DLL permitted-API and redistribution conditions for the embedded loader"
   ],

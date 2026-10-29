@@ -1,0 +1,133 @@
+name: Tropa Windows Portable
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tropa-portable-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  HUSKY: '0'
+  CARGO_INCREMENTAL: '0'
+  GOTOOLCHAIN: local
+  PYTHONUTF8: '1'
+
+jobs:
+  windows-x64:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.21.0'
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+          cache: false
+
+      - name: Install Rust and frontend tools
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal --component rustfmt,clippy
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm install --global pnpm@12.10.0
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          pnpm install --frozen-lockfile
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: tropa-windows-x64-portable
+
+      - name: Prepare pinned Go environment and module cache
+        run: |
+          $goRoot = go env GOROOT
+          New-Item -ItemType Directory -Force .tools/go1.26.3 | Out-Null
+          New-Item -ItemType Junction -Path .tools/go1.26.3/go -Value $goRoot | Out-Null
+          $env:GOPATH = Join-Path $PWD '.tools/go-path'
+          $env:GOMODCACHE = Join-Path $env:GOPATH 'pkg/mod'
+          $env:GOCACHE = Join-Path $PWD '.tools/go-cache'
+          Push-Location engine
+          go mod download
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          go mod verify
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          go test ./...
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Pop-Location
+
+      - name: Fetch and verify pinned mihomo inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download tropa-build-inputs-v1 --repo "$env:GITHUB_REPOSITORY" --pattern 'verge-mihomo-x86_64-pc-windows-msvc.exe' --pattern 'mihomo-source.zip' --dir .artifacts/build-inputs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/prepare-tropa-ci.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/prepare-tropa.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Check frontend and build scripts
+        run: |
+          pnpm exec vitest run src/components/tropa/server-picker.test.ts src/components/tropa/tropa-routing.test.ts src/utils/tropa-server.test.ts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s scripts -p 'test_tropa_*.py'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          pnpm run web:build
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build source-bound worker and application
+        run: |
+          python scripts/build-tropa-engine.py build --name github-ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo fetch --locked --target x86_64-pc-windows-msvc
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/build-tropa.py --name github-ci --engine-build .artifacts/engine-build/github-ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Package and independently verify portable ZIP
+        run: |
+          python scripts/package-tropa.py --name Tropa-windows-x64 --build-record .artifacts/validation/github-ci/build.json --source-snapshot .artifacts/validation/github-ci/source.zip --engine-build .artifacts/engine-build/github-ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/verify-tropa-package.py .artifacts/portable/Tropa-windows-x64.zip --build-record .artifacts/validation/github-ci/build.json --source-snapshot .artifacts/validation/github-ci/source.zip --engine-build .artifacts/engine-build/github-ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $hash = (Get-FileHash .artifacts/portable/Tropa-windows-x64.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Tropa-windows-x64.zip" | Set-Content .artifacts/portable/SHA256SUMS.txt -Encoding utf8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Tropa-windows-x64-${{ github.run_number }}
+          if-no-files-found: error
+          retention-days: 30
+          include-hidden-files: true
+          path: |
+            .artifacts/portable/Tropa-windows-x64.zip
+            .artifacts/portable/SHA256SUMS.txt
+            .artifacts/validation/github-ci/build.json
+            .artifacts/validation/github-ci/source.zip
+            .artifacts/engine-build/github-ci/build.json
+            .artifacts/engine-build/github-ci/source.zip
+            .artifacts/build-inputs/mihomo-source.zip
+
+      - name: Preserve build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tropa-build-diagnostics-${{ github.run_number }}
+          if-no-files-found: ignore
+          retention-days: 7
+          include-hidden-files: true
+          path: .artifacts/validation/github-ci/cargo.jsonl

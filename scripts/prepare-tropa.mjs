@@ -4,9 +4,13 @@ import { fileURLToPath } from 'node:url'
 
 const root = new URL('../', import.meta.url)
 const resources = new URL('src-tauri/resources/', root)
-const inventory = JSON.parse(await readFile(new URL('scripts/tropa-components.json', root), 'utf8'))
+const inventory = JSON.parse(
+  await readFile(new URL('scripts/tropa-components.json', root), 'utf8'),
+)
 const pinnedHash = (name) => {
-  const component = inventory.components.find((entry) => entry.file === `resources/${name}`)
+  const component = inventory.components.find(
+    (entry) => entry.file === `resources/${name}`,
+  )
   if (!component) throw new Error(`Missing pinned component: ${name}`)
   return component.sha256
 }
@@ -19,8 +23,14 @@ async function copyPinned(source, name, hash) {
   await copyFile(input, new URL(name, resources))
 }
 await mkdir(resources, { recursive: true })
-await copyPinned('src-tauri/sidecar/verge-mihomo-x86_64-pc-windows-msvc.exe', 'verge-mihomo.exe', pinnedHash('verge-mihomo.exe'))
-await copyPinned('.artifacts/warpscout-0.16.1/warpscout.exe', 'warpscout.exe', pinnedHash('warpscout.exe'))
+await copyPinned(
+  'src-tauri/sidecar/verge-mihomo-x86_64-pc-windows-msvc.exe',
+  'verge-mihomo.exe',
+  pinnedHash('verge-mihomo.exe'),
+)
 await mkdir(new URL('licenses/', resources), { recursive: true })
-await copyFile(new URL('.artifacts/warpscout-source/LICENSE', root), new URL('licenses/WarpScout.txt', resources))
+await copyFile(
+  new URL('engine/THIRD_PARTY_NOTICES.md', root),
+  new URL('licenses/WarpScout.txt', resources),
+)
 process.stdout.write('Pinned Tropa resources are ready.\n')

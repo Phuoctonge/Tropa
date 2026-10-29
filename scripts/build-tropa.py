@@ -18,7 +18,7 @@ COMMAND = ['cargo', 'build', '--release', '--locked', '--offline', '-p', 'clash-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--name', required=True)
-    parser.add_argument('--engine-build', type=Path)
+    parser.add_argument('--engine-build', type=Path, required=True)
     args = parser.parse_args()
     if not args.name or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in args.name):
         parser.error('Name must contain ASCII letters, digits, hyphens or underscores')
@@ -27,10 +27,8 @@ def main():
     binary = ROOT / 'target/release/clash-verge.exe'
     environment = os.environ.copy()
     environment.pop('TROPA_ENGINE_PIN', None)
-    engine = (verify_engine_build(ROOT, args.engine_build, ROOT / '.tools/go1.26.3/go/bin/go.exe')
-              if args.engine_build else None)
-    if engine is not None:
-        environment['TROPA_ENGINE_PIN'] = json.dumps(runtime_pin(engine), separators=(',', ':'))
+    engine = verify_engine_build(ROOT, args.engine_build, ROOT / '.tools/go1.26.3/go/bin/go.exe')
+    environment['TROPA_ENGINE_PIN'] = json.dumps(runtime_pin(engine), separators=(',', ':'))
     environment['TAURI_CONFIG'] = (ROOT / 'src-tauri/tauri.tropa.conf.json').read_text(encoding='utf-8')
 
     def compile_action():
@@ -58,13 +56,12 @@ def main():
         if artifact is None:
             raise ValueError('Cargo did not report the requested executable')
         artifact['executable'] = str(Path(artifact['executable']).resolve())
-        if engine is not None:
-            if verify_engine_build(ROOT, args.engine_build, ROOT / '.tools/go1.26.3/go/bin/go.exe') != engine:
-                raise ValueError('Worker build evidence changed during application compilation')
+        if verify_engine_build(ROOT, args.engine_build, ROOT / '.tools/go1.26.3/go/bin/go.exe') != engine:
+            raise ValueError('Worker build evidence changed during application compilation')
         return artifact
 
     summary = capture_build(ROOT, binary, output / 'source.zip', output / 'build.json', compile_action,
-                            engine_pin=runtime_pin(engine) if engine else None)
+                            engine_pin=runtime_pin(engine))
     print(json.dumps({'record': str(output / 'build.json'), 'binary': summary['binary']}))
 
 

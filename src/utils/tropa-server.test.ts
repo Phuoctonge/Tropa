@@ -4,6 +4,88 @@ import type { TropaServer } from '@/types/tropa'
 
 import { filterServers, measurementAge, sortServers } from './tropa-server'
 
+test('latency sorting uses fresh measurements from the same method instead of legacy or ICMP values', () => {
+  const now = 1_800_000_000_000
+  const base = {
+    endpoint: '162.159.198.2:443',
+    transport: 'MASQUE HTTP/2',
+    exitCountry: null,
+    validation: 'verified' as const,
+    checkedAt: now / 1000 - 5,
+    networkContext: 'same' as const,
+    medianMs: 30,
+    jitterMs: 1,
+    samples: 5,
+    failed: 0,
+    runtimeMethod: 'udp-dns-sequential-v1:1.1.1.1:53',
+  }
+  const rows = [
+    { ...base, id: 'stale', checkedAt: now / 1000 - 1000, medianMs: 1 },
+    { ...base, id: 'legacy', runtimeMethod: null, medianMs: 1 },
+    { ...base, id: 'slower', medianMs: 40, tunnelPingMs: 1 },
+    { ...base, id: 'fresh', medianMs: 30, tunnelPingMs: 200 },
+  ]
+  expect(sortServers(rows, 'latency', now).map((row) => row.id)).toEqual([
+    'fresh',
+    'slower',
+    'legacy',
+    'stale',
+  ])
+})
+
+test('search latency preserves fractions and does not compare another method or an unknown sample', () => {
+  const now = 1_800_000_000_000
+  const base = {
+    endpoint: '162.159.198.2:443',
+    transport: 'MASQUE HTTP/2',
+    exitCountry: null,
+    validation: 'untested' as const,
+    checkedAt: null,
+    medianMs: null,
+    jitterMs: null,
+    samples: null,
+    failed: null,
+    scannerCheckedAt: now / 1000 - 5,
+    scannerContext: 'same' as const,
+    tunnelPingMs: 4,
+  }
+  const measurement = {
+    engineBuildId: `source:${'a'.repeat(64)}`,
+    stages: { handshake: true, http: true, https: true, udp: null },
+    endpointPingMs: 0.25,
+    tunnelPingMs: 3.625,
+    lossPercent: 0,
+    jitterMs: 0.125,
+    samples: 5,
+    method: 'icmp-v4-sequential-v1:1.1.1.1',
+    exitCountry: 'DE',
+  }
+  const rows = [
+    { ...base, id: 'legacy', tunnelPingMs: 1 },
+    {
+      ...base,
+      id: 'other',
+      searchMeasurement: {
+        ...measurement,
+        method: 'other:1.1.1.1',
+        tunnelPingMs: 0.1,
+      },
+    },
+    {
+      ...base,
+      id: 'slower',
+      searchMeasurement: { ...measurement, tunnelPingMs: 3.75 },
+    },
+    { ...base, id: 'faster', searchMeasurement: measurement },
+  ]
+  expect(sortServers(rows, 'latency', now).map((row) => row.id)).toEqual([
+    'faster',
+    'slower',
+    'other',
+    'legacy',
+  ])
+})
+
 test('measurement age does not treat missing or future timestamps as recent results', () => {
   const now = 1_800_000_000_000
   expect(measurementAge(null, now)).toBe('unknown')
@@ -30,6 +112,7 @@ test('server quality favours fewer losses over latency and does not mutate the c
     samples,
     medianMs,
     jitterMs: 2,
+    runtimeMethod: 'udp-dns-sequential-v1:1.1.1.1:53',
     endpoint: id,
     transport: 'AWG',
     exitCountry: null,
@@ -85,6 +168,7 @@ test('quality keeps scanner-only rows below confirmed runtime results', () => {
     exitCountry: null,
     jitterMs: 1,
     checkedAt: 1,
+    runtimeMethod: 'udp-dns-sequential-v1:1.1.1.1:53',
   }
   const rows = [
     {
@@ -121,6 +205,7 @@ test('quality ranks verified profiles by runtime measurements even when scanner 
     checkedAt: 1,
     jitterMs: 2,
     samples: 5,
+    runtimeMethod: 'udp-dns-sequential-v1:1.1.1.1:53',
   }
   const rows = [
     {

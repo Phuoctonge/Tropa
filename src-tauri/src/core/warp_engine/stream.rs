@@ -25,17 +25,22 @@ pub(crate) async fn search(
     policy: &SelectionPolicy,
     ipv6: bool,
     extended: bool,
+    advanced: bool,
     start: tokio::time::Instant,
     seed: u64,
     cancellation: &ProbeCancellation,
     progress: &parking_lot::Mutex<SearchProgress>,
+    resume: Option<super::scheduler::SearchSchedule>,
 ) -> Result<CollectedSearch> {
+    let context = crate::config::warp_context::capture();
+    let saved = catalog.profiles_to_validate(policy, context.as_deref());
     let lifetime = ProbeCancellation::linked(
         cancellation,
         start + std::time::Duration::from_secs(if extended { 600 } else { 180 }),
     );
     let (sender, receiver) = tokio::sync::mpsc::channel(32);
     let producer_lifetime = &lifetime;
+    let saved_ref = &saved;
     let producer = async move {
         let result = super::runner::run_search(
             root,
@@ -43,10 +48,13 @@ pub(crate) async fn search(
             policy,
             ipv6,
             extended,
+            advanced,
+            saved_ref,
             start,
             seed,
             producer_lifetime,
             &sender,
+            resume,
         )
         .await;
         drop(sender);
@@ -70,12 +78,15 @@ pub(crate) async fn search(
         }
     }
     let mut collected = consumed?;
-    if let Err(error) = produced {
-        let failure = WarpFailure::from_error(&error, FailureStage::Scanner, FailureReason::InvalidOutput);
-        if failure.reason != FailureReason::Timeout || cancellation.is_cancelled() {
-            return Err(error);
+    match produced {
+        Ok(resume) => collected.resume = resume,
+        Err(error) => {
+            let failure = WarpFailure::from_error(&error, FailureStage::Scanner, FailureReason::InvalidOutput);
+            if failure.reason != FailureReason::Timeout || cancellation.is_cancelled() {
+                return Err(error);
+            }
+            collected.last_failure = Some(failure);
         }
-        collected.last_failure = Some(failure);
     }
     Ok(collected)
 }
@@ -84,6 +95,7 @@ pub(crate) async fn search(
 pub(crate) struct CollectedSearch {
     pub(crate) baselines: Vec<WarpProfile>,
     pub(crate) last_failure: Option<WarpFailure>,
+    pub(crate) resume: Option<super::scheduler::SearchSchedule>,
 }
 
 fn slot(kind: TransportKind) -> usize {
@@ -214,10 +226,12 @@ mod tests {
                 &SelectionPolicy::default(),
                 false,
                 false,
+                false,
                 tokio::time::Instant::now(),
                 1,
                 &ProbeCancellation::new(),
                 &progress,
+                None,
             ),
         )
         .await?;

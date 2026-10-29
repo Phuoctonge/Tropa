@@ -4,21 +4,106 @@ import { expect, test } from 'vitest'
 
 import { ServerPicker } from './server-picker'
 
+test.each(['icmp-v4-sequential-v1:1.1.1.1', 'icmp-unknown-version'])(
+  'preserves exact details without claiming runtime verification for %s',
+  (method) => {
+    const html = renderToStaticMarkup(
+      createElement(ServerPicker, {
+        unavailable: false,
+        busy: false,
+        catalog: {
+          selection: { mode: 'automatic' },
+          servers: [
+            {
+              id: 'precise',
+              endpoint: '162.159.198.2:443',
+              transport: 'MASQUE HTTP/2',
+              parameters: { kind: 'masqueH2', sni: 'www.google.com' },
+              validation: 'untested',
+              checkedAt: null,
+              medianMs: null,
+              jitterMs: null,
+              failed: null,
+              samples: null,
+              exitCountry: 'DE',
+              nodeCountry: 'FI',
+              endpointPingMs: 1,
+              tunnelPingMs: 4,
+              tunnelLossPercent: 0,
+              searchMeasurement: {
+                engineBuildId: `source:${'a'.repeat(64)}`,
+                stages: {
+                  handshake: true,
+                  http: true,
+                  https: false,
+                  udp: null,
+                },
+                endpointPingMs: 0.25,
+                tunnelPingMs: 3.625,
+                lossPercent: 0,
+                jitterMs: 0.125,
+                samples: 5,
+                method,
+                exitCountry: 'DE',
+              },
+            },
+          ],
+        },
+      }),
+    )
+    const collapsedRow = html.split('<tbody>')[1].split('</tr>')[0]
+    expect(collapsedRow).toContain('0.3 мс')
+    expect(collapsedRow).toContain('3.6 мс')
+    expect(collapsedRow).not.toContain('SNI:')
+    expect(collapsedRow).not.toContain('3.625 мс')
+    expect(html).toMatch(/<tr hidden="" id="server-precise"/)
+    expect(html).toContain('0.25 мс')
+    expect(html).toContain('3.625 мс')
+    expect(html).toContain(
+      method === 'icmp-unknown-version'
+        ? `Другой метод: ${method}`
+        : 'ICMP → 1.1.1.1',
+    )
+    expect(collapsedRow).toContain(
+      method === 'icmp-unknown-version' ? '>? ·' : '>ICMP ·',
+    )
+    expect(html).toContain('SNI: www.google.com')
+    expect(html).toContain('HTTPS: нет')
+    expect(html).toContain('UDP: неизвестно')
+    expect(html).toContain('Не проверен Tropa')
+    expect(html).not.toContain('Подтверждён Tropa')
+  },
+)
+
 test('parameter tuning is separate from regular search and disabled for a WG-only policy', () => {
-  const render = (allowedTransports: ('wireGuard' | 'awg')[]) => renderToStaticMarkup(
-    createElement(ServerPicker, {
-      unavailable: false, busy: false, onRefresh: () => undefined,
-      catalog: {
-        selection: { mode: 'automatic' }, servers: [],
-        policy: { allowedTransports, includeNodes: [], excludeNodes: [], includeNodeCountries: [], excludeNodeCountries: [] },
-      },
-    }),
-  )
+  const render = (allowedTransports: ('wireGuard' | 'awg')[]) =>
+    renderToStaticMarkup(
+      createElement(ServerPicker, {
+        unavailable: false,
+        busy: false,
+        onRefresh: () => undefined,
+        catalog: {
+          selection: { mode: 'automatic' },
+          servers: [],
+          policy: {
+            allowedTransports,
+            includeNodes: [],
+            excludeNodes: [],
+            includeNodeCountries: [],
+            excludeNodeCountries: [],
+          },
+        },
+      }),
+    )
   const available = render(['awg'])
   expect(available).toContain('Найти серверы')
   expect(available).toContain('Подобрать параметры')
-  expect(available).not.toMatch(/<button[^>]*disabled=""[^>]*>Подобрать параметры/)
-  expect(render(['wireGuard'])).toMatch(/<button[^>]*disabled=""[^>]*>Подобрать параметры/)
+  expect(available).not.toMatch(
+    /<button[^>]*disabled=""[^>]*>Подобрать параметры/,
+  )
+  expect(render(['wireGuard'])).toMatch(
+    /<button[^>]*disabled=""[^>]*>Подобрать параметры/,
+  )
 })
 
 test('a recent runtime check does not refresh old scanner measurements', () => {
@@ -50,7 +135,7 @@ test('a recent runtime check does not refresh old scanner measurements', () => {
     }),
   )
   expect(html).toContain('Проверка Tropa: недавно')
-  expect(html).toContain('Замеры WarpScout: устарели')
+  expect(html).toContain('Замеры поиска: устарели')
   expect(html).toContain('Смена сети требует повторной проверки')
 })
 
@@ -85,7 +170,7 @@ test('recent timestamps cannot hide changed or unknown network context', () => {
     }),
   )
   expect(html).toContain('Проверка Tropa: устарела')
-  expect(html).toContain('Замеры WarpScout: контекст неизвестен')
+  expect(html).toContain('Замеры поиска: контекст неизвестен')
   expect(html).not.toContain('Проверка Tropa: недавно')
   expect(html).toContain('aria-pressed="true"')
 })
@@ -291,3 +376,49 @@ test('IPv6 scan progress keeps the transport label and displays the address fami
   )
   expect(html).toContain('Ищем и проверяем подключения · MASQUE HTTP/2 · IPv6')
 })
+
+test.each(['automatic', 'manual'] as const)(
+  'marks the active profile separately from a %s selection',
+  (mode) => {
+    const server = {
+      id: 'active',
+      endpoint: '162.159.198.2:443',
+      transport: 'MASQUE HTTP/2',
+      validation: 'verified' as const,
+      checkedAt: null,
+      medianMs: null,
+      jitterMs: null,
+      failed: null,
+      samples: null,
+      exitCountry: null,
+    }
+    const html = renderToStaticMarkup(
+      createElement(ServerPicker, {
+        unavailable: false,
+        busy: false,
+        connected: true,
+        activeProfileId: 'active',
+        catalog: {
+          selection:
+            mode === 'automatic' ? { mode } : { mode, profileId: 'saved' },
+          servers: [
+            server,
+            { ...server, id: 'saved', endpoint: '162.159.198.3:443' },
+          ],
+        },
+      }),
+    )
+    const rows = html.match(/<tr class="[^"]*"[\s\S]*?<\/tr>/g) ?? []
+    expect(rows.find((row) => row.includes('162.159.198.2:443'))).toContain(
+      'Подключён',
+    )
+    expect(
+      rows
+        .find((row) => row.includes('162.159.198.3:443'))
+        ?.includes('Сохранённый выбор'),
+    ).toBe(mode === 'manual')
+    expect(rows.find((row) => row.includes('162.159.198.3:443'))).not.toContain(
+      'Подключён',
+    )
+  },
+)

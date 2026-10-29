@@ -15,10 +15,17 @@
 - 修复关闭「自动检查更新」后，启动时仍弹出已下载更新的安装提示的问题
 - 修复从 Dock 退出、注销或关机时，应用可能长时间卡住无法退出的问题
 - 修复宽窗口下「订阅」页每行显示过多卡片，导致配置名称被截断的问题
+- Replace the portable Tropa application icon with its own dark orange-accented mark.
+- Make the server list compact and distinguish the connected server from the saved choice.
+- Keep the window responsive while applying the close-to-tray setting.
+- Fix server ranking mixing measurement methods and show precise search results and profile parameters.
+- Fix saved servers delaying standard server checks and excluded nodes ending search early.
+- Continue automatic server search when early candidates fail runtime validation.
+- Fix split tunneling for selected drive roots and folders with trailing separators.
+- Fix server search discarding earlier HTTPS candidates after later failed probes.
 
 **🖥️ Windows**
 
-- Fix server search discarding earlier HTTPS candidates after later failed probes.
 - 修复 Windows 升级后因文件权限异常无法启动、需要手动清理配置的问题
 - 修复 Windows 服务启动类型被改为手动后，软件启动卡住约两分钟的问题，并提供一键修复
 - 修复 Windows 长时间运行后，托盘菜单点击无响应的问题

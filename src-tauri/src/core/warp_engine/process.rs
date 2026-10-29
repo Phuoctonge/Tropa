@@ -477,10 +477,13 @@ mod tests {
             &policy,
             false,
             false,
+            false,
+            &[],
             Instant::now(),
             17,
             &cancellation,
             &output,
+            None,
         )
         .await;
         assert!(result.err().is_some_and(|error| {
@@ -493,11 +496,92 @@ mod tests {
         };
         assert_eq!(baselines.len(), 1);
         assert_eq!(baselines[0].endpoint.to_string(), "188.114.98.58:2408");
-        assert!(matches!(events.try_recv()?, super::super::runner::SearchEvent::Started { .. }));
+        assert!(matches!(
+            events.try_recv()?,
+            super::super::runner::SearchEvent::Started { .. }
+        ));
         assert!(crate::core::warp_children::has_pending());
         client.shutdown().await?;
         assert!(!crate::core::warp_children::has_pending());
+        let mut client = EngineClient::start(&root, artifact(), ProbeCancellation::new()).await?;
+        let start = Instant::now();
+        let mut plan =
+            super::super::scheduler::SearchSchedule::new(&policy, false, false, start, 17, client.parameter_sets())?;
+        let initial = plan.admit(start).expect("initial batch");
+        assert!(plan.finish(initial.token, start));
+        let cancellation = ProbeCancellation::linked(&parent, start + Duration::from_millis(250));
+        let (output, mut events) = mpsc::channel(16);
+        let result = super::super::runner::run_with_client(
+            &root,
+            &mut client,
+            &policy,
+            false,
+            false,
+            false,
+            &[],
+            start,
+            17,
+            &cancellation,
+            &output,
+            Some(plan),
+        )
+        .await;
+        assert!(result.err().is_some_and(|error| {
+            error
+                .downcast_ref::<WarpFailure>()
+                .is_some_and(|failure| failure.reason == FailureReason::Cancelled)
+        }));
+        let super::super::runner::SearchEvent::Prepared(baselines) = events.try_recv()? else {
+            anyhow::bail!("Missing resumed preparation");
+        };
+        assert!(
+            baselines.is_empty(),
+            "Resumption must not restart the initial endpoint pass"
+        );
+        assert!(matches!(
+            events.try_recv()?,
+            super::super::runner::SearchEvent::Started { .. }
+        ));
+        client.shutdown().await?;
+        assert!(!crate::core::warp_children::has_pending());
         assert_eq!(std::fs::read(&account_path)?, account_before);
+        if let Ok(runtime_root) = std::env::var("TROPA_ENGINE_FIXTURE_ROOT") {
+            let catalog_path = root.join("warp-profiles.json");
+            std::fs::create_dir(&catalog_path)?;
+            let mut catalog = crate::config::warp_profiles::WarpCatalog::default();
+            let progress = parking_lot::Mutex::new(crate::core::warp_search::SearchProgress::default());
+            let result = tokio::time::timeout(
+                Duration::from_secs(8),
+                super::super::stream::search(
+                    &root,
+                    Path::new(&runtime_root),
+                    &mut catalog,
+                    &policy,
+                    false,
+                    false,
+                    false,
+                    Instant::now(),
+                    17,
+                    &ProbeCancellation::new(),
+                    &progress,
+                    None,
+                ),
+            )
+            .await?;
+            let error = result.err().expect("catalog directory must reject persistence");
+            assert!(error.downcast_ref::<std::io::Error>().is_some(), "{error:#}");
+            assert!(
+                error.downcast_ref::<WarpFailure>().is_none(),
+                "write failure must not become cancellation"
+            );
+            assert!(catalog_path.is_dir());
+            assert_eq!(std::fs::read_dir(&catalog_path)?.count(), 0);
+            assert!(!crate::core::warp_children::has_pending());
+            let execution = crate::core::service::reserve_sidecar().await?;
+            drop(execution);
+            assert_eq!(std::fs::read(&account_path)?, account_before);
+            std::fs::remove_dir(catalog_path)?;
+        }
         assert_eq!(std::fs::read_dir(&root)?.count(), 1);
         assert_eq!(std::fs::read_dir(root.join("secrets"))?.count(), 1);
         std::fs::remove_file(account_path)?;

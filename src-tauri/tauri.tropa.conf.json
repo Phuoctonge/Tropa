@@ -4,6 +4,7 @@
   "identifier": "app.tropa.portable",
   "bundle": {
     "active": false,
+    "icon": ["icons/tropa.png", "icons/tropa.ico"],
     "createUpdaterArtifacts": false,
     "externalBin": [],
     "publisher": "Tropa",

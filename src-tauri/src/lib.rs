@@ -149,6 +149,7 @@ mod app_init {
             cmd::tropa::get_tropa_preferences,
             cmd::tropa::set_tropa_game,
             cmd::tropa::set_tropa_routing,
+            cmd::tropa::set_tropa_close_action,
             cmd::tropa::get_tropa_servers,
             cmd::tropa::select_tropa_server,
             cmd::tropa::set_tropa_selection_policy,
@@ -429,14 +430,54 @@ pub fn run() -> std::process::ExitCode {
             handle::Handle::global().set_activation_policy_accessory();
 
             if let tauri::WindowEvent::CloseRequested { api, .. } = api {
+                #[cfg(all(windows, feature = "portable"))]
+                {
+                    api.prevent_close();
+                    AsyncHandler::spawn(|| async {
+                        let handle = core::handle::Handle::global();
+                        if handle.is_exiting() {
+                            return;
+                        }
+                        let action = {
+                            let _write = Config::lock_config_write().await;
+                            match crate::utils::dirs::app_home_dir() {
+                                Ok(directory) => {
+                                    crate::config::tropa::TropaPreferences::load(&directory.join("tropa.yaml"))
+                                        .await
+                                        .map(|preferences| preferences.close_action)
+                                        .unwrap_or_default()
+                                }
+                                Err(_) => crate::config::tropa::CloseAction::default(),
+                            }
+                        };
+                        crate::dispatch_main_window_close(
+                            handle,
+                            action,
+                            || {},
+                            || {
+                                if let Some(window) = WindowManager::get_main_window() {
+                                    let _ = window.hide();
+                                }
+                            },
+                            || {
+                                AsyncHandler::spawn(|| async {
+                                    crate::feat::quit().await;
+                                });
+                            },
+                        );
+                    });
+                }
+                #[cfg(not(all(windows, feature = "portable")))]
                 crate::dispatch_main_window_close(
                     core::handle::Handle::global(),
+                    crate::config::tropa::CloseAction::MinimizeToTray,
                     || api.prevent_close(),
                     || {
                         if let Some(window) = WindowManager::get_main_window() {
                             let _ = window.hide();
                         }
                     },
+                    || {},
                 );
             }
         }
@@ -575,19 +616,31 @@ pub fn run() -> std::process::ExitCode {
     std::process::ExitCode::SUCCESS
 }
 
-fn dispatch_main_window_close(handle: &core::handle::Handle, prevent_close: impl FnOnce(), hide: impl FnOnce()) {
+fn dispatch_main_window_close(
+    handle: &core::handle::Handle,
+    _close_action: crate::config::tropa::CloseAction,
+    prevent_close: impl FnOnce(),
+    hide: impl FnOnce(),
+    _quit: impl FnOnce(),
+) {
     if handle.is_exiting() {
         #[cfg(all(windows, feature = "portable"))]
         prevent_close();
         return;
     }
     prevent_close();
+    #[cfg(all(windows, feature = "portable"))]
+    if _close_action == crate::config::tropa::CloseAction::Quit {
+        _quit();
+        return;
+    }
     hide();
 }
 
 #[cfg(all(test, windows, feature = "portable"))]
 mod portable_close_tests {
     use super::dispatch_main_window_close;
+    use crate::config::tropa::{CloseAction, TropaPreferences};
     use crate::core::handle::Handle;
     use std::cell::Cell;
 
@@ -596,22 +649,71 @@ mod portable_close_tests {
         let handle = Handle::new();
         let prevented = Cell::new(0);
         let hidden = Cell::new(0);
+        let quit = Cell::new(0);
         let close = || {
             dispatch_main_window_close(
                 &handle,
+                CloseAction::MinimizeToTray,
                 || prevented.set(prevented.get() + 1),
                 || hidden.set(hidden.get() + 1),
+                || quit.set(quit.get() + 1),
             )
         };
         close();
         close();
         assert_eq!(prevented.get(), 2);
         assert_eq!(hidden.get(), 2);
+        assert_eq!(quit.get(), 0);
         assert!(!handle.is_exiting());
         handle.set_is_exiting();
         close();
         assert_eq!(prevented.get(), 3);
         assert_eq!(hidden.get(), 2);
+    }
+
+    #[tokio::test]
+    async fn portable_close_uses_the_persisted_action_and_ignores_shutdown_reentry() -> anyhow::Result<()> {
+        let directory = std::env::temp_dir().join(format!("tropa-close-{}", nanoid::nanoid!()));
+        tokio::fs::create_dir(&directory).await?;
+        let _cleanup = scopeguard::guard(directory.clone(), |path| {
+            let _ = std::fs::remove_dir_all(path);
+        });
+        let path = directory.join("tropa.yaml");
+        let handle = Handle::new();
+        let prevented = Cell::new(0);
+        let hidden = Cell::new(0);
+        let quit = Cell::new(0);
+        for (action, expected_hidden, expected_quit) in [(CloseAction::Quit, 0, 1), (CloseAction::MinimizeToTray, 1, 1)]
+        {
+            TropaPreferences {
+                close_action: action,
+                ..Default::default()
+            }
+            .save(&path)
+            .await?;
+            let saved = TropaPreferences::load(&path).await?;
+            dispatch_main_window_close(
+                &handle,
+                saved.close_action,
+                || prevented.set(prevented.get() + 1),
+                || hidden.set(hidden.get() + 1),
+                || quit.set(quit.get() + 1),
+            );
+            assert_eq!(hidden.get(), expected_hidden);
+            assert_eq!(quit.get(), expected_quit);
+        }
+        handle.set_is_exiting();
+        dispatch_main_window_close(
+            &handle,
+            CloseAction::Quit,
+            || prevented.set(prevented.get() + 1),
+            || hidden.set(hidden.get() + 1),
+            || quit.set(quit.get() + 1),
+        );
+        assert_eq!(prevented.get(), 3);
+        assert_eq!(hidden.get(), 1);
+        assert_eq!(quit.get(), 1);
+        Ok(())
     }
 }
 

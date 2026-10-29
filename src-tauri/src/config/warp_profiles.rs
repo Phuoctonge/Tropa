@@ -223,14 +223,29 @@ pub(crate) struct SearchStages {
 impl SearchMeasurement {
     fn validate(&self) -> Result<()> {
         let snapshot = self.engine_build_id.strip_prefix("source:").unwrap_or_default();
-        ensure!(snapshot.len() == 64 && snapshot.bytes().all(|b| b.is_ascii_hexdigit() && !b.is_ascii_uppercase()), "Invalid search engine build");
+        ensure!(
+            snapshot.len() == 64
+                && snapshot
+                    .bytes()
+                    .all(|b| b.is_ascii_hexdigit() && !b.is_ascii_uppercase()),
+            "Invalid search engine build"
+        );
         ensure!(
             [self.endpoint_ping_ms, self.tunnel_ping_ms, self.jitter_ms]
-                .into_iter().flatten().all(|ms| ms.is_finite() && ms >= 0.0)
-                && self.loss_percent.is_none_or(|loss| loss.is_finite() && (0.0..=100.0).contains(&loss)),
+                .into_iter()
+                .flatten()
+                .all(|ms| ms.is_finite() && ms >= 0.0)
+                && self
+                    .loss_percent
+                    .is_none_or(|loss| loss.is_finite() && (0.0..=100.0).contains(&loss)),
             "Invalid search measurement"
         );
-        ensure!(self.method.as_ref().is_none_or(|method| !method.is_empty() && method.len() <= 128 && method.bytes().all(|b| b.is_ascii_graphic())), "Invalid search measurement method");
+        ensure!(
+            self.method.as_ref().is_none_or(|method| !method.is_empty()
+                && method.len() <= 128
+                && method.bytes().all(|b| b.is_ascii_graphic())),
+            "Invalid search measurement method"
+        );
         ensure!(
             (self.tunnel_ping_ms.is_none() && self.loss_percent.is_none() && self.jitter_ms.is_none())
                 || (self.samples > 0 && self.method.is_some()),
@@ -241,14 +256,27 @@ impl SearchMeasurement {
                 || self.stages.handshake == Some(true),
             "Search data stage lacks handshake"
         );
-        ensure!(self.exit_country.as_ref().is_none_or(|country| country.len() == 2 && country.bytes().all(|b| b.is_ascii_uppercase())), "Invalid search exit country");
+        ensure!(
+            self.exit_country
+                .as_ref()
+                .is_none_or(|country| country.len() == 2 && country.bytes().all(|b| b.is_ascii_uppercase())),
+            "Invalid search exit country"
+        );
         Ok(())
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub(crate) enum RuntimeMeasurementMethod {
+    #[serde(rename = "udp-dns-sequential-v1:1.1.1.1:53")]
+    UdpDnsV1,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub(crate) struct WarpObservation {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub(crate) runtime_method: Option<RuntimeMeasurementMethod>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(crate) network_context: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -1259,8 +1287,24 @@ mod tests {
         Ok(())
     }
 
+    #[test]
+    fn runtime_method_round_trips_without_assigning_one_to_legacy_records() -> Result<()> {
+        let mut value = serde_json::to_value(observation(20, 0))?;
+        value.as_object_mut().unwrap().remove("runtimeMethod");
+        let legacy: WarpObservation = serde_json::from_value(value.clone())?;
+        assert!(serde_json::to_value(legacy)?["runtimeMethod"].is_null());
+        value["runtimeMethod"] = "udp-dns-sequential-v1:1.1.1.1:53".into();
+        let current: WarpObservation = serde_json::from_value(value)?;
+        assert_eq!(
+            serde_json::to_value(current)?["runtimeMethod"],
+            "udp-dns-sequential-v1:1.1.1.1:53"
+        );
+        Ok(())
+    }
+
     fn observation(latency: u32, failed: u8) -> WarpObservation {
         WarpObservation {
+            runtime_method: None,
             network_context: None,
             scanner_context: None,
             checked_at: 1_793_066_400,
@@ -1283,7 +1327,12 @@ mod tests {
 
     #[test]
     fn search_evidence_survives_verification_without_inventing_udp_or_losing_precision() -> Result<()> {
-        let candidate = profile("162.159.198.2:443", WarpTransport::MasqueH2 { sni: "www.google.com".into() });
+        let candidate = profile(
+            "162.159.198.2:443",
+            WarpTransport::MasqueH2 {
+                sni: "www.google.com".into(),
+            },
+        );
         let scanned: ScannerObservation = serde_json::from_value(serde_json::json!({
             "networkContext":"a".repeat(64),"checkedAt":123,"node":"HEL","nodeCountry":"FI","nodeLocation":null,
             "endpointPingMs":2,"tunnelPingMs":4,"tunnelLossPercent":20,
@@ -1295,7 +1344,14 @@ mod tests {
             }
         }))?;
         let mut catalog = WarpCatalog::default();
-        for field in ["engineBuildId", "handshake", "lossPercent", "method", "exitCountry", "tunnelPingMs"] {
+        for field in [
+            "engineBuildId",
+            "handshake",
+            "lossPercent",
+            "method",
+            "exitCountry",
+            "tunnelPingMs",
+        ] {
             let mut invalid = scanned.clone();
             let measurement = invalid.search_measurement.as_mut().unwrap();
             match field {
@@ -1333,7 +1389,12 @@ mod tests {
 
     #[test]
     fn bounded_scanner_catalog_keeps_https_candidates_when_later_probes_fail() -> Result<()> {
-        let good = profile("162.159.198.2:443", WarpTransport::MasqueH2 { sni: "www.google.com".into() });
+        let good = profile(
+            "162.159.198.2:443",
+            WarpTransport::MasqueH2 {
+                sni: "www.google.com".into(),
+            },
+        );
         let mut scanned: ScannerObservation = serde_json::from_value(serde_json::json!({
             "networkContext":null,"checkedAt":123,"node":null,"nodeCountry":null,"nodeLocation":null,
             "endpointPingMs":null,"tunnelPingMs":null,"tunnelLossPercent":null,
@@ -1347,9 +1408,17 @@ mod tests {
         let mut catalog = WarpCatalog::default();
         catalog.record_scanned(good.clone(), scanned.clone())?;
         scanned.checked_at = 124;
-        scanned.search_measurement.as_mut().unwrap().stages = SearchStages { handshake: Some(false), http: None, https: None, udp: None };
+        scanned.search_measurement.as_mut().unwrap().stages = SearchStages {
+            handshake: Some(false),
+            http: None,
+            https: None,
+            udp: None,
+        };
         for host in 0..=255 {
-            catalog.record_scanned(profile(&format!("188.114.96.{host}:500"), WarpTransport::WireGuard), scanned.clone())?;
+            catalog.record_scanned(
+                profile(&format!("188.114.96.{host}:500"), WarpTransport::WireGuard),
+                scanned.clone(),
+            )?;
         }
         assert_eq!(catalog.scanned.len(), 256);
         assert!(catalog.scanned.iter().any(|entry| entry.profile.id == good.id));

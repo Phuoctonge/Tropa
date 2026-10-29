@@ -216,4 +216,71 @@ mod tests {
                 .all(|p| p.transport.kind() == TransportKind::MasqueH2)
         );
     }
+
+    #[test]
+    fn selection_prefers_fresh_comparable_over_stale_or_incompatible_method() {
+        let h2 = WarpTransport::MasqueH2 {
+            sni: "consumer-masque.cloudflareclient.com".into(),
+        };
+        let mut catalog = WarpCatalog::default();
+        let now = 2000;
+
+        let fresh_profile = WarpProfile::new("162.159.199.10:443".parse().unwrap(), h2.clone()).unwrap();
+        let fresh_obs: ScannerObservation = serde_json::from_value(serde_json::json!({
+            "networkContext":"a".repeat(64),"checkedAt":now - 5,"node":"HEL","nodeCountry":"FI","nodeLocation":null,
+            "endpointPingMs":null,"tunnelPingMs":15,"tunnelLossPercent":0,
+            "searchMeasurement":{
+                "engineBuildId":format!("source:{}", "b".repeat(64)),
+                "stages":{"handshake":true,"http":true,"https":true,"udp":null},
+                "endpointPingMs":null,"tunnelPingMs":15.0,"lossPercent":0.0,"jitterMs":0.1,
+                "samples":5,"method":"icmp-v4-sequential-v1:1.1.1.1","exitCountry":"DE"
+            }
+        }))
+        .unwrap();
+        catalog.record_scanned(fresh_profile.clone(), fresh_obs).unwrap();
+
+        let stale_profile = WarpProfile::new("162.159.199.20:443".parse().unwrap(), h2.clone()).unwrap();
+        let stale_obs: ScannerObservation = serde_json::from_value(serde_json::json!({
+            "networkContext":"a".repeat(64),"checkedAt":now - 1000,"node":"HEL","nodeCountry":"FI","nodeLocation":null,
+            "endpointPingMs":null,"tunnelPingMs":1,"tunnelLossPercent":0,
+            "searchMeasurement":{
+                "engineBuildId":format!("source:{}", "b".repeat(64)),
+                "stages":{"handshake":true,"http":true,"https":true,"udp":null},
+                "endpointPingMs":null,"tunnelPingMs":1.0,"lossPercent":0.0,"jitterMs":0.1,
+                "samples":5,"method":"icmp-v4-sequential-v1:1.1.1.1","exitCountry":"DE"
+            }
+        }))
+        .unwrap();
+        catalog.record_scanned(stale_profile.clone(), stale_obs).unwrap();
+
+        let incomp_profile = WarpProfile::new("162.159.199.30:443".parse().unwrap(), h2.clone()).unwrap();
+        let incomp_obs: ScannerObservation = serde_json::from_value(serde_json::json!({
+            "networkContext":"a".repeat(64),"checkedAt":now - 5,"node":"HEL","nodeCountry":"FI","nodeLocation":null,
+            "endpointPingMs":null,"tunnelPingMs":1,"tunnelLossPercent":0,
+            "searchMeasurement":{
+                "engineBuildId":format!("source:{}", "b".repeat(64)),
+                "stages":{"handshake":true,"http":true,"https":true,"udp":null},
+                "endpointPingMs":null,"tunnelPingMs":0.5,"lossPercent":0.0,"jitterMs":0.1,
+                "samples":5,"method":"udp-dns-sequential-v1:1.1.1.1","exitCountry":"DE"
+            }
+        }))
+        .unwrap();
+        catalog.record_scanned(incomp_profile.clone(), incomp_obs).unwrap();
+
+        let baselines = [WarpProfile::new("162.159.198.2:443".parse().unwrap(), h2).unwrap()];
+        let queue = validation_queue(
+            &baselines,
+            &catalog,
+            &SelectionPolicy::default(),
+            Some(&"a".repeat(64)),
+            now,
+        );
+
+        let pos_fresh = queue.iter().position(|p| p.id == fresh_profile.id).unwrap();
+        let pos_stale = queue.iter().position(|p| p.id == stale_profile.id).unwrap();
+        let pos_incomp = queue.iter().position(|p| p.id == incomp_profile.id).unwrap();
+
+        assert!(pos_fresh < pos_stale);
+        assert!(pos_fresh < pos_incomp);
+    }
 }

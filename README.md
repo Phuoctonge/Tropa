@@ -4,9 +4,11 @@ Portable game-focused WARP client based on Clash Verge Rev. The first native bas
 
 [Tropa overview](docs/tropa-overview.md) | [Design](docs/superpowers/specs/2026-10-27-game-warp-design.md) | [Roadmap](docs/roadmap.md)
 
+Windows development ZIPs are built by [Tropa Windows Portable](docs/validation/github-actions.md) in GitHub Actions.
+
 The current Windows x64 package uses a pinned mihomo core built for x86-64-v2 and requires an existing WebView2 Runtime. Its emoji font has separate Apache-2.0 / CC BY 4.0 notices. Clean Windows and native connection checks remain pending.
 
-Local development packages are checked with `python scripts/verify-tropa-package.py <archive.zip>` without running bundled executables. See [component inventory](docs/third-party-components.md) and [portable release status](docs/validation/portable-release.md); public release gates remain open.
+Local development packages are checked with `python scripts/verify-tropa-package.py <archive.zip> --build-record <build.json> --source-snapshot <source.zip> --engine-build <engine-build-directory>` without running bundled executables. See [component inventory](docs/third-party-components.md) and [portable release status](docs/validation/portable-release.md); public release gates remain open. Upstream publication workflows are retained in [.github/legacy-workflows](.github/legacy-workflows/README.md) outside the active GitHub Actions directory.
 
 The original project README and attribution follow.
 
@@ -26,11 +28,11 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 <p align="center">
   Languages:
   <a href="./docs/README_en.md">English</a> ·
-  <a href="./docs/README_es.md">Español</a> ·
-  <a href="./docs/README_fa.md">فارسی</a> ·
-  <a href="./docs/README_ja.md">日本語</a> ·
-  <a href="./docs/README_ko.md">한국어</a> ·
-  <a href="./docs/README_pt.md">Português</a> ·
+  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_es.md">Español</a> ·
+  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_fa.md">فارسی</a> ·
+  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_ja.md">日本語</a> ·
+  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_ko.md">한국어</a> ·
+  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_pt.md">Português</a> ·
   <a href="./docs/README_ru.md">Русский</a> ·
   <a href="./README.md">简体中文</a>
 </p>
@@ -39,7 +41,7 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 
 | Dark                             | Light                             |
 | -------------------------------- | --------------------------------- |
-| ![预览](./docs/preview_dark.png) | ![预览](./docs/preview_light.png) |
+| ![预览](https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/main/docs/preview_dark.png) | ![预览](https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/main/docs/preview_light.png) |
 
 ## Install
 

@@ -176,16 +176,6 @@ impl WarpAccount {
     }
 
     #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
-    pub(crate) fn scout_account(&self) -> serde_json::Value {
-        serde_json::json!({
-            "private_key":self.registration.private_key,
-            "peer_public_key":self.registration.peer_public_key,
-            "ipv4":self.registration.ipv4.to_string(),
-            "ipv6":self.registration.ipv6.map(|ip| ip.to_string()).unwrap_or_default()
-        })
-    }
-
-    #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
     pub(crate) fn wireguard_proxy(&self, server: IpAddr, port: u16) -> serde_json::Value {
         let mut proxy = serde_json::json!({
             "name":"WARP", "type":"wireguard", "server":server.to_string(), "port":port,

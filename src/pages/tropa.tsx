@@ -13,6 +13,7 @@ import {
   useQuery,
 } from '@/services/query-client'
 import {
+  chooseTropaFolder,
   chooseTropaGame,
   getTropaPreferences,
   getTropaServers,
@@ -22,6 +23,8 @@ import {
   getMasqueAccountStatus,
   resetMasqueRegistration,
   setTropaRouting,
+  setTropaCloseAction,
+  exitApp,
   setTropaSelectionPolicy,
   getTropaConnection,
   connectTropa,
@@ -34,6 +37,7 @@ import type {
   WarpAccountStatus,
   MasqueAccountStatus,
   TropaRouting,
+  TropaCloseAction,
 } from '@/types/tropa'
 
 export default function TropaPage() {
@@ -145,6 +149,15 @@ export default function TropaPage() {
       },
     })
 
+  const saveCloseAction = (action: TropaCloseAction) =>
+    mutate(() => setTropaCloseAction(action), {
+      id: 'tropa-preferences',
+      errorNotice: false,
+      onFulfilled: (saved) => {
+        void setCacheData(['tropa-preferences'], saved)
+      },
+    })
+
   const chooseApplication = (previousPath?: string) =>
     change(async () => {
       if (!preferences) return
@@ -156,6 +169,18 @@ export default function TropaPage() {
         })
       }
     }, 'Не удалось добавить приложение. Выберите его действующий EXE; для Firefox Portable — внутренний App/Firefox64/firefox.exe.')
+
+  const chooseFolder = () =>
+    change(async () => {
+      if (!preferences) return
+      const path = await chooseTropaFolder()
+      if (typeof path === 'string') {
+        await saveRouting({
+          mode: 'selected',
+          applications: [...preferences.routing.applications, path],
+        })
+      }
+    }, 'Не удалось добавить папку. Выберите существующую папку с игрой или приложением.')
 
   const changeAccount = (operation: () => Promise<WarpAccountStatus>) =>
     mutate(operation, {
@@ -191,6 +216,9 @@ export default function TropaPage() {
       onAddApplication={(path) => {
         void chooseApplication(path)
       }}
+      onAddFolder={() => {
+        void chooseFolder()
+      }}
       onRemoveApplication={(path) => {
         if (preferences)
           void change(() =>
@@ -203,6 +231,13 @@ export default function TropaPage() {
           )
       }}
       theme={validTheme}
+      closeAction={preferences?.closeAction}
+      onCloseActionChange={(action) => {
+        void change(() => saveCloseAction(action))
+      }}
+      onQuit={() => {
+        void exitApp()
+      }}
       connection={connection}
       connectionUnavailable={Boolean(connectionReadError)}
       onServerPanelChange={resizeServerPanel}
@@ -248,17 +283,22 @@ export default function TropaPage() {
         serversPending
           ? undefined
           : (selection) => {
-              void change(
-                () =>
-                  mutate(() => selectTropaServer(selection), {
-                    id: 'tropa-servers',
-                    errorNotice: false,
-                    onFulfilled: (saved) => {
-                      void setCacheData(['tropa-servers'], saved)
-                    },
-                  }),
-                'Не удалось сохранить выбор сервера. Прежний выбор сохранён.',
-              )
+              void change(async () => {
+                const saved = await mutate(() => selectTropaServer(selection), {
+                  id: 'tropa-servers',
+                  errorNotice: false,
+                  onFulfilled: (saved) => {
+                    void setCacheData(['tropa-servers'], saved)
+                  },
+                })
+                if (connection?.phase === 'connected') {
+                  void runConnection(async () => {
+                    await disconnectTropa()
+                    return await connectTropa()
+                  })
+                }
+                return saved
+              }, 'Не удалось переключить сервер. Прежний выбор сохранён.')
             }
       }
       busy={busy || connectionBusy}
@@ -297,10 +337,11 @@ export default function TropaPage() {
       windowControls={decorated === false ? <WindowControls /> : undefined}
       onCopyDiagnostics={() =>
         change(
-          () => mutate(copyTropaDiagnostics, {
-            id: 'tropa-diagnostics-clipboard',
-            errorNotice: false,
-          }),
+          () =>
+            mutate(copyTropaDiagnostics, {
+              id: 'tropa-diagnostics-clipboard',
+              errorNotice: false,
+            }),
           'Не удалось собрать или скопировать диагностику. Проверьте доступ к файлам Tropa и буферу обмена.',
         )
       }

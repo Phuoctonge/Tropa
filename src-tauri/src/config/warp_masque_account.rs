@@ -165,25 +165,6 @@ impl MasqueAccount {
         self.registration.id()
     }
 
-    #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
-    pub(crate) fn scout_account(&self) -> serde_json::Value {
-        let peer = format!(
-            "-----BEGIN PUBLIC KEY-----\n{}\n-----END PUBLIC KEY-----\n",
-            self.peer_public_key
-        );
-        let masque = serde_json::json!({
-            "private_key":self.registration.keys.private_key,
-            "peer_public_key":peer,
-            "ipv4":self.ipv4.to_string(),
-            "ipv6":self.ipv6.map(|ip| ip.to_string()).unwrap_or_default()
-        });
-        // v0.16.1 requires nonempty root keys even for MASQUE; only the nested EC identity is used.
-        // Keep genuine EC values here so this envelope cannot accidentally serve as a WG identity.
-        let mut envelope = masque.clone();
-        envelope["masque"] = masque;
-        envelope
-    }
-
     pub(crate) fn masque_proxy(&self, server: IpAddr, port: u16) -> serde_json::Value {
         let mut proxy = serde_json::json!({
             "name":"WARP", "type":"masque", "server":server.to_string(), "port":port,
@@ -458,38 +439,6 @@ mod tests {
         signature::{self, EcdsaKeyPair, KeyPair},
     };
     use base64::engine::general_purpose::STANDARD;
-
-    #[test]
-    fn scanner_export_is_masque_only_without_device_management_credentials() -> Result<()> {
-        let keys = MasqueKeys::generate()?;
-        let private = keys.private_key.clone();
-        let peer = MasqueKeys::generate()?;
-        let account = MasqueAccount {
-            registration: PendingMasque {
-                id: "synthetic-device".into(),
-                token: "synthetic-token".into(),
-                keys,
-            },
-            peer_public_key: peer.public_key.clone(),
-            ipv4: "172.16.0.2".parse()?,
-            ipv6: None,
-        };
-        let exported = account.scout_account();
-        assert_eq!(exported["masque"]["private_key"], private);
-        assert_eq!(exported["masque"]["ipv4"], "172.16.0.2");
-        assert_eq!(exported["masque"]["ipv6"], "");
-        assert_eq!(exported["private_key"], exported["masque"]["private_key"]);
-        assert_eq!(exported["peer_public_key"], exported["masque"]["peer_public_key"]);
-        let pem = exported["masque"]["peer_public_key"].as_str().unwrap();
-        assert!(pem.starts_with("-----BEGIN PUBLIC KEY-----\n"));
-        let body: String = pem.lines().filter(|line| !line.starts_with("-----")).collect();
-        assert_eq!(body, peer.public_key);
-        let text = exported.to_string();
-        assert!(!text.contains("synthetic-device"));
-        assert!(!text.contains("synthetic-token"));
-        assert!(exported.get("outer").is_none());
-        Ok(())
-    }
 
     #[tokio::test]
     async fn completed_enrollment_validates_peer_and_addresses_before_replacing_pending() -> Result<()> {

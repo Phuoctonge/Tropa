@@ -91,7 +91,7 @@ mod live {
         process::Command,
     };
 
-    const CORE_HASH: &str = "0b4c7353057a78de8a09db445351aadec7d72a4f48adc7d99691f3c5ff74d3da";
+    const CORE_HASH: &str = "8ccf696897f4d56aa8f9b13893b6b3c6d24a8a505eb257d46eeac53e6701ed2e";
 
     pub(crate) struct ProbeCancellation {
         receiver: tokio::sync::watch::Receiver<bool>,
@@ -546,6 +546,7 @@ mod live {
         sorted.sort_unstable();
         let (exit_country, metadata) = checked?;
         let observation = WarpObservation {
+            runtime_method: Some(crate::config::warp_profiles::RuntimeMeasurementMethod::UdpDnsV1),
             network_context: network_before
                 .filter(|before| crate::config::warp_context::capture().as_ref() == Some(before)),
             scanner_context: None,
@@ -724,10 +725,6 @@ mod tests {
             })
         );
         assert_eq!(awg_config["proxies"][0]["port"], 1701);
-        let scout = account.scout_account();
-        assert!(!scout.to_string().contains("-marker"));
-        assert_eq!(scout["private_key"], STANDARD.encode([7u8; 32]));
-        assert!(scout.get("id").is_none() && scout.get("token").is_none());
         assert_eq!(config["tun"]["enable"], false);
         assert_eq!(config["bind-address"], "127.0.0.1");
         assert_eq!(config["allow-lan"], false);

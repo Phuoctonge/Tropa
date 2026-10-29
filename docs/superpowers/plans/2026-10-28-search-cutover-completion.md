@@ -169,7 +169,7 @@ If Go/protocol/build inputs changed, first create and verify a new worker with `
 
 ```powershell
 & $python -X utf8 scripts/package-tropa.py --binary target/release/clash-verge.exe --name Tropa-owned-search-2026-10-28-c --build-record .artifacts/validation/Tropa-owned-search-2026-10-28-c/build.json --source-snapshot .artifacts/validation/Tropa-owned-search-2026-10-28-c/source.zip --engine-build .artifacts/engine-build/source-2026-10-28-scheduled-a
-& $python -X utf8 scripts/verify-tropa-package.py .artifacts/portable/Tropa-owned-search-2026-10-28-c.zip --engine-build .artifacts/engine-build/source-2026-10-28-scheduled-a
+& $python -X utf8 scripts/verify-tropa-package.py .artifacts/portable/Tropa-owned-search-2026-10-28-c.zip --engine-build .artifacts/engine-build/source-2026-10-28-scheduled-a --build-record .artifacts/validation/Tropa-owned-search-2026-10-28-c/build.json --source-snapshot .artifacts/validation/Tropa-owned-search-2026-10-28-c/source.zip
 ```
 
 - [ ] Independently inspect ZIP contents and PE bytes: GUI, x64, requireAdministrator, ordinary release features, no diagnostic executables/flags, no private data, no warpscout.exe. Verify the copied worker bytes and source pin match those compiled into the app; inspect signatures separately.

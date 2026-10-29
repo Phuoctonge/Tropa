@@ -65,6 +65,9 @@ mod tests {
         let build = format!("source:{}", "b".repeat(64));
         for measured in [false, true] {
             let mut payload = event["payload"].clone();
+            payload["nodeCountry"] = "FI".into();
+            payload["stages"]["https"] = false.into();
+            payload["stages"]["udp"] = serde_json::Value::Null;
             if measured {
                 payload["endpointPingMs"] = 0.25.into();
                 payload["tunnelPingMs"] = 3.625.into();
@@ -85,6 +88,7 @@ mod tests {
                 "consumer-masque.cloudflareclient.com"
             );
             let observation = &value["scanned"][0]["observation"];
+            assert_eq!(observation["nodeCountry"], "FI");
             let evidence = &observation["searchMeasurement"];
             assert_eq!(evidence["engineBuildId"], build);
             assert_eq!(evidence["stages"]["https"], false);
@@ -92,6 +96,7 @@ mod tests {
             if measured {
                 assert_eq!(evidence["tunnelPingMs"], 3.625);
                 assert_eq!(evidence["exitCountry"], "DE");
+                assert_ne!(observation["nodeCountry"], evidence["exitCountry"]);
                 assert_eq!(observation["endpointPingMs"], 1);
             } else {
                 assert!(evidence["tunnelPingMs"].is_null() && evidence["method"].is_null());

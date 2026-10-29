@@ -124,21 +124,6 @@ impl SelectionPolicy {
                 allow_unknown,
             )
     }
-
-    pub(crate) fn scanner_args(&self) -> Vec<String> {
-        let mut args = Vec::new();
-        for (flag, codes) in [
-            ("-node", &self.include_nodes),
-            ("-exclude-node", &self.exclude_nodes),
-            ("-country", &self.include_node_countries),
-            ("-exclude-country", &self.exclude_node_countries),
-        ] {
-            if !codes.is_empty() {
-                args.extend([flag.to_owned(), codes.join(",")]);
-            }
-        }
-        args
-    }
 }
 
 #[cfg(test)]
@@ -186,10 +171,6 @@ mod tests {
         assert!(nodes.matches_metadata(Some("HEL"), Some("FI"), false));
         assert!(!nodes.matches_metadata(None, Some("FI"), false));
         assert!(nodes.matches_metadata(None, Some("FI"), true));
-        assert_eq!(
-            nodes.scanner_args(),
-            vec!["-node", "ARN,HEL", "-exclude-node", "ARN,DME"]
-        );
         let countries = SelectionPolicy {
             include_node_countries: vec!["de".into(), "NL".into()],
             exclude_nodes: vec!["ARN".into()],
@@ -201,10 +182,6 @@ mod tests {
         assert!(!countries.matches_metadata(Some("HEL"), Some("FI"), false));
         assert!(!countries.matches_metadata(Some("ARN"), Some("NL"), false));
         assert!(!countries.matches_metadata(Some("FRA"), None, false));
-        assert_eq!(
-            countries.scanner_args(),
-            vec!["-exclude-node", "ARN", "-country", "DE,NL"]
-        );
         Ok(())
     }
 

@@ -24,16 +24,16 @@ pub mod validate;
 pub(crate) mod warp_children;
 #[cfg(all(windows, feature = "portable"))]
 pub(crate) mod warp_connection;
+#[cfg(all(windows, feature = "portable"))]
+pub(crate) mod warp_diagnostics;
 #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
 pub(crate) mod warp_discovery;
 #[cfg(all(windows, feature = "portable"))]
 pub(crate) mod warp_elevation;
+pub(crate) mod warp_failure;
+pub(crate) mod warp_metadata;
 #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
 pub(crate) mod warp_probe;
-pub(crate) mod warp_failure;
-#[cfg(all(windows, feature = "portable"))]
-pub(crate) mod warp_diagnostics;
-pub(crate) mod warp_metadata;
 pub(crate) mod warp_registration;
 #[cfg(all(windows, feature = "portable", feature = "tropa-probe"))]
 pub(crate) mod warp_smoke;
@@ -44,9 +44,6 @@ pub use notify::{handle, notification};
 
 #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
 pub(crate) mod warp_search;
-
-#[cfg(any(feature = "tropa-probe", feature = "portable", test))]
-pub(crate) mod warp_scout;
 
 #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
 pub(crate) mod warp_timing;

@@ -20,3 +20,17 @@ target
 /data/
 **/secrets/
 warpscout-account*.json
+archive/
+
+# Local toolchains, research outputs and build evidence
+/.tools/
+/.artifacts/
+/.tropa-upstream/
+
+# Python bytecode and local environment configuration
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+!.env.*.example

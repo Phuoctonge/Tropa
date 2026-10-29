@@ -10,6 +10,7 @@ import type {
   TropaServerSelection,
   TropaConnection,
   TropaRouting,
+  TropaCloseAction,
   TropaSelectionPolicy,
   TropaTransport,
 } from '@/types/tropa'
@@ -23,12 +24,24 @@ export const setTropaGame = (game: string | null) =>
 export const setTropaRouting = (routing: TropaRouting) =>
   invoke<TropaPreferences>('set_tropa_routing', { routing })
 
+export const setTropaCloseAction = (closeAction: TropaCloseAction) =>
+  invoke<TropaPreferences>('set_tropa_close_action', { closeAction })
+
+export const exitApp = () => invoke('exit_app')
+
 export const chooseTropaGame = () =>
   open({
     title: 'Выберите приложение для WARP',
     multiple: false,
     directory: false,
     filters: [{ name: 'Приложение Windows', extensions: ['exe'] }],
+  })
+
+export const chooseTropaFolder = () =>
+  open({
+    title: 'Выберите папку с игрой или приложением для WARP',
+    multiple: false,
+    directory: true,
   })
 
 export const getWarpAccountStatus = () =>
@@ -59,7 +72,10 @@ export async function copyTropaDiagnostics() {
 }
 export const connectTropa = () => invoke<TropaConnection>('connect_tropa')
 export const disconnectTropa = () => invoke<TropaConnection>('disconnect_tropa')
-export const refreshTropaServers = (transport?: TropaTransport, advanced = false) =>
+export const refreshTropaServers = (
+  transport?: TropaTransport,
+  advanced = false,
+) =>
   invoke<TropaConnection>('refresh_tropa_servers', {
     transport: transport ?? null,
     advanced,

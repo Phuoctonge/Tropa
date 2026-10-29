@@ -48,18 +48,32 @@ fn observe_file(path: &Path, expected: Option<&str>) -> serde_json::Value {
 pub(crate) fn component_report(executable: &Path, resources: &Path) -> anyhow::Result<serde_json::Value> {
     let inventory: serde_json::Value = serde_json::from_str(include_str!("../../../scripts/tropa-components.json"))?;
     let mut components = Vec::new();
-    for (name, filename) in [("mihomo", "verge-mihomo.exe"), ("WarpScout", "warpscout.exe")] {
-        let component = inventory["components"]
-            .as_array()
-            .and_then(|entries| entries.iter().find(|entry| entry["name"] == name))
-            .ok_or_else(|| anyhow::anyhow!("Missing pinned component metadata"))?;
-        let checksum = component["sha256"]
-            .as_str()
-            .ok_or_else(|| anyhow::anyhow!("Missing pinned checksum"))?;
+    let mihomo = inventory["components"]
+        .as_array()
+        .and_then(|entries| entries.iter().find(|entry| entry["name"] == "mihomo"))
+        .ok_or_else(|| anyhow::anyhow!("Missing pinned component metadata"))?;
+    let checksum = mihomo["sha256"]
+        .as_str()
+        .ok_or_else(|| anyhow::anyhow!("Missing pinned checksum"))?;
+    components.push(serde_json::json!({
+        "name": "mihomo",
+        "version": mihomo["version"],
+        "file": observe_file(&resources.join("verge-mihomo.exe"), Some(checksum)),
+    }));
+    let worker_pin =
+        option_env!("TROPA_ENGINE_PIN").and_then(|pin| serde_json::from_str::<serde_json::Value>(pin).ok());
+    if let Some(pin) = worker_pin {
+        let expected_sha256 = pin["sha256"].as_str();
         components.push(serde_json::json!({
-            "name": name,
-            "version": component["version"],
-            "file": observe_file(&resources.join(filename), Some(checksum)),
+            "name": "tropa-probe",
+            "buildId": pin["buildId"],
+            "snapshotId": pin["snapshotId"],
+            "file": observe_file(&resources.join("tropa-probe.exe"), expected_sha256),
+        }));
+    } else {
+        components.push(serde_json::json!({
+            "name": "tropa-probe",
+            "file": observe_file(&resources.join("tropa-probe.exe"), None),
         }));
     }
     Ok(serde_json::json!({

@@ -4,6 +4,20 @@ use std::path::{Path, PathBuf};
 
 use crate::utils::help;
 
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum CloseAction {
+    #[default]
+    MinimizeToTray,
+    Quit,
+}
+
+impl CloseAction {
+    pub fn is_default(&self) -> bool {
+        matches!(self, Self::MinimizeToTray)
+    }
+}
+
 #[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct TropaPreferences {
     pub game: Option<PathBuf>,
@@ -15,6 +29,8 @@ pub struct TropaPreferences {
         skip_serializing_if = "super::warp_selection::SelectionPolicy::is_default"
     )]
     pub(crate) selection_policy: super::warp_selection::SelectionPolicy,
+    #[serde(default, rename = "closeAction", skip_serializing_if = "CloseAction::is_default")]
+    pub close_action: CloseAction,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -41,48 +57,51 @@ impl RoutingPreferences {
             let original_text = original
                 .to_str()
                 .ok_or_else(|| anyhow::anyhow!("Invalid application path encoding"))?;
-            anyhow::ensure!(
-                original
-                    .extension()
-                    .is_some_and(|extension| extension.eq_ignore_ascii_case("exe"))
-                    && !original_text.chars().any(char::is_control),
-                "Select an application executable (.exe)"
-            );
+            anyhow::ensure!(!original_text.chars().any(char::is_control), "Invalid application path");
             if self.mode == RoutingMode::All {
                 paths.push(original);
                 continue;
             }
+            let metadata = tokio::fs::metadata(&original).await;
+            let is_dir = metadata.as_ref().map(|m| m.is_dir()).unwrap_or(false);
             let mut path = original;
-            if path
-                .file_name()
-                .is_some_and(|name| name.eq_ignore_ascii_case("FirefoxPortable.exe"))
-            {
-                let parent = path
-                    .parent()
-                    .ok_or_else(|| anyhow::anyhow!("Missing launcher directory"))?;
-                let mut resolved = None;
-                for relative in ["App/Firefox64/firefox.exe", "App/Firefox/firefox.exe"] {
-                    let candidate = parent.join(relative);
-                    if tokio::fs::metadata(&candidate)
-                        .await
-                        .is_ok_and(|metadata| metadata.is_file())
-                    {
-                        resolved = Some(candidate);
-                        break;
+            if !is_dir {
+                if path
+                    .file_name()
+                    .is_some_and(|name| name.eq_ignore_ascii_case("FirefoxPortable.exe"))
+                {
+                    let parent = path
+                        .parent()
+                        .ok_or_else(|| anyhow::anyhow!("Missing launcher directory"))?;
+                    let mut resolved = None;
+                    for relative in ["App/Firefox64/firefox.exe", "App/Firefox/firefox.exe"] {
+                        let candidate = parent.join(relative);
+                        if tokio::fs::metadata(&candidate)
+                            .await
+                            .is_ok_and(|metadata| metadata.is_file())
+                        {
+                            resolved = Some(candidate);
+                            break;
+                        }
                     }
+                    path = resolved.ok_or_else(|| {
+                        anyhow::anyhow!(
+                            "Select Firefox Portable's actual App/Firefox64/firefox.exe or App/Firefox/firefox.exe"
+                        )
+                    })?;
                 }
-                path = resolved.ok_or_else(|| {
-                    anyhow::anyhow!(
-                        "Select Firefox Portable's actual App/Firefox64/firefox.exe or App/Firefox/firefox.exe"
-                    )
-                })?;
+                anyhow::ensure!(
+                    path.extension()
+                        .is_some_and(|extension| extension.eq_ignore_ascii_case("exe"))
+                        && tokio::fs::metadata(&path).await.is_ok_and(|m| m.is_file()),
+                    "Select an existing application executable (.exe) or directory"
+                );
+            } else {
+                anyhow::ensure!(
+                    metadata.is_ok_and(|m| m.is_dir()),
+                    "Select an existing application folder"
+                );
             }
-            anyhow::ensure!(
-                path.extension()
-                    .is_some_and(|extension| extension.eq_ignore_ascii_case("exe"))
-                    && tokio::fs::metadata(&path).await?.is_file(),
-                "Select an existing application executable (.exe)"
-            );
             let canonical = tokio::fs::canonicalize(path).await?;
             let text = canonical
                 .to_str()
@@ -137,8 +156,18 @@ impl RoutingPreferences {
                 path.is_absolute() && !text.chars().any(char::is_control),
                 "Invalid application path"
             );
+            let directory = path.is_dir() || !path.extension().is_some_and(|ext| ext.eq_ignore_ascii_case("exe"));
+            let text = if directory {
+                text.trim_end_matches(['\\', '/'])
+            } else {
+                text
+            };
             let expression = regex::escape(text).replace(',', r"\x2C");
-            rules.push(format!("PROCESS-PATH-REGEX,^(?i:{expression})$,WARP"));
+            if directory {
+                rules.push(format!(r"PROCESS-PATH-REGEX,^(?i:{expression}[\\/].*)$,WARP"));
+            } else {
+                rules.push(format!("PROCESS-PATH-REGEX,^(?i:{expression})$,WARP"));
+            }
         }
         rules.push("MATCH,DIRECT".into());
         Ok(rules)
@@ -325,6 +354,57 @@ mod tests {
         assert!(rejected.is_err(), "non-executable selection must be rejected");
         assert_eq!(after_rejection, selected);
         assert!(malformed.is_err(), "malformed preferences must not silently reset");
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn folder_routing_matches_all_executables_within_directory() -> anyhow::Result<()> {
+        use super::{RoutingMode, RoutingPreferences};
+        let root = std::env::temp_dir().join(format!("tropa-game-dir-{}", nanoid::nanoid!()));
+        tokio::fs::create_dir_all(&root).await?;
+        let _cleanup = scopeguard::guard(root.clone(), |path| {
+            let _ = std::fs::remove_dir_all(path);
+        });
+        let normalized = RoutingPreferences {
+            mode: RoutingMode::Selected,
+            applications: vec![root.clone()],
+        }
+        .normalized()
+        .await?;
+        assert_eq!(normalized.applications.len(), 1);
+        let rules = normalized.rules()?;
+        assert_eq!(rules.len(), 2);
+        let parts: Vec<_> = rules[0].split(',').collect();
+        assert_eq!(parts.len(), 3);
+        assert_eq!(parts[0], "PROCESS-PATH-REGEX");
+        assert_eq!(parts[2], "WARP");
+        let expression = regex::Regex::new(parts[1])?;
+        let child_exe = root.join("bin").join("game.exe");
+        assert!(expression.is_match(&child_exe.to_string_lossy()));
+        assert!(!expression.is_match(r"C:\Other\game.exe"));
+        assert_eq!(rules[1], "MATCH,DIRECT");
+        Ok(())
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn folder_rules_accept_roots_without_matching_sibling_directories() -> anyhow::Result<()> {
+        use super::{RoutingMode, RoutingPreferences};
+        use std::path::PathBuf;
+
+        for (directory, executable, expected) in [
+            (r"C:\", r"C:\Games\game.exe", true),
+            (r"C:\Games\", r"C:\Games\bin\game.exe", true),
+            (r"C:\Games\", r"C:\GamesElse\game.exe", false),
+        ] {
+            let routing = RoutingPreferences {
+                mode: RoutingMode::Selected,
+                applications: vec![PathBuf::from(directory)],
+            };
+            let rules = routing.rules()?;
+            let expression = rules[0].split(',').nth(1).unwrap();
+            assert_eq!(regex::Regex::new(expression)?.is_match(executable), expected);
+        }
         Ok(())
     }
 }

@@ -498,6 +498,21 @@ impl Tray {
         let icon_bytes = TrayState::get_tray_icon(&verge).await.1;
         let icon = tauri::image::Image::from_bytes(&icon_bytes)?;
 
+        #[cfg(all(windows, feature = "portable"))]
+        let (initial_menu, _) = create_tray_menu(
+            app_handle,
+            None,
+            false,
+            false,
+            false,
+            vec![],
+            TrayMenuOptions {
+                is_lightweight_mode: false,
+                include_proxy_groups: false,
+            },
+        )
+        .await?;
+
         #[cfg(target_os = "linux")]
         let builder = TrayIconBuilder::with_id(TRAY_ID).icon(icon).icon_as_template(false);
 
@@ -518,6 +533,9 @@ impl Tray {
                 builder = builder.show_menu_on_left_click(false);
             }
         }
+
+        #[cfg(all(windows, feature = "portable"))]
+        let builder = builder.menu(&initial_menu);
 
         let tray = builder.build(app_handle)?;
         tray.on_tray_icon_event(on_tray_icon_event);

@@ -4,10 +4,8 @@ use crate::{
         Config,
         warp_profiles::{ServerSelection, WarpCatalog, WarpCatalogLock},
     },
-    core::{
-        warp_probe::{
-            ProbeCancellation, TransportProbeReport, TransportUnavailable, run_warp_transport_probe_profile_timed,
-        },
+    core::warp_probe::{
+        ProbeCancellation, TransportProbeReport, TransportUnavailable, run_warp_transport_probe_profile_timed,
     },
 };
 use anyhow::{Result, anyhow, ensure};
@@ -87,7 +85,11 @@ pub(crate) static SEARCH_PROGRESS: std::sync::LazyLock<parking_lot::Mutex<Search
     std::sync::LazyLock::new(Default::default);
 
 #[cfg(feature = "tropa-probe")]
-pub async fn run_warp_discovery_probe(root: PathBuf, core: PathBuf, runtime_root: PathBuf) -> Result<TransportProbeReport> {
+pub async fn run_warp_discovery_probe(
+    root: PathBuf,
+    core: PathBuf,
+    runtime_root: PathBuf,
+) -> Result<TransportProbeReport> {
     run_profile_discovery(root, core, runtime_root, false, &ProbeCancellation::new(), None, false).await
 }
 
@@ -313,109 +315,188 @@ pub(crate) async fn run_profile_discovery(
             WarpFailure::new(FailureStage::Validation, FailureReason::Unreachable)
         );
     }
-    let collected = super::warp_engine::stream::search(
-        &root,
-        &runtime_root,
-        &mut catalog,
-        &policy,
-        crate::config::warp_context::ipv6_scan_available(),
-        refresh,
-        started,
-        observation_time()?,
-        cancellation,
-        &SEARCH_PROGRESS,
-    )
-    .await?;
-    last_scan_failure = collected.last_failure.or(last_scan_failure);
-    let context = crate::config::warp_context::capture();
-    let mut validation_catalog = catalog.clone();
-    validation_catalog.selection = ServerSelection::Automatic;
-    let profiles = super::warp_engine::selection::validation_queue(
-        &collected.baselines,
-        &validation_catalog,
-        &policy,
-        context.as_deref(),
-        observation_time()?,
-    );
+    let mut resume = None;
+    let mut search_pending = true;
+    let mut baselines = Vec::new();
+    let mut attempted = std::collections::HashSet::new();
     let mut found: Vec<(String, TransportProbeReport)> = Vec::new();
-    for (index, profile) in profiles.iter().enumerate() {
-        ensure!(
-            !cancellation.is_cancelled(),
-            WarpFailure::new(FailureStage::Validation, FailureReason::Cancelled)
+    loop {
+        if search_pending {
+            let collected = super::warp_engine::stream::search(
+                &root,
+                &runtime_root,
+                &mut catalog,
+                &policy,
+                crate::config::warp_context::ipv6_scan_available(),
+                refresh,
+                advanced,
+                started,
+                observation_time()?,
+                cancellation,
+                &SEARCH_PROGRESS,
+                resume.take(),
+            )
+            .await?;
+            last_scan_failure = collected.last_failure.or(last_scan_failure);
+            baselines.extend(collected.baselines);
+            resume = collected
+                .resume
+                .filter(|plan| plan.can_resume(tokio::time::Instant::now()));
+        }
+        let validation_deadline = round_validation_deadline(
+            tokio::time::Instant::now(),
+            deadline,
+            resume.as_ref().map(|plan| plan.discovery_deadline()),
         );
-        let now = tokio::time::Instant::now();
-        if now >= deadline {
-            break;
-        }
-        let remaining_kinds = [TransportKind::WireGuard, TransportKind::Awg, TransportKind::MasqueH3, TransportKind::MasqueH2]
-            .into_iter().filter(|kind| profiles[index..].iter().any(|profile| profile.transport.kind() == *kind)).count();
-        let budget = deadline.saturating_duration_since(now) / remaining_kinds.max(1) as u32;
-        if budget < Duration::from_secs(2) {
-            break;
-        }
-        let slice_deadline = deadline.min(now + budget.min(Duration::from_secs(if refresh { 30 } else { 20 })));
-        let slice_cancellation = ProbeCancellation::linked(cancellation, slice_deadline);
-        let kind = profile.transport.kind();
-        let timings = {
-            let mut progress = SEARCH_PROGRESS.lock();
-            progress.preset = "mihomo".into();
-            progress.begin_task(kind);
-            progress.discover(kind, [profile.id.clone()]);
-            progress.transport(kind).timings.clone()
-        };
-        let result = run_warp_transport_probe_profile_timed(
-            root.clone(), core.clone(), profile, &slice_cancellation, &timings,
-        ).await;
-        {
-            let mut progress = SEARCH_PROGRESS.lock();
-            let entry = progress.transport(kind);
-            entry.elapsed_ms = entry.elapsed_ms.saturating_add(now.elapsed().as_millis() as u64);
-            entry.state = if cancellation.is_cancelled() { SearchState::Cancelled }
-                else if slice_cancellation.is_cancelled() { SearchState::TimedOut }
-                else { SearchState::Completed };
-        }
-        if slice_cancellation.is_cancelled() && !cancellation.is_cancelled()
-            && result.as_ref().err().and_then(|error| error.downcast_ref::<WarpFailure>())
-                .is_some_and(|failure| failure.reason == FailureReason::Cancelled) {
-            last_scan_failure = Some(WarpFailure::new(FailureStage::Validation, FailureReason::Timeout).for_transport(kind));
-            continue;
-        }
-        match result {
-            Ok(mut report) => {
-                ensure!(!cancellation.is_cancelled(), WarpFailure::new(FailureStage::Validation, FailureReason::Cancelled));
-                let _write = Config::lock_config_write().await;
-                super::warp_runtime::RuntimeAccount::load(&root, profile).await?.bind_catalog(&mut catalog);
-                if !policy.allows_observation(&profile.transport, &report.observation, false) {
+        let context = crate::config::warp_context::capture();
+        let mut validation_catalog = catalog.clone();
+        validation_catalog.selection = ServerSelection::Automatic;
+        let profiles: Vec<_> = super::warp_engine::selection::validation_queue(
+            &baselines,
+            &validation_catalog,
+            &policy,
+            context.as_deref(),
+            observation_time()?,
+        )
+        .into_iter()
+        .filter(|profile| !attempted.contains(&profile.id))
+        .collect();
+        for (index, profile) in profiles.iter().enumerate() {
+            ensure!(
+                !cancellation.is_cancelled(),
+                WarpFailure::new(FailureStage::Validation, FailureReason::Cancelled)
+            );
+            let now = tokio::time::Instant::now();
+            if now >= validation_deadline {
+                break;
+            }
+            let remaining_kinds = [
+                TransportKind::WireGuard,
+                TransportKind::Awg,
+                TransportKind::MasqueH3,
+                TransportKind::MasqueH2,
+            ]
+            .into_iter()
+            .filter(|kind| {
+                profiles[index..]
+                    .iter()
+                    .any(|profile| profile.transport.kind() == *kind)
+            })
+            .count();
+            let budget = validation_deadline.saturating_duration_since(now) / remaining_kinds.max(1) as u32;
+            if budget < Duration::from_secs(2) {
+                break;
+            }
+            let slice_deadline =
+                validation_deadline.min(now + budget.min(Duration::from_secs(if refresh { 30 } else { 20 })));
+            let slice_cancellation = ProbeCancellation::linked(cancellation, slice_deadline);
+            let kind = profile.transport.kind();
+            attempted.insert(profile.id.clone());
+            let timings = {
+                let mut progress = SEARCH_PROGRESS.lock();
+                progress.preset = "mihomo".into();
+                progress.begin_task(kind);
+                progress.discover(kind, [profile.id.clone()]);
+                progress.transport(kind).timings.clone()
+            };
+            let result = run_warp_transport_probe_profile_timed(
+                root.clone(),
+                core.clone(),
+                profile,
+                &slice_cancellation,
+                &timings,
+            )
+            .await;
+            {
+                let mut progress = SEARCH_PROGRESS.lock();
+                let entry = progress.transport(kind);
+                entry.elapsed_ms = entry.elapsed_ms.saturating_add(now.elapsed().as_millis() as u64);
+                entry.state = if cancellation.is_cancelled() {
+                    SearchState::Cancelled
+                } else if slice_cancellation.is_cancelled() {
+                    SearchState::TimedOut
+                } else {
+                    SearchState::Completed
+                };
+            }
+            if slice_cancellation.is_cancelled()
+                && !cancellation.is_cancelled()
+                && result
+                    .as_ref()
+                    .err()
+                    .and_then(|error| error.downcast_ref::<WarpFailure>())
+                    .is_some_and(|failure| failure.reason == FailureReason::Cancelled)
+            {
+                last_scan_failure =
+                    Some(WarpFailure::new(FailureStage::Validation, FailureReason::Timeout).for_transport(kind));
+                continue;
+            }
+            match result {
+                Ok(mut report) => {
+                    ensure!(
+                        !cancellation.is_cancelled(),
+                        WarpFailure::new(FailureStage::Validation, FailureReason::Cancelled)
+                    );
+                    let _write = Config::lock_config_write().await;
+                    super::warp_runtime::RuntimeAccount::load(&root, profile)
+                        .await?
+                        .bind_catalog(&mut catalog);
+                    if !policy.allows_observation(&profile.transport, &report.observation, false) {
+                        if catalog.entries.iter().any(|entry| entry.profile.id == profile.id)
+                            || catalog.scanned.iter().any(|entry| entry.profile.id == profile.id)
+                        {
+                            catalog.record_rejection(&profile.id, observation_time()?)?;
+                            catalog.save(&path).await?;
+                        }
+                        SEARCH_PROGRESS
+                            .lock()
+                            .record_check(kind, &profile.id, Err(&anyhow!(TransportUnavailable)));
+                        continue;
+                    }
+                    catalog.record_probe(profile.clone(), report.observation.clone())?;
+                    catalog.save(&path).await?;
+                    report.observation = catalog
+                        .entries
+                        .iter()
+                        .find(|entry| entry.profile.id == profile.id)
+                        .expect("recorded runtime observation")
+                        .observation
+                        .clone();
+                    SEARCH_PROGRESS.lock().record_check(kind, &profile.id, Ok(()));
+                    found.push((profile.id.clone(), report));
+                    if !refresh {
+                        break;
+                    }
+                }
+                Err(error) if error.downcast_ref::<TransportUnavailable>().is_some() => {
+                    let _write = Config::lock_config_write().await;
                     if catalog.entries.iter().any(|entry| entry.profile.id == profile.id)
-                        || catalog.scanned.iter().any(|entry| entry.profile.id == profile.id) {
+                        || catalog.scanned.iter().any(|entry| entry.profile.id == profile.id)
+                    {
                         catalog.record_rejection(&profile.id, observation_time()?)?;
                         catalog.save(&path).await?;
                     }
-                    SEARCH_PROGRESS.lock().record_check(kind, &profile.id, Err(&anyhow!(TransportUnavailable)));
-                    continue;
+                    SEARCH_PROGRESS.lock().record_check(kind, &profile.id, Err(&error));
                 }
-                catalog.record_probe(profile.clone(), report.observation.clone())?;
-                catalog.save(&path).await?;
-                report.observation = catalog.entries.iter().find(|entry| entry.profile.id == profile.id).expect("recorded runtime observation").observation.clone();
-                SEARCH_PROGRESS.lock().record_check(kind, &profile.id, Ok(()));
-                found.push((profile.id.clone(), report));
-                if !refresh {
-                    break;
+                Err(error) => {
+                    SEARCH_PROGRESS.lock().fail(
+                        kind,
+                        WarpFailure::from_error(&error, FailureStage::Validation, FailureReason::InvalidOutput)
+                            .for_transport(kind),
+                    );
+                    return Err(error);
                 }
             }
-            Err(error) if error.downcast_ref::<TransportUnavailable>().is_some() => {
-                let _write = Config::lock_config_write().await;
-                if catalog.entries.iter().any(|entry| entry.profile.id == profile.id)
-                    || catalog.scanned.iter().any(|entry| entry.profile.id == profile.id) {
-                    catalog.record_rejection(&profile.id, observation_time()?)?;
-                    catalog.save(&path).await?;
-                }
-                SEARCH_PROGRESS.lock().record_check(kind, &profile.id, Err(&error));
-            }
-            Err(error) => {
-                SEARCH_PROGRESS.lock().fail(kind, WarpFailure::from_error(&error, FailureStage::Validation, FailureReason::InvalidOutput).for_transport(kind));
-                return Err(error);
-            }
+        }
+        if !found.is_empty() {
+            break;
+        }
+        let Some(next) = resume.take() else {
+            break;
+        };
+        search_pending = next.can_resume(tokio::time::Instant::now());
+        if search_pending {
+            resume = Some(next);
         }
     }
     // A refresh reports the best new observation without changing a manual selection.
@@ -447,6 +528,43 @@ pub(crate) async fn run_profile_discovery(
             )
             .into()
         })
+}
+
+fn round_validation_deadline(
+    now: tokio::time::Instant,
+    deadline: tokio::time::Instant,
+    continuation_deadline: Option<tokio::time::Instant>,
+) -> tokio::time::Instant {
+    continuation_deadline
+        .filter(|discovery| *discovery > now)
+        .map_or(deadline, |discovery| {
+            deadline.min(discovery).min(now + Duration::from_secs(20))
+        })
+}
+
+#[cfg(test)]
+#[test]
+fn early_validation_leaves_time_for_the_same_search_to_continue() {
+    let start = tokio::time::Instant::now();
+    let now = start + Duration::from_secs(30);
+    let deadline = start + Duration::from_secs(180);
+    assert_eq!(
+        round_validation_deadline(now, deadline, Some(start + Duration::from_secs(135))),
+        start + Duration::from_secs(50),
+    );
+    assert_eq!(
+        round_validation_deadline(now, deadline, Some(start + Duration::from_secs(40))),
+        start + Duration::from_secs(40),
+    );
+    assert_eq!(round_validation_deadline(now, deadline, None), deadline);
+    assert_eq!(
+        round_validation_deadline(
+            start + Duration::from_secs(136),
+            deadline,
+            Some(start + Duration::from_secs(135))
+        ),
+        deadline,
+    );
 }
 
 #[cfg(test)]

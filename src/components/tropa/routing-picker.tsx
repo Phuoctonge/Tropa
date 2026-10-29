@@ -1,4 +1,4 @@
-import { AddRounded } from '@mui/icons-material'
+import { AddRounded, FolderOpenRounded } from '@mui/icons-material'
 
 import type { TropaRouting } from '@/types/tropa'
 
@@ -9,6 +9,7 @@ export function RoutingPicker({
   legacyGame,
   onChange,
   onAdd,
+  onAddFolder,
   onRemove,
 }: {
   routing: TropaRouting
@@ -17,6 +18,7 @@ export function RoutingPicker({
   legacyGame?: string | null
   onChange?: (routing: TropaRouting) => void
   onAdd?: (path?: string) => void
+  onAddFolder?: () => void
   onRemove?: (path: string) => void
 }) {
   return (
@@ -56,27 +58,44 @@ export function RoutingPicker({
         </p>
       )}
       <div className="tropa-routing-applications">
-        {routing.applications.map((path) => (
-          <div className="tropa-card" key={path}>
-            <strong>{path.split(/[\\/]/).pop()}</strong>
-            <p className="tropa-path">{path}</p>
-            <button
-              className="tropa-text-button"
-              disabled={disabled || !onRemove}
-              onClick={() => onRemove?.(path)}
-            >
-              Убрать приложение
-            </button>
-          </div>
-        ))}
+        {routing.applications.map((path) => {
+          const isFolder = !path.toLowerCase().endsWith('.exe')
+          return (
+            <div className="tropa-card" key={path}>
+              <strong>{path.split(/[\\/]/).pop()}</strong>
+              <span className="tropa-cell-secondary">
+                {isFolder ? 'Папка (все процессы внутри)' : 'Приложение (.exe)'}
+              </span>
+              <p className="tropa-path">{path}</p>
+              <button
+                className="tropa-text-button"
+                disabled={disabled || !onRemove}
+                onClick={() => onRemove?.(path)}
+              >
+                {isFolder ? 'Убрать папку' : 'Убрать приложение'}
+              </button>
+            </div>
+          )
+        })}
       </div>
-      <button
-        className="tropa-primary"
-        disabled={disabled || !onAdd}
-        onClick={() => onAdd?.()}
-      >
-        <AddRounded fontSize="small" /> Добавить приложение
-      </button>
+      <div className="tropa-routing-actions">
+        <button
+          className="tropa-primary"
+          disabled={disabled || !onAdd}
+          onClick={() => onAdd?.()}
+        >
+          <AddRounded fontSize="small" /> Добавить приложение (.exe)
+        </button>
+        {onAddFolder && (
+          <button
+            className="tropa-secondary"
+            disabled={disabled || !onAddFolder}
+            onClick={() => onAddFolder()}
+          >
+            <FolderOpenRounded fontSize="small" /> Добавить папку с игрой
+          </button>
+        )}
+      </div>
       {legacyGame && !routing.applications.includes(legacyGame) && (
         <button
           className="tropa-text-button"
@@ -87,9 +106,11 @@ export function RoutingPicker({
         </button>
       )}
       <p className="tropa-note">
-        Добавление приложения включает выборочный режим. Выбирайте EXE, который
-        пользуется сетью: дочерние процессы launcher не добавляются
-        автоматически. Для Firefox Portable определяется внутренний firefox.exe.
+        Добавление приложения или папки включает выборочный режим. Выбирайте EXE
+        или папку с игрой: через туннель идут процессы, EXE которых находятся в
+        этой папке и её подпапках. Процессы и службы из других папок нужно
+        выбирать отдельно. Для Firefox Portable определяется внутренний
+        firefox.exe.
       </p>
       <p className="tropa-note">
         {connected

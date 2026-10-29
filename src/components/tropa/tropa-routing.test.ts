@@ -2,6 +2,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, test } from 'vitest'
 
+import { RoutingPicker } from './routing-picker'
 import { TropaView } from './tropa-view'
 
 test('selected application routing is explicit and is not labelled game optimization', () => {
@@ -15,7 +16,7 @@ test('selected application routing is explicit and is not labelled game optimiza
     }),
   )
   expect(html).toContain('Раздельное туннелирование')
-  expect(html).toContain('Только выбранные приложения')
+  expect(html).toContain('Выбранные приложения')
   expect(html).not.toContain('Оптимизация для игры')
 })
 
@@ -80,8 +81,11 @@ test('failed status reads do not present cached healthy state as confirmed conne
       theme: 'light',
       connectionUnavailable: true,
       connection: {
-        phase: 'connected', health: 'healthy', activeProfileId: 'profile',
-        needsDisconnect: true, error: null,
+        phase: 'connected',
+        health: 'healthy',
+        activeProfileId: 'profile',
+        needsDisconnect: true,
+        error: null,
       },
       onTheme: () => {},
       onResetAccount: async () => false,
@@ -91,4 +95,25 @@ test('failed status reads do not present cached healthy state as confirmed conne
   expect(html).toContain('Не удалось прочитать состояние подключения.')
   expect(html).not.toContain('<h1 aria-live="polite">Подключено</h1>')
   expect(html).not.toContain('Трафик компьютера проходит через WARP')
+})
+
+test('folder routing distinguishes directories and displays folder action buttons', () => {
+  const html = renderToStaticMarkup(
+    createElement(RoutingPicker, {
+      routing: {
+        mode: 'selected',
+        applications: ['D:\\Games\\Dota 2', 'C:\\Apps\\test.exe'],
+      },
+      disabled: false,
+      connected: false,
+      onAddFolder: () => {},
+    }),
+  )
+  expect(html).toContain('Dota 2')
+  expect(html).toContain('Папка (все процессы внутри)')
+  expect(html).toContain('Убрать папку')
+  expect(html).toContain('test.exe')
+  expect(html).toContain('Приложение (.exe)')
+  expect(html).toContain('Убрать приложение')
+  expect(html).toContain('Добавить папку с игрой')
 })

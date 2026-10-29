@@ -54,6 +54,20 @@ fn failure(reason: FailureReason) -> anyhow::Error {
     WarpFailure::new(FailureStage::Scanner, reason).into()
 }
 
+fn can_finish_search(policy: &SelectionPolicy, candidate: &ScannedProfile) -> bool {
+    candidate
+        .observation
+        .search_measurement
+        .as_ref()
+        .is_some_and(|measurement| measurement.stages.https == Some(true))
+        && policy.allows_transport(&candidate.profile.transport)
+        && policy.matches_metadata(
+            candidate.observation.node.as_deref(),
+            candidate.observation.node_country.as_deref(),
+            false,
+        )
+}
+
 async fn emit(
     output: &mpsc::Sender<SearchEvent>,
     event: SearchEvent,
@@ -69,17 +83,59 @@ async fn emit(
     }
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn early_handoff_requires_an_allowed_https_candidate() -> Result<()> {
+        let fixture: serde_json::Value =
+            serde_json::from_str(include_str!("../../../../protocol/fixtures/search-v1.json"))?;
+        let event: serde_json::Value = serde_json::from_str(fixture["cases"][1]["json"].as_str().unwrap())?;
+        let mut payload = event["payload"].clone();
+        payload["stages"]["https"] = true.into();
+        payload["node"] = "HEL".into();
+        payload["nodeCountry"] = "FI".into();
+        payload["exitCountry"] = "DE".into();
+        let candidate: super::super::wire::Candidate = serde_json::from_value(payload)?;
+        let mut candidate = candidate.into_scanned(format!("source:{}", "a".repeat(64)), None, 123)?;
+        let mut policy = SelectionPolicy {
+            exclude_nodes: vec!["HEL".into()],
+            ..Default::default()
+        };
+        assert!(!can_finish_search(&policy, &candidate));
+        policy.exclude_nodes.clear();
+        policy.include_node_countries = vec!["DE".into()];
+        assert!(!can_finish_search(&policy, &candidate));
+        policy.include_node_countries = vec!["FI".into()];
+        assert!(can_finish_search(&policy, &candidate));
+        candidate.observation.node_country = None;
+        assert!(!can_finish_search(&policy, &candidate));
+        policy.include_node_countries.clear();
+        assert!(can_finish_search(&policy, &candidate));
+        policy.allowed_transports = vec![TransportKind::WireGuard];
+        assert!(!can_finish_search(&policy, &candidate));
+        policy.allowed_transports.clear();
+        candidate.observation.search_measurement.as_mut().unwrap().stages.https = Some(false);
+        assert!(!can_finish_search(&policy, &candidate));
+        Ok(())
+    }
+}
+
 pub(crate) async fn run_search(
     root: &Path,
     runtime_root: &Path,
     policy: &SelectionPolicy,
     ipv6: bool,
     extended: bool,
+    advanced: bool,
+    saved: &[WarpProfile],
     start: Instant,
     seed: u64,
     cancellation: &ProbeCancellation,
     output: &mpsc::Sender<SearchEvent>,
-) -> Result<()> {
+    resume: Option<SearchSchedule>,
+) -> Result<Option<SearchSchedule>> {
     let lifetime = ProbeCancellation::linked(
         cancellation,
         start + Duration::from_secs(if extended { 600 } else { 180 }),
@@ -91,10 +147,13 @@ pub(crate) async fn run_search(
         policy,
         ipv6,
         extended,
+        advanced,
+        saved,
         start,
         seed,
         cancellation,
         output,
+        resume,
     )
     .await;
     match client.shutdown().await {
@@ -116,15 +175,27 @@ pub(super) async fn run_with_client(
     policy: &SelectionPolicy,
     ipv6: bool,
     extended: bool,
+    advanced: bool,
+    saved: &[WarpProfile],
     start: Instant,
     seed: u64,
     cancellation: &ProbeCancellation,
     output: &mpsc::Sender<SearchEvent>,
-) -> Result<()> {
-    let mut plan = SearchSchedule::new(policy, ipv6, extended, start, seed, client.parameter_sets())?;
+    resume: Option<SearchSchedule>,
+) -> Result<Option<SearchSchedule>> {
+    let initial_search = resume.is_none();
+    let early_handoff = !extended && initial_search;
+    let mut plan = if let Some(plan) = resume {
+        plan
+    } else {
+        let mut plan =
+            SearchSchedule::new_with_tuning(policy, ipv6, extended, advanced, start, seed, client.parameter_sets())?;
+        plan.prepend_saved(saved)?;
+        plan
+    };
     let delivery_deadline = plan.discovery_deadline() + Duration::from_secs(2);
     let unavailable: Vec<_> = client.unavailable_tuning().to_vec();
-    if policy.allows_kind(TransportKind::Awg) {
+    if initial_search && policy.allows_kind(TransportKind::Awg) {
         for value in unavailable {
             emit(output, SearchEvent::Unavailable(value), cancellation, delivery_deadline).await?;
         }
@@ -202,10 +273,20 @@ pub(super) async fn run_with_client(
             .map(anyhow::Error::from)
             .unwrap_or_else(|| failure(FailureReason::Unsupported)));
     }
-    emit(output, SearchEvent::Prepared(plan.baseline_profiles()?), cancellation, delivery_deadline).await?;
+    emit(
+        output,
+        SearchEvent::Prepared(plan.baseline_profiles()?),
+        cancellation,
+        delivery_deadline,
+    )
+    .await?;
+    let mut has_https_candidate = false;
     let mut active: HashMap<String, Active> = HashMap::new();
     loop {
         ensure!(!cancellation.is_cancelled(), failure(FailureReason::Cancelled));
+        if early_handoff && plan.initial_completed() && active.is_empty() && has_https_candidate {
+            return Ok(plan.can_resume(Instant::now()).then_some(plan));
+        }
         while let Some(batch) = plan.admit(Instant::now()) {
             let slot = match batch.kind {
                 TransportKind::WireGuard | TransportKind::Awg => 0,
@@ -247,7 +328,7 @@ pub(super) async fn run_with_client(
             );
         }
         if active.is_empty() {
-            return Ok(());
+            return Ok(None);
         }
         let now = Instant::now();
         for (id, job) in &mut active {
@@ -278,13 +359,15 @@ pub(super) async fn run_with_client(
                 let context = network_before
                     .clone()
                     .filter(|before| crate::config::warp_context::capture().as_ref() == Some(before));
+                let candidate = result.into_scanned(
+                    client.build_id().to_owned(),
+                    context,
+                    SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs(),
+                )?;
+                has_https_candidate |= can_finish_search(policy, &candidate);
                 emit(
                     output,
-                    SearchEvent::Candidate(result.into_scanned(
-                        client.build_id().to_owned(),
-                        context,
-                        SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs(),
-                    )?),
+                    SearchEvent::Candidate(candidate),
                     cancellation,
                     delivery_deadline,
                 )
@@ -309,6 +392,9 @@ pub(super) async fn run_with_client(
                 .await?;
                 plan.finish(job.token, Instant::now());
                 active.remove(&event.job_id);
+                if early_handoff && plan.initial_completed() && active.is_empty() && has_https_candidate {
+                    return Ok(plan.can_resume(Instant::now()).then_some(plan));
+                }
             }
             EventPayload::Error(worker) => {
                 let reason = match (worker.stage.as_str(), worker.reason.as_str(), worker.retryable) {

@@ -1,9 +1,12 @@
+import importlib.util
+import io
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from tropa_build import capture_build, verify_build
 
@@ -89,6 +92,55 @@ class BuildBindingTests(unittest.TestCase):
         self.assertNotIn(str(self.root), json.dumps(summary))
         self.assertFalse(summary['publicReleaseReady'])
         self.assertFalse(summary['binary']['executed'])
+
+    def test_build_requires_engine_build_argument(self):
+        source = Path(__file__).resolve().parent.parent
+        spec = importlib.util.spec_from_file_location("tropa_builder", source / "scripts/build-tropa.py")
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        with patch.object(sys, "argv", ["build-tropa.py", "--name", "test-no-engine"]), \
+             patch("sys.stderr", new_callable=io.StringIO):
+            with self.assertRaises(SystemExit) as error:
+                builder.main()
+            self.assertEqual(error.exception.code, 2)
+
+    def test_build_rejects_worker_evidence_changed_during_compilation(self):
+        source = Path(__file__).resolve().parent.parent
+        spec = importlib.util.spec_from_file_location("tropa_builder", source / "scripts/build-tropa.py")
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        builder.ROOT = self.root
+        engine_dir = self.root / "fake-engine"
+        engine_dir.mkdir(parents=True)
+        (self.root / "src-tauri").mkdir(parents=True)
+        (self.root / "src-tauri/tauri.tropa.conf.json").write_text("{}", encoding="utf-8")
+        engine1 = {"protocolVersion": 1, "buildId": "b1", "source": {"snapshotId": "s1"}, "binary": {"sha256": "h1"}}
+        engine2 = {"protocolVersion": 1, "buildId": "b2", "source": {"snapshotId": "s2"}, "binary": {"sha256": "h2"}}
+        calls = [engine1, engine2]
+        def fake_verify(*args, **kwargs):
+            return calls.pop(0)
+
+        artifact_msg = json.dumps({
+            "reason": "compiler-artifact",
+            "target": {"name": "clash-verge", "kind": ["bin"]},
+            "executable": str(self.binary),
+        })
+        mock_proc = MagicMock()
+        mock_proc.stdout = [artifact_msg + "\n"]
+        mock_proc.wait.return_value = 0
+        mock_proc.poll.return_value = 0
+
+        real_popen = subprocess.Popen
+        def selective_popen(*args, **kwargs):
+            if args and args[0] == builder.COMMAND:
+                return mock_proc
+            return real_popen(*args, **kwargs)
+
+        with patch.object(builder, "verify_engine_build", side_effect=fake_verify), \
+             patch("subprocess.Popen", side_effect=selective_popen), \
+             patch.object(sys, "argv", ["build-tropa.py", "--name", "test-changed-engine", "--engine-build", str(engine_dir)]):
+            with self.assertRaisesRegex(ValueError, "Worker build evidence changed"):
+                builder.main()
 
 
 if __name__ == '__main__':

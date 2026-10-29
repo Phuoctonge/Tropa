@@ -15,6 +15,7 @@ import type {
   TropaServerSelection,
   TropaConnection,
   TropaRouting,
+  TropaCloseAction,
   TropaSelectionPolicy,
   TropaTransport,
 } from '@/types/tropa'
@@ -35,6 +36,7 @@ interface TropaViewProps {
   routing?: TropaRouting
   onRoutingChange?: (routing: TropaRouting) => void
   onAddApplication?: (path?: string) => void
+  onAddFolder?: () => void
   onRemoveApplication?: (path: string) => void
   accountStatus?: WarpAccountStatus
   accountError?: string
@@ -44,6 +46,9 @@ interface TropaViewProps {
   onResetAccount: () => Promise<boolean>
   error?: string
   windowControls?: ReactNode
+  closeAction?: TropaCloseAction
+  onCloseActionChange?: (action: TropaCloseAction) => void
+  onQuit?: () => void
   onTheme: (theme: TropaTheme) => void
   onOpenAdvanced?: () => void
   onCopyDiagnostics?: () => Promise<boolean>
@@ -79,6 +84,7 @@ export function TropaView({
   routing = DEFAULT_ROUTING,
   onRoutingChange,
   onAddApplication,
+  onAddFolder,
   onRemoveApplication,
   accountStatus,
   accountError,
@@ -88,6 +94,9 @@ export function TropaView({
   onResetMasqueAccount,
   error,
   windowControls,
+  closeAction,
+  onCloseActionChange,
+  onQuit,
   onTheme,
   onOpenAdvanced,
   onCopyDiagnostics,
@@ -233,22 +242,22 @@ export function TropaView({
                   {connectionUnavailable
                     ? 'Не удалось прочитать состояние подключения.'
                     : connected
-                    ? connection?.health === 'unreachable'
-                      ? 'Проверка WARP не проходит. Можно отключиться и подключиться снова.'
-                      : connection?.health === 'degraded'
-                        ? 'Не удалось проверить связь. Повторяем проверку без смены сервера.'
-                        : connection?.health === 'unknown'
-                          ? 'Состояние связи ещё не подтверждено.'
-                          : activeRouting.mode === 'selected'
-                            ? 'Выбранные приложения через WARP, остальные напрямую'
-                            : 'Трафик компьютера проходит через WARP'
-                    : connectionBusy
-                      ? connection?.searchOnly
-                        ? 'Проверяем варианты; готовые результаты сохраняются'
-                        : 'Можно отменить; первый поиск может занять несколько минут'
-                      : emptySelection
-                        ? 'Добавьте приложение или выберите весь компьютер'
-                        : 'Выберите сервер или доверьте подбор Tropa'}
+                      ? connection?.health === 'unreachable'
+                        ? 'Проверка WARP не проходит. Можно отключиться и подключиться снова.'
+                        : connection?.health === 'degraded'
+                          ? 'Не удалось проверить связь. Повторяем проверку без смены сервера.'
+                          : connection?.health === 'unknown'
+                            ? 'Состояние связи ещё не подтверждено.'
+                            : activeRouting.mode === 'selected'
+                              ? 'Выбранные приложения через WARP, остальные напрямую'
+                              : 'Трафик компьютера проходит через WARP'
+                      : connectionBusy
+                        ? connection?.searchOnly
+                          ? 'Проверяем варианты; готовые результаты сохраняются'
+                          : 'Можно отменить; первый поиск может занять несколько минут'
+                        : emptySelection
+                          ? 'Добавьте приложение или выберите весь компьютер'
+                          : 'Выберите сервер или доверьте подбор Tropa'}
                 </p>
                 <button
                   className="tropa-text-button"
@@ -270,7 +279,7 @@ export function TropaView({
                     <span>Раздельное туннелирование</span>
                     <strong>
                       {activeRouting.mode === 'selected'
-                        ? 'Только выбранные приложения'
+                        ? 'Выбранные приложения'
                         : 'Весь компьютер'}
                     </strong>
                   </span>
@@ -326,6 +335,7 @@ export function TropaView({
                   legacyGame={game}
                   onChange={onRoutingChange}
                   onAdd={onAddApplication}
+                  onAddFolder={onAddFolder}
                   onRemove={onRemoveApplication}
                 />
               )}
@@ -376,13 +386,79 @@ export function TropaView({
                     </button>
                   </div>
                   <h2 className="tropa-section-label">Приложение</h2>
-                  <div className="tropa-card tropa-explanation">
-                    <strong>Крестик скрывает Tropa в трей</strong>
-                    <p>
-                      Подключение продолжает работать. Для завершения выберите
-                      «Выход» в меню трея.
-                    </p>
+                  <div className="tropa-card">
+                    <fieldset
+                      className="tropa-routing-modes"
+                      style={{ margin: 0 }}
+                    >
+                      <legend className="tropa-sr-only">
+                        Действие при закрытии окна
+                      </legend>
+                      <label
+                        style={{
+                          margin: '4px 0 10px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          gap: '10px',
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="closeAction"
+                          checked={closeAction !== 'quit'}
+                          disabled={busy || !onCloseActionChange}
+                          onChange={() =>
+                            onCloseActionChange?.('minimizeToTray')
+                          }
+                        />
+                        <div>
+                          <strong>Крестик скрывает Tropa в трей</strong>
+                          <p
+                            className="tropa-panel-hint"
+                            style={{ margin: '2px 0 0', fontSize: '11px' }}
+                          >
+                            Подключение продолжает работать. Для завершения
+                            выберите «Выход» в меню трея.
+                          </p>
+                        </div>
+                      </label>
+                      <label
+                        style={{
+                          margin: '10px 0 4px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          gap: '10px',
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="closeAction"
+                          checked={closeAction === 'quit'}
+                          disabled={busy || !onCloseActionChange}
+                          onChange={() => onCloseActionChange?.('quit')}
+                        />
+                        <div>
+                          <strong>Крестик закрывает Tropa полностью</strong>
+                          <p
+                            className="tropa-panel-hint"
+                            style={{ margin: '2px 0 0', fontSize: '11px' }}
+                          >
+                            Подключение отключается, программа завершает работу
+                            сразу.
+                          </p>
+                        </div>
+                      </label>
+                    </fieldset>
                   </div>
+                  {onQuit && (
+                    <button
+                      className="tropa-secondary"
+                      style={{ marginTop: '14px' }}
+                      onClick={onQuit}
+                    >
+                      Выйти из Tropa
+                    </button>
+                  )}
                   {onOpenAdvanced && (
                     <button
                       className="tropa-text-button tropa-advanced"
@@ -441,6 +517,7 @@ export function TropaView({
               onSelect={onSelectServer}
               onRefresh={onRefreshServers}
               connected={connected}
+              activeProfileId={connection?.activeProfileId}
               searching={
                 connection?.phase === 'searching' &&
                 connection.searchOnly === true

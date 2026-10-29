@@ -1,9 +1,12 @@
 export type TropaTheme = 'system' | 'light' | 'dark'
 
+export type TropaCloseAction = 'minimizeToTray' | 'quit'
+
 export interface TropaPreferences {
   game: string | null
   routing: TropaRouting
   selectionPolicy?: TropaSelectionPolicy
+  closeAction?: TropaCloseAction
 }
 
 export interface TropaRouting {
@@ -21,7 +24,27 @@ export type TropaServerSelection =
   | { mode: 'automatic' }
   | { mode: 'manual'; profileId: string }
 
+export interface TropaSearchMeasurement {
+  engineBuildId: string
+  stages: Record<'handshake' | 'http' | 'https' | 'udp', boolean | null>
+  endpointPingMs: number | null
+  tunnelPingMs: number | null
+  lossPercent: number | null
+  jitterMs: number | null
+  samples: number
+  method: string | null
+  exitCountry: string | null
+}
+
+export type TropaTransportParameters =
+  | { kind: 'wireGuard' }
+  | { kind: 'awg'; jc: number; jmin: number; jmax: number; i1: string }
+  | { kind: 'masqueH3' | 'masqueH2'; sni: string }
+
 export interface TropaServer {
+  parameters?: TropaTransportParameters
+  searchMeasurement?: TropaSearchMeasurement | null
+  runtimeMethod?: string | null
   networkContext?: 'same' | 'changed' | 'unknown'
   scannerContext?: 'same' | 'changed' | 'unknown'
   id: string
