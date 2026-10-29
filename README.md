@@ -1,157 +1,85 @@
-# Tropa
-
-Portable game-focused WARP client based on Clash Verge Rev. The first native baseline builds from v2.5.8; portable runtime and game routing are not yet verified.
-
-[Tropa overview](docs/tropa-overview.md) | [Design](docs/superpowers/specs/2026-10-27-game-warp-design.md) | [Roadmap](docs/roadmap.md)
-
-Windows development ZIPs are built by [Tropa Windows Portable](docs/validation/github-actions.md) in GitHub Actions.
-
-The current Windows x64 package uses a pinned mihomo core built for x86-64-v2 and requires an existing WebView2 Runtime. Its emoji font has separate Apache-2.0 / CC BY 4.0 notices. Clean Windows and native connection checks remain pending.
-
-Local development packages are checked with `python scripts/verify-tropa-package.py <archive.zip> --build-record <build.json> --source-snapshot <source.zip> --engine-build <engine-build-directory>` without running bundled executables. See [component inventory](docs/third-party-components.md) and [portable release status](docs/validation/portable-release.md); public release gates remain open. Upstream publication workflows are retained in [.github/legacy-workflows](.github/legacy-workflows/README.md) outside the active GitHub Actions directory.
-
-The original project README and attribution follow.
-
----
-
-<h1 align="center">
-  <img src="./src-tauri/icons/icon.png" alt="Clash" width="128" />
-  <br>
-  Continuation of <a href="https://github.com/zzzgydi/clash-verge">Clash Verge</a>
-  <br>
-</h1>
-
-<h3 align="center">
-A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a>.
-</h3>
-
 <p align="center">
-  Languages:
-  <a href="./docs/README_en.md">English</a> ·
-  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_es.md">Español</a> ·
-  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_fa.md">فارسی</a> ·
-  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_ja.md">日本語</a> ·
-  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_ko.md">한국어</a> ·
-  <a href="https://github.com/clash-verge-rev/clash-verge-rev/blob/main/docs/README_pt.md">Português</a> ·
-  <a href="./docs/README_ru.md">Русский</a> ·
-  <a href="./README.md">简体中文</a>
+  <img src="src-tauri/icons/tropa.png" alt="Tropa" width="112" />
 </p>
 
-## Preview
+<h1 align="center">Tropa</h1>
 
-| Dark                             | Light                             |
-| -------------------------------- | --------------------------------- |
-| ![预览](https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/main/docs/preview_dark.png) | ![预览](https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/main/docs/preview_light.png) |
+<p align="center">A portable Cloudflare WARP client for Windows.</p>
 
-## Install
+Tropa connects through WARP, finds usable endpoints and lets you choose between
+automatic connection selection and a specific server. Selecting a game is not
+required to connect. The project is based on Clash Verge Rev and uses mihomo
+with an owned Go discovery worker.
 
-请到发布页面下载对应的安装包：[Release page](https://github.com/clash-verge-rev/clash-verge-rev/releases)<br>
-Go to the [Release page](https://github.com/clash-verge-rev/clash-verge-rev/releases) to download the corresponding installation package<br>
-Supports Windows (x64/x86), Linux (x64/arm64) and macOS 11+ (intel/apple).
-支持 Windows (x64/x86)、Linux (x64/arm64) 和 macOS 11+ (intel/apple)。
-
-#### 我应当怎样选择发行版
-
-| 版本        | 特征                                     | 链接                                                                                   |
-| :---------- | :--------------------------------------- | :------------------------------------------------------------------------------------- |
-| Stable      | 正式版，高可靠性，适合日常使用。         | [Release](https://github.com/clash-verge-rev/clash-verge-rev/releases)                 |
-| Alpha(废弃) | 测试发布流程。                           | [Alpha](https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/alpha)         |
-| AutoBuild   | 滚动更新版，适合测试反馈，可能存在缺陷。 | [AutoBuild](https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/autobuild) |
-
-#### 安装说明和常见问题，请到 [文档页](https://clash-verge-rev.github.io/) 查看
-
-### TG 频道: [@clash_verge_rev](https://t.me/clash_verge_re)
-
----
-
-## Promotion
-
-### ✈️ [AI云边 -- 全新架构机场 ClaudeBorder](https://cruise.54678999.xyz/#/register?code=58q5UJZc)
-
-🔥热销中使用本链接注册即送 **3 天免费试用**，每日 **1GB 流量**：👉 [点此注册](https://cruise.54678999.xyz/#/register?code=58q5UJZc)
-
-#### AI云边 -- 全新架构机场。
-
-- 💻 多次**技术迭代后**全新亮相。
-- 🗺 全**高速稳定**正价节点。
-- 🌏 **海外团队**，不跑路
-- 🚀 线路**冗余**设计，**自动化运维**对抗各类封锁
-- 👨‍🦲 团队架构师为**大厂**网络架构师
-- 💰 极致**稳定**，亲民价**价格**
-- 🌐 全面支持**流媒体及各AI访问**
-- 🙋 7*12小时真人客服。解决您的各类问题。
-
-🌐 官网：👉 [https://www.claudeborder.com](https://cruise.54678999.xyz/#/register?code=58q5UJZc)
-
-### 🤖 [GPTKefu —— 与 Crisp 深度整合的 AI 智能客服平台](https://gptkefu.com)
-
-- 🧠 深度理解完整对话上下文 + 图片识别，自动给出专业、精准的回复，告别机械式客服。
-- ♾️ **不限回答数量**，无额度焦虑，区别于其他按条计费的 AI 客服产品。
-- 💬 售前咨询、售后服务、复杂问题解答，全场景轻松覆盖，真实用户案例已验证效果。
-- ⚡ 3 分钟极速接入，零门槛上手，即刻提升客服效率与客户满意度。
-- 🎁 高级套餐免费试用 14 天，先体验后付费：👉 [立即试用](https://gptkefu.com)
-- 📢 智能客服TG 频道：[@crisp_ai](https://t.me/crisp_ai)
-
----
+**Development preview.** Packages are unsigned test builds. Public release
+readiness, clean-machine compatibility and the remaining license reviews are
+still in progress.
 
 ## Features
 
-- 基于性能强劲的 Rust 和 Tauri 2 框架
-- 内置[Clash.Meta(mihomo)](https://github.com/MetaCubeX/mihomo)内核，并支持切换 `Alpha` 版本内核。
-- 简洁美观的用户界面，支持自定义主题颜色、代理组/托盘图标以及 `CSS Injection`。
-- 配置文件管理和增强（Merge 和 Script），配置文件语法提示。
-- 系统代理和守卫、`TUN(虚拟网卡)` 模式。
-- 可视化节点和规则编辑
-- WebDav 配置备份和同步
+- Automatic connection selection and manual server/profile selection.
+- Connection search for WireGuard, AmneziaWG and MASQUE HTTP/3 and HTTP/2.
+- An expandable server table with protocol, measurements and available location details.
+- Split tunneling for selected executable paths or folders, or routing the whole computer through WARP.
+- A portable folder containing the application, its resources and license notices.
+- Close-to-tray behavior and explicit disconnect/exit controls.
 
-### FAQ
+Protocol availability depends on the network and endpoint. Search results are
+candidates until the application confirms that the connection passes traffic.
+Automatic grouping of game launchers, related processes and shared anti-cheat
+services remains research; it is not part of the current routing behavior.
+Game-specific server measurements are a separate planned feature.
 
-Refer to [Doc FAQ Page](https://clash-verge-rev.github.io/faq/windows.html)
+## Download a development build
 
-### Donation
+1. Open [Tropa Windows Portable in Actions](https://github.com/Phuoctonge/Tropa/actions/workflows/tropa-portable.yml).
+2. Select a successfully completed run and download its `Tropa-windows-x64-<run number>` artifact.
+3. Extract the artifact, then extract the included `Tropa-windows-x64.zip` into a writable folder.
+4. Run `Tropa.exe` and approve the Windows administrator prompt. Keep the accompanying resources and licenses.
 
-[捐助Clash Verge Rev的开发](https://github.com/sponsors/clash-verge-rev)
+The artifact also contains checksums, source snapshots and build records.
+The `tropa-build-inputs-v1` prerelease contains dependency inputs for CI;
+it is not a Tropa application download.
+
+## Requirements
+
+- Windows x64 and a processor supporting x86-64-v2, required by the pinned mihomo build.
+- Microsoft Edge WebView2 Runtime already installed.
+- Administrator rights for the portable application and its TUN connection.
+
+Portable means running from an extracted folder without a Tropa installer.
+It does not mean a single executable or that Windows runtime dependencies are bundled.
 
 ## Development
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
+The interface uses React and TypeScript with a Rust/Tauri application. The
+owned Go worker handles discovery and protocol checks; mihomo provides the
+connection runtime. WarpScout CLI is not required by the current package.
 
-To run the development server, execute the following commands after all prerequisites for **Tauri** are installed:
+[GitHub build instructions](docs/validation/github-actions.md) explain the
+pinned tools, dependency assets and portable artifact verification. CI builds
+the app and worker without launching a tunnel.
 
-```shell
-pnpm i
-pnpm run prebuild
-pnpm dev
-```
+For current evidence and remaining work, see:
 
-`pnpm dev` preserves the Development Channel's installed service state: an
-existing service is used, while a previously uninstalled service remains
-uninstalled and the app starts in Sidecar mode. Use `pnpm dev:service` to
-explicitly install or update the isolated development service before launch,
-or `pnpm dev:sidecar` to force the unprivileged Sidecar workflow.
+- [Status and roadmap](docs/tropa-status-and-roadmap-2026-10-28.md)
+- [Portable package validation](docs/validation/portable-release.md)
+- [Connection validation](docs/validation/production-connection.md)
+- [Third-party component review](docs/third-party-components.md)
 
-## Contributions
+## Credits and license
 
-Issue and PR welcome!
+Tropa is derived from [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev),
+which continues [Clash Verge](https://github.com/zzzgydi/clash-verge). The upstream
+Git history, author attribution and applicable license notices are retained.
 
-## Acknowledgement
+Thanks to [Cloudflare WARP](https://one.one.one.one/),
+[mihomo](https://github.com/MetaCubeX/mihomo),
+[WarpScout](https://github.com/vernette/warpscout),
+[Tauri](https://github.com/tauri-apps/tauri),
+[React](https://github.com/facebook/react) and their contributors.
+WarpScout informed the discovery implementation; the worker's component
+origins and notices are documented in [engine notices](engine/THIRD_PARTY_NOTICES.md).
 
-Clash Verge rev was based on or inspired by these projects and so on:
-
-- [zzzgydi/clash-verge](https://github.com/zzzgydi/clash-verge): A Clash GUI based on tauri. Supports Windows, macOS and Linux.
-- [tauri-apps/tauri](https://github.com/tauri-apps/tauri): Build smaller, faster, and more secure desktop applications with a web frontend.
-- [Dreamacro/clash](https://github.com/Dreamacro/clash): A rule-based tunnel in Go.
-- [MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo): A rule-based tunnel in Go.
-- [Fndroid/clash_for_windows_pkg](https://github.com/Fndroid/clash_for_windows_pkg): A Windows/macOS GUI based on Clash.
-- [vitejs/vite](https://github.com/vitejs/vite): Next generation frontend tooling. It's fast!
-
-## Privacy
-
-Clash Verge Rev 不收集任何用户数据，配置与日志仅保存在本地。详见[隐私政策](./PRIVACY.md)。
-
-Clash Verge Rev does not collect any user data; configuration and logs stay on
-your own device. See the [Privacy Policy](./PRIVACY.md) for details.
-
-## License
-
-GPL-3.0 License. See [License here](./LICENSE) for details.
+Tropa is licensed under [GPL-3.0](LICENSE). Third-party components retain their
+own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
