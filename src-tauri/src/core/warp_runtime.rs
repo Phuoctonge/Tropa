@@ -48,6 +48,14 @@ impl RuntimeAccount {
     }
 
     pub(crate) async fn ensure(root: &std::path::Path, profile: &WarpProfile) -> anyhow::Result<(Self, bool)> {
+        Self::ensure_with_route(root, profile, Default::default()).await
+    }
+
+    pub(crate) async fn ensure_with_route(
+        root: &std::path::Path,
+        profile: &WarpProfile,
+        route: std::sync::Arc<super::warp_registration_http::RegistrationRoute>,
+    ) -> anyhow::Result<(Self, bool)> {
         use crate::config::{
             warp_account::WarpAccountStore, warp_masque_account::MasqueAccountStore, warp_profiles::RegistrationFamily,
         };
@@ -59,7 +67,7 @@ impl RuntimeAccount {
                 let store = WarpAccountStore::new(root.into());
                 super::warp_registration::ensure_registration(
                     &store,
-                    &super::warp_registration::HttpWarpRegistrar::new()?,
+                    &super::warp_registration::HttpWarpRegistrar::new()?.using_route(route),
                 )
                 .await?;
                 Self::WireGuard(
@@ -72,7 +80,7 @@ impl RuntimeAccount {
             RegistrationFamily::Masque => Self::Masque(
                 super::warp_masque_registration::ensure_registration(
                     &MasqueAccountStore::new(root.into()),
-                    &super::warp_masque_registration::HttpMasqueRegistrar::new()?,
+                    &super::warp_masque_registration::HttpMasqueRegistrar::new()?.using_route(route),
                 )
                 .await?,
             ),

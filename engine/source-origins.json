@@ -48,7 +48,7 @@
       "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
       "path": "warp.go",
       "sha256": "c305450ddf66f55d44b9b601ff5b3329a24d21a181f09f2e48d442a5a008083d",
-      "use": "WG UAPI, single-packet bind and userspace-device lifecycle adapted into session-owned internal/probe; no CLI or package-global state"
+      "use": "WG UAPI, single-packet bind and userspace-device lifecycle adapted into session-owned internal/probe; no CLI or package-global state; public bootstrap identity reused only for temporary registration transport"
     },
     {
       "project": "vernette/warpscout",
@@ -77,6 +77,20 @@
       "path": "api/masque.go",
       "sha256": "950f11170c69a5fe2e897d07ab9798868ee806d3adc0212153c058354cd1b5ad",
       "use": "Direct PrepareTlsConfig and H3 ConnectTunnel imports; direct-endpoint H2 dialing adapted with explicit TCP ownership and without environment proxy fallback"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "register.go",
+      "sha256": "24066ee4a7ddc8ffc040ff1b207bcbf1c7c85926cddc4c271f9a956d99430272",
+      "use": "Registration-only AWG/WG tunnel fallback adapted; Rust retains device-key generation and pending persistence; no hosted relay used"
+    },
+    {
+      "project": "vernette/warpscout",
+      "revision": "9e2ce9570625757ba24b390ad680dccd5e7f2707",
+      "path": "pools.go",
+      "sha256": "c8557247d38b205d0c50115fa2cbec29c8cc45cca16f4baf07d2a1b1df605038",
+      "use": "IPv4 bootstrap endpoint pools and primary ports sampled for bounded registration discovery"
     }
   ],
   "protocolImplementationsCopied": true

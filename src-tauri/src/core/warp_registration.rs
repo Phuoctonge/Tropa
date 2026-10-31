@@ -1,4 +1,3 @@
-use super::warp_failure::{FailureReason, FailureStage, WarpFailure};
 use crate::config::warp_account::{WarpAccount, WarpAccountStatus, WarpAccountStore};
 use anyhow::{Result, anyhow, ensure};
 use base64::{Engine as _, engine::general_purpose::STANDARD};
@@ -11,8 +10,9 @@ pub(crate) trait WarpRegistrar: Send + Sync {
 }
 
 pub(crate) struct HttpWarpRegistrar {
-    client: reqwest::Client,
+    pub(super) client: reqwest::Client,
     endpoint: reqwest::Url,
+    route: std::sync::Arc<super::warp_registration_http::RegistrationRoute>,
 }
 
 #[derive(Debug)]
@@ -27,6 +27,14 @@ impl std::fmt::Display for UnusableWarpRegistration {
 impl std::error::Error for UnusableWarpRegistration {}
 
 impl HttpWarpRegistrar {
+    pub(crate) fn using_route(
+        mut self,
+        route: std::sync::Arc<super::warp_registration_http::RegistrationRoute>,
+    ) -> Self {
+        self.route = route;
+        self
+    }
+
     pub(crate) fn new() -> Result<Self> {
         Self::at_endpoint("https://api.devices.cloudflare.com/v0a4005/reg")
     }
@@ -43,6 +51,7 @@ impl HttpWarpRegistrar {
             .map_err(|_| anyhow!("Unable to initialize WARP registration client"))?;
         Ok(Self {
             client,
+            route: Default::default(),
             endpoint: reqwest::Url::parse(endpoint).map_err(|_| anyhow!("Invalid WARP registration endpoint"))?,
         })
     }
@@ -63,24 +72,15 @@ impl HttpWarpRegistrar {
         if let Some(token) = token {
             request = request.bearer_auth(token)
         }
-        let mut response = request.send().await.map_err(|error| {
-            WarpFailure::from_error(&error.into(), FailureStage::Registration, FailureReason::Unreachable)
-        })?;
-        if activation && matches!(response.status().as_u16(), 401 | 404 | 410) {
+        let response = self.route.send(&self.client, request.build()?).await?;
+        if activation && matches!(response.status, 401 | 404 | 410) {
             return Err(UnusableWarpRegistration.into());
         }
-        ensure!(response.status().is_success(), "WARP registration API rejected request");
-        let mut bytes = Vec::new();
-        while let Some(chunk) = response.chunk().await.map_err(|error| {
-            WarpFailure::from_error(&error.into(), FailureStage::Registration, FailureReason::InvalidOutput)
-        })? {
-            ensure!(
-                bytes.len() + chunk.len() <= 64 * 1024,
-                "WARP registration response is too large"
-            );
-            bytes.extend_from_slice(&chunk);
-        }
-        Ok(bytes)
+        ensure!(
+            (200..300).contains(&response.status),
+            "WARP registration API rejected request"
+        );
+        Ok(response.body)
     }
 }
 

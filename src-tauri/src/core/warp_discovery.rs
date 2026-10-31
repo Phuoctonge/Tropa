@@ -137,7 +137,7 @@ pub(crate) async fn run_profile_discovery(
     let _catalog_write = WarpCatalogLock::acquire(&root)?;
     let path = root.join("warp-profiles.json");
     let mut catalog = WarpCatalog::load_current(&root).await?;
-    let policy = crate::config::tropa::TropaPreferences::load(&root.join("tropa.yaml"))
+    let mut policy = crate::config::tropa::TropaPreferences::load(&root.join("tropa.yaml"))
         .await?
         .selection_policy
         .for_search(transport)?;
@@ -150,16 +150,22 @@ pub(crate) async fn run_profile_discovery(
         WarpFailure::new(FailureStage::Scanner, FailureReason::Unsupported)
     );
     drop(_write);
+    if !refresh && matches!(catalog.selection, ServerSelection::Manual { .. }) {
+        let context = crate::config::warp_context::capture();
+        let selected = catalog.profiles_to_validate(&policy, context.as_deref());
+        let selected = selected
+            .first()
+            .ok_or_else(|| WarpFailure::new(FailureStage::Validation, FailureReason::PolicyRestricted))?;
+        policy.allowed_transports = vec![selected.transport.kind()];
+    }
     {
         let mut progress = SEARCH_PROGRESS.lock();
         *progress = SearchProgress::default();
         progress.transports.retain(|entry| policy.allows_kind(entry.transport));
     }
-    let started = tokio::time::Instant::now();
-    let deadline = started + Duration::from_secs(if refresh { 600 } else { 180 });
-    let _finish_progress = scopeguard::guard(deadline, |deadline| {
+    let mut finish_progress = scopeguard::guard(None::<tokio::time::Instant>, |deadline| {
         let mut progress = SEARCH_PROGRESS.lock();
-        progress.time_limit_reached = tokio::time::Instant::now() >= deadline;
+        progress.time_limit_reached = deadline.is_some_and(|deadline| tokio::time::Instant::now() >= deadline);
         let timed_out = progress.time_limit_reached;
         for entry in &mut progress.transports {
             if entry.state == SearchState::Queued || entry.state == SearchState::Running {
@@ -171,7 +177,77 @@ pub(crate) async fn run_profile_discovery(
             }
         }
     });
+    ensure!(
+        refresh
+            || matches!(catalog.selection, ServerSelection::Automatic)
+            || !catalog
+                .profiles_to_validate(&policy, crate::config::warp_context::capture().as_deref())
+                .is_empty(),
+        WarpFailure::new(FailureStage::Validation, FailureReason::PolicyRestricted)
+    );
     let mut registration_failures = super::warp_search::RegistrationFailures::default();
+    {
+        let _write = Config::lock_config_write().await;
+        use crate::config::warp_profiles::{WarpProfile, WarpTransport};
+        let route = std::sync::Arc::new(super::warp_registration_http::RegistrationRoute::for_runtime(
+            &runtime_root,
+        ));
+        for (kinds, endpoint, transport) in [
+            (
+                [TransportKind::WireGuard, TransportKind::Awg],
+                "188.114.98.58:2408",
+                WarpTransport::WireGuard,
+            ),
+            (
+                [TransportKind::MasqueH3, TransportKind::MasqueH2],
+                "162.159.198.2:443",
+                WarpTransport::MasqueH3 {
+                    sni: "consumer-masque.cloudflareclient.com".into(),
+                },
+            ),
+        ] {
+            if !kinds.iter().any(|kind| policy.allows_kind(*kind)) {
+                continue;
+            }
+            let profile = WarpProfile::new(endpoint.parse()?, transport)?;
+            let prepared = tokio::select! {
+                biased;
+                _ = cancellation.cancelled() => return Err(WarpFailure::new(FailureStage::Registration, FailureReason::Cancelled).into()),
+                result = tokio::time::timeout(Duration::from_secs(110),
+                    super::warp_runtime::RuntimeAccount::ensure_with_route(&root, &profile, std::sync::Arc::clone(&route))) => {
+                    result.map_err(|_| anyhow::Error::from(WarpFailure::new(FailureStage::Registration, FailureReason::Timeout)))
+                        .and_then(|result| result)
+                }
+            };
+            if let Err(error) = prepared {
+                let failure = WarpFailure::from_error(&error, FailureStage::Registration, FailureReason::InvalidOutput);
+                for kind in kinds.into_iter().filter(|kind| policy.allows_kind(*kind)) {
+                    registration_failures.remember(kind, failure);
+                    SEARCH_PROGRESS.lock().fail(kind, failure.for_transport(kind));
+                }
+            }
+        }
+    }
+    let allowed: Vec<_> = [
+        TransportKind::WireGuard,
+        TransportKind::Awg,
+        TransportKind::MasqueH3,
+        TransportKind::MasqueH2,
+    ]
+    .into_iter()
+    .filter(|kind| policy.allows_kind(*kind) && registration_failures.failure(*kind).is_none())
+    .collect();
+    if allowed.is_empty() {
+        return Err([TransportKind::WireGuard, TransportKind::MasqueH3]
+            .into_iter()
+            .find_map(|kind| registration_failures.failure(kind))
+            .expect("failed registration family")
+            .into());
+    }
+    policy.allowed_transports = allowed;
+    let started = tokio::time::Instant::now();
+    let deadline = started + Duration::from_secs(if refresh { 600 } else { 180 });
+    *finish_progress = Some(deadline);
     let mut last_scan_failure = None;
     if !refresh {
         let context = crate::config::warp_context::capture();
@@ -565,6 +641,42 @@ fn early_validation_leaves_time_for_the_same_search_to_continue() {
         ),
         deadline,
     );
+}
+
+#[cfg(all(test, windows))]
+#[tokio::test]
+async fn cancellation_during_initial_registration_finalizes_search_progress() -> Result<()> {
+    let root = std::env::temp_dir().join(format!("tropa-cancel-registration-{}", nanoid::nanoid!()));
+    tokio::fs::create_dir(&root).await?;
+    let cleanup = scopeguard::guard(root, |path| {
+        let _ = std::fs::remove_dir_all(path);
+    });
+    let cancellation = ProbeCancellation::new();
+    cancellation.cancel_handle().send(true)?;
+    let result = run_profile_discovery(
+        cleanup.clone(),
+        cleanup.join("resources/core.exe"),
+        cleanup.clone(),
+        false,
+        &cancellation,
+        None,
+        false,
+    )
+    .await;
+    assert!(result.err().is_some_and(|error| {
+        error
+            .downcast_ref::<WarpFailure>()
+            .is_some_and(|failure| failure.reason == FailureReason::Cancelled)
+    }));
+    assert!(
+        SEARCH_PROGRESS
+            .lock()
+            .transports
+            .iter()
+            .all(|entry| entry.state == SearchState::Cancelled)
+    );
+    assert!(!cleanup.join("secrets/warp-account.json").exists());
+    Ok(())
 }
 
 #[cfg(test)]

@@ -35,6 +35,7 @@ pub(crate) mod warp_metadata;
 #[cfg(any(feature = "tropa-probe", feature = "portable", test))]
 pub(crate) mod warp_probe;
 pub(crate) mod warp_registration;
+mod warp_registration_http;
 #[cfg(all(windows, feature = "portable", feature = "tropa-probe"))]
 pub(crate) mod warp_smoke;
 pub mod win_uwp;

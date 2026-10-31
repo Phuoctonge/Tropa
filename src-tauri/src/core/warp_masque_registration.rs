@@ -1,4 +1,5 @@
-use super::warp_failure::{FailureReason, FailureStage, WarpFailure};
+#[cfg(test)]
+use super::warp_failure::{FailureReason, WarpFailure};
 use crate::config::warp_masque_account::{MasqueAccount, MasqueAccountStore, MasqueKeys, PendingMasque};
 use anyhow::{Result, anyhow, ensure};
 use base64::{Engine as _, engine::general_purpose::STANDARD};
@@ -7,6 +8,7 @@ use std::time::Duration;
 pub(crate) struct HttpMasqueRegistrar {
     client: reqwest::Client,
     endpoint: reqwest::Url,
+    route: std::sync::Arc<super::warp_registration_http::RegistrationRoute>,
 }
 
 #[derive(Debug)]
@@ -19,6 +21,14 @@ impl std::fmt::Display for UnusableMasqueRegistration {
 impl std::error::Error for UnusableMasqueRegistration {}
 
 impl HttpMasqueRegistrar {
+    pub(crate) fn using_route(
+        mut self,
+        route: std::sync::Arc<super::warp_registration_http::RegistrationRoute>,
+    ) -> Self {
+        self.route = route;
+        self
+    }
+
     pub(crate) fn new() -> Result<Self> {
         Self::at_endpoint("https://api.devices.cloudflare.com/v0a4471/reg")
     }
@@ -35,6 +45,7 @@ impl HttpMasqueRegistrar {
             .map_err(|_| anyhow!("Unable to initialize MASQUE registration client"))?;
         Ok(Self {
             client,
+            route: Default::default(),
             endpoint: reqwest::Url::parse(endpoint).map_err(|_| anyhow!("Invalid MASQUE registration endpoint"))?,
         })
     }
@@ -55,27 +66,15 @@ impl HttpMasqueRegistrar {
         if let Some(token) = token {
             request = request.bearer_auth(token);
         }
-        let mut response = request.send().await.map_err(|error| {
-            WarpFailure::from_error(&error.into(), FailureStage::Registration, FailureReason::Unreachable)
-        })?;
-        if enrollment && matches!(response.status().as_u16(), 401 | 404 | 410) {
+        let response = self.route.send(&self.client, request.build()?).await?;
+        if enrollment && matches!(response.status, 401 | 404 | 410) {
             return Err(UnusableMasqueRegistration.into());
         }
         ensure!(
-            response.status().is_success(),
+            (200..300).contains(&response.status),
             "MASQUE registration API rejected request"
         );
-        let mut bytes = Vec::new();
-        while let Some(chunk) = response.chunk().await.map_err(|error| {
-            WarpFailure::from_error(&error.into(), FailureStage::Registration, FailureReason::InvalidOutput)
-        })? {
-            ensure!(
-                bytes.len() + chunk.len() <= 64 * 1024,
-                "MASQUE registration response exceeds its limit"
-            );
-            bytes.extend_from_slice(&chunk);
-        }
-        Ok(bytes)
+        Ok(response.body)
     }
 
     async fn create(&self) -> Result<PendingMasque> {

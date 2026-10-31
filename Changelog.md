@@ -4,6 +4,8 @@
 <summary><strong> 🐞 修复问题 </strong></summary>
 
 - Fix rejection of AWG profiles that use I1 packets without junk traffic.
+- Register WARP automatically through a temporary tunnel when direct access is blocked.
+- Replace remaining legacy tray and application icons with the Tropa logo.
 - 修复系统托盘代理组行不显示延迟、超时项与未测过项无法区分的问题
 - 修复不同订阅源的同名节点测速和延迟显示指向错误节点的问题
 - 修复端口设置混淆保存值与运行值、输入无效时缺少提示的问题

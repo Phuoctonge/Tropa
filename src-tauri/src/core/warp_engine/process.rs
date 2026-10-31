@@ -303,6 +303,71 @@ impl Drop for EngineClient {
     }
 }
 
+pub(crate) struct RegistrationWorker {
+    child: Child,
+    input: ChildStdin,
+    output: tokio::process::ChildStdout,
+    job: Option<OwnedHandle>,
+}
+
+impl RegistrationWorker {
+    pub(crate) async fn start(root: &Path, artifact: WorkerArtifact) -> Result<Self> {
+        Box::pin(artifact.verify()).await?;
+        let mut child = tokio::process::Command::new(&artifact.path)
+            .arg("--registration")
+            .current_dir(root)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .creation_flags(0x0800_0000)
+            .kill_on_drop(true)
+            .spawn()?;
+        let pid = child.id().expect("spawned registration worker PID");
+        crate::core::warp_children::track(pid, Arc::new(()));
+        let mut worker = Self {
+            input: child.stdin.take().expect("piped registration input"),
+            output: child.stdout.take().expect("piped registration output"),
+            child,
+            job: None,
+        };
+        worker.job = Some(crate::core::manager::create_and_assign_sidecar_job(pid)?);
+        #[derive(serde::Deserialize)]
+        #[serde(rename_all = "camelCase", deny_unknown_fields)]
+        struct Ready {
+            build_id: String,
+        }
+        let data = tokio::time::timeout(Duration::from_secs(90), wire::read_frame(&mut worker.output)).await??;
+        let ready: Ready = serde_json::from_slice(&data)?;
+        ensure!(
+            ready.build_id == artifact.build_id,
+            "Registration worker build differs from its binding"
+        );
+        Ok(worker)
+    }
+
+    pub(crate) async fn request(&mut self, payload: &[u8]) -> Result<Vec<u8>> {
+        use tokio::io::AsyncWriteExt as _;
+        ensure!(
+            payload.len() <= wire::MAX_FRAME_BYTES,
+            "Registration request is too large"
+        );
+        tokio::time::timeout(Duration::from_secs(20), async {
+            self.input.write_all(&(payload.len() as u32).to_be_bytes()).await?;
+            self.input.write_all(payload).await?;
+            self.input.flush().await?;
+            wire::read_frame(&mut self.output).await
+        })
+        .await?
+    }
+}
+
+impl Drop for RegistrationWorker {
+    fn drop(&mut self) {
+        self.job.take();
+        let _ = self.child.start_kill();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::wire::{Identity, Outcome, Parameters, Transport, WgIdentity};

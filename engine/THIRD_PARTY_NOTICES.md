@@ -8,6 +8,11 @@ The pinned amneziawg-go, usque/api, connect-ip-go and quic-go libraries are impo
 
 ## WarpScout v0.16.1
 
+The registration-only bootstrap transport adapts register.go and the public
+initial identity and IPv4 pools from warp.go/pools.go at the pinned revision.
+Personal registration keys remain generated and persisted by Tropa's Rust
+backend. No upstream hosted relay is used.
+
 MIT License
 
 Copyright (c) 2026 Nikita S.

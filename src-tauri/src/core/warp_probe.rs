@@ -300,7 +300,11 @@ mod live {
                 .map_err(|_| anyhow!("Another core/service is active or core ownership could not be reserved"))?,
         );
         let (account, reused) = tokio::select! {
-            result = RuntimeAccount::ensure(&root, profile) => result.map_err(|error| {
+            result = RuntimeAccount::ensure_with_route(&root, profile, std::sync::Arc::new(
+                crate::core::warp_registration_http::RegistrationRoute::for_runtime(
+                    core.parent().and_then(std::path::Path::parent).ok_or_else(|| anyhow!("Runtime directory is missing"))?
+                )
+            )) => result.map_err(|error| {
                 WarpFailure::from_error(&error, FailureStage::Registration, FailureReason::InvalidOutput)
                     .for_transport(profile.transport.kind())
             })?,
