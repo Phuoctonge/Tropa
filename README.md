@@ -32,7 +32,7 @@ mihomo вместе с собственным модулем поиска на G
 
 ## Скачать тестовую версию
 
-[**Скачать Tropa для Windows x64**](https://github.com/Phuoctonge/Tropa/releases/download/v0.1.0-preview.1/Tropa-windows-x64.zip)
+[**Скачать Tropa для Windows x64**](https://github.com/Phuoctonge/Tropa/releases/download/v0.1.0-preview.2/Tropa-windows-x64.zip)
 
 1. Откройте [Releases](https://github.com/Phuoctonge/Tropa/releases) и выберите тестовый выпуск с пометкой **Pre-release**.
 2. Скачайте `Tropa-windows-x64.zip` и распакуйте его в папку с доступом на запись.
